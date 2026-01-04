@@ -17,7 +17,7 @@
       @import url(https://fonts.googleapis.com/css?family=Playfair:300,regular,500,600,700,800,900,300italic,italic,500italic,600italic,700italic,800italic,900italic);
       @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
 :root{
-  --primary-color: #B91C1C;
+  --primary-color: rgb(185, 28, 28);
   --secondary-color: rgb(14, 23, 43);
   --white: #f5e0e0;
   --green:oklch(79.2% 0.209 151.711);
@@ -29,7 +29,7 @@
         background: rgb(14, 23, 43);
       }
       .gradient-text {
-        color: #B91C1C;
+        color: orange;
         background-clip: text;
       }
 
@@ -103,17 +103,10 @@
               class="w-10 h-10 rounded-lg"
               onerror="this.style.display='none'; document.getElementById('logo-placeholder').style.display='flex';"
             />
-            <div
-              id="logo-placeholder"
-              class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center"
-              style="display: none"
-            >
-              <span class="text-white font-bold text-xl">C</span>
-            </div>
             <div>
               <div
-                class="text-red-600 font-bold text-2xl"
-                style="font-family: inter"
+                class="font-bold text-2xl"
+                style="font-family: inter;"
               >
                 Hackathon Nova 2026
               </div>
@@ -155,7 +148,7 @@
           <div class="hidden md:block">
             <a
               href="#register"
-              class="bg-gradient-to-r from-red-500 to-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition"
+              class="bg-gradient-to-r from-orange-500 to-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition"
             >
               Register Now
             </a>
@@ -237,8 +230,8 @@
             CAPEC <span class="text-red-500 mx-2">×</span> ITEC-PEC
           </h2>
           <span
-            class="inline-block border border-cyan-500/30 text-white px-4 py-2 rounded-full text-sm font-semibold"
-            style="margin-bottom: 10px; background-color: #B91C1C;"
+            class="inline-block border border-green-500/30 text-white px-4 py-2 rounded-full text-sm font-semibold"
+            style="margin-bottom: 10px;"
           >
             January 26-29, 2026 | 60 Hours
           </span>
@@ -264,7 +257,7 @@
         </p>
 
         <div
-          id="countdown" style="color: var(--primary-color);"
+          id="countdown" style="color: oklch(85.2% 0.199 91.936);"
           class="flex justify-center flex-wrap space-x-4 sm:space-x-8 mb-10 gap-y-4"
         >
           <div class="text-center">
@@ -314,7 +307,7 @@
         >
           <a
             href="#register"
-            class=" text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg hover:shadow-xl hover:shadow-black-500/50 transition transform hover:scale-105 text-center bg-red-500" 
+            class=" text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg hover:shadow-xl hover:shadow-black-500/50 transition transform hover:scale-105 text-center bg-orange-500" 
           >
             Register Now <i class="fas fa-arrow-right ml-2"></i>
           </a>
