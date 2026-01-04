@@ -20,6 +20,7 @@
   --primary-color: #B91C1C;
   --secondary-color: rgb(14, 23, 43);
   --white: #f5e0e0;
+  --green:oklch(79.2% 0.209 151.711);
 }
       * {
         font-family: "Inter", sans-serif;
@@ -28,9 +29,7 @@
         background: rgb(14, 23, 43);
       }
       .gradient-text {
-        background: linear-gradient(90deg, var(--primary-color) 0%, #2e0ca8 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #B91C1C;
         background-clip: text;
       }
 
@@ -62,7 +61,7 @@
 
       .card-hover:hover {
         transform: translateY(-8px);
-        box-shadow: 0 20px 40px rgba(6, 182, 212, 0.3);
+        box-shadow: 0 20px 40px rgba(185, 28, 28, 0.2);
       }
 
       .glow-effect {
@@ -113,7 +112,7 @@
             </div>
             <div>
               <div
-                class="text-red-400 font-bold text-2xl"
+                class="text-red-600 font-bold text-2xl"
                 style="font-family: inter"
               >
                 Hackathon Nova 2026
@@ -383,14 +382,14 @@
             <h3 class="text-3xl font-bold mb-6 text-white">
               Innovate. Collaborate. Compete.
             </h3>
-            <p class="text-gray-400 text-lg mb-6 leading-relaxed">
+            <p class=" text-lg mb-6 leading-relaxed">
               Hackathon Nova 2026 is Nepal's premier student-led technology
               innovation challenge, bringing together the brightest minds to
               solve real-world problems through cutting-edge technology. This
               48-hour coding marathon is where ideas transform into impactful
               solutions.
             </p>
-            <p class="text-gray-400 text-lg mb-6 leading-relaxed">
+            <p class=" text-lg mb-6 leading-relaxed">
               Organized by the
               <span style="color: #22d3ee"
                 >Computer Association of Pokhara Engineering College
@@ -406,10 +405,10 @@
             <div
               class="bg-gradient-to-r from-cyan-500/10 to-blue-600/10 border border-cyan-500/30 rounded-lg p-6"
             >
-              <h4 class="text-xl font-bold text-cyan-400 mb-3">
+              <h4 class="text-xl font-bold mb-3" style="color: var(--green);">
                 Who Can Participate?
               </h4>
-              <ul class="space-y-2 text-gray-300">
+              <ul class="space-y-2">
                 <li>
                   <i class="fas fa-check text-cyan-400 mr-2"></i> University &
                   College Students
@@ -427,7 +426,7 @@
             <div
               class="bg-gradient-to-br from-cyan-500/10 to-transparent border border-gray-800 rounded-xl p-6 card-hover"
             >
-              <div class="text-4xl text-cyan-400 mb-4">
+              <div class="text-4xl mb-4">
                 <i class="fas fa-users"></i>
               </div>
               <div class="text-3xl font-bold text-white mb-2">2000+</div>
@@ -436,8 +435,8 @@
             <div
               class="bg-gradient-to-br from-blue-600/10 to-transparent border border-gray-800 rounded-xl p-6 card-hover"
             >
-              <div class="text-4xl text-blue-400 mb-4">
-                <i class="fas fa-trophy"></i>
+              <div class="text-4xl mb-4">
+                <i class="fas fa-trophy"style="color:  rgb(231, 83, 83);"></i>
               </div>
               <div class="text-3xl font-bold text-white mb-2">NPR 60K+</div>
               <div class="text-gray-400">Prize Pool</div>
@@ -445,8 +444,8 @@
             <div
               class="bg-gradient-to-br from-purple-500/10 to-transparent border border-gray-800 rounded-xl p-6 card-hover"
             >
-              <div class="text-4xl text-purple-400 mb-4">
-                <i class="fas fa-clock"></i>
+              <div class="text-4xl mb-4">
+                <i class="fas fa-clock" style="color:  rgb(231, 83, 83);"></i>
               </div>
               <div class="text-3xl font-bold text-white mb-2">60</div>
               <div class="text-gray-400">Hours of Coding</div>
@@ -454,7 +453,7 @@
             <div
               class="bg-gradient-to-br from-green-500/10 to-transparent border border-gray-800 rounded-xl p-6 card-hover"
             >
-              <div class="text-4xl text-green-400 mb-4">
+              <div class="text-4xl mb-4">
                 <i class="fas fa-lightbulb"></i>
               </div>
               <div class="text-3xl font-bold text-white mb-2">15+</div>
@@ -1479,205 +1478,44 @@
         <div class="mb-16">
           <div class="text-center mb-8">
             <h3 class="text-3xl font-bold text-white mb-2">Title Sponsor</h3>
-            <div
-              class="w-16 h-1 bg-gradient-to-r from-yellow-500 to-yellow-600 mx-auto"
-            ></div>
+            <div class="w-16 h-1 bg-gradient-to-r from-yellow-500 to-yellow-600 mx-auto"></div>
           </div>
           <div class="flex justify-center">
-            <div
-              class="bg-gradient-to-br from-yellow-500/10 to-transparent border-2 border-yellow-500/50 rounded-2xl p-12 w-full max-w-md hover:shadow-2xl hover:shadow-yellow-500/30 transition"
-            >
-              <img
-                src="/assets/clz logo.jpeg"
-                alt="pokhara Engineering College"
-              />
-            </div>
+            <div id="sponsors-title" class="w-full max-w-md mx-auto"></div>
           </div>
-        </div>
+        </div> 
 
         <div class="mb-16">
           <div class="text-center mb-8">
             <h3 class="text-2xl font-bold text-white mb-2">Gold Sponsors</h3>
-            <div
-              class="w-16 h-1 bg-gradient-to-r from-gray-300 to-gray-400 mx-auto"
-            ></div>
+            <div class="w-16 h-1 bg-gradient-to-r from-gray-300 to-gray-400 mx-auto"></div>
           </div>
-          <div class="grid md:grid-cols-3 gap-8">
-            <div
-              class="bg-gradient-to-br from-gray-300/10 to-transparent border border-gray-700 rounded-xl p-8 hover:shadow-xl hover:shadow-gray-400/20 transition"
-            >
-              <div class="h-24 flex items-center justify-center text-gray-600">
-                <div class="text-center">
-                  <div class="text-4xl mb-2">
-                    <i class="fas fa-building"></i>
-                  </div>
-                  <div class="text-xs font-semibold">Sponsor Logo</div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="bg-gradient-to-br from-gray-300/10 to-transparent border border-gray-700 rounded-xl p-8 hover:shadow-xl hover:shadow-gray-400/20 transition"
-            >
-              <div class="h-24 flex items-center justify-center text-gray-600">
-                <div class="text-center">
-                  <div class="text-4xl mb-2">
-                    <i class="fas fa-building"></i>
-                  </div>
-                  <div class="text-xs font-semibold">Sponsor Logo</div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="bg-gradient-to-br from-gray-300/10 to-transparent border border-gray-700 rounded-xl p-8 hover:shadow-xl hover:shadow-gray-400/20 transition"
-            >
-              <div class="h-24 flex items-center justify-center text-gray-600">
-                <div class="text-center">
-                  <div class="text-4xl mb-2">
-                    <i class="fas fa-building"></i>
-                  </div>
-                  <div class="text-xs font-semibold">Sponsor Logo</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          <div id="sponsors-gold" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 items-stretch"></div>
+        </div> 
 
         <div class="mb-16">
           <div class="text-center mb-8">
             <h3 class="text-xl font-bold text-white mb-2">Silver Sponsors</h3>
-            <div
-              class="w-16 h-1 bg-gradient-to-r from-orange-400 to-orange-500 mx-auto"
-            ></div>
+            <div class="w-16 h-1 bg-gradient-to-r from-orange-400 to-orange-500 mx-auto"></div>
           </div>
-          <div class="grid md:grid-cols-4 gap-6">
-            <div
-              class="bg-gradient-to-br from-orange-400/5 to-transparent border border-gray-800 rounded-lg p-6 hover:shadow-lg hover:shadow-orange-400/10 transition"
-            >
-              <div class="h-20 flex items-center justify-center text-gray-600">
-                <div class="text-center">
-                  <div class="text-3xl mb-1">
-                    <i class="fas fa-building"></i>
-                  </div>
-                  <div class="text-xs font-semibold">Logo</div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="bg-gradient-to-br from-orange-400/5 to-transparent border border-gray-800 rounded-lg p-6 hover:shadow-lg hover:shadow-orange-400/10 transition"
-            >
-              <div class="h-20 flex items-center justify-center text-gray-600">
-                <div class="text-center">
-                  <div class="text-3xl mb-1">
-                    <i class="fas fa-building"></i>
-                  </div>
-                  <div class="text-xs font-semibold">Logo</div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="bg-gradient-to-br from-orange-400/5 to-transparent border border-gray-800 rounded-lg p-6 hover:shadow-lg hover:shadow-orange-400/10 transition"
-            >
-              <div class="h-20 flex items-center justify-center text-gray-600">
-                <div class="text-center">
-                  <div class="text-3xl mb-1">
-                    <i class="fas fa-building"></i>
-                  </div>
-                  <div class="text-xs font-semibold">Logo</div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="bg-gradient-to-br from-orange-400/5 to-transparent border border-gray-800 rounded-lg p-6 hover:shadow-lg hover:shadow-orange-400/10 transition"
-            >
-              <div class="h-20 flex items-center justify-center text-gray-600">
-                <div class="text-center">
-                  <div class="text-3xl mb-1">
-                    <i class="fas fa-building"></i>
-                  </div>
-                  <div class="text-xs font-semibold">Logo</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          <div id="sponsors-silver" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 items-stretch"></div>
+        </div> 
 
         <div class="grid md:grid-cols-2 gap-8 mb-16">
           <div>
             <div class="text-center mb-6">
-              <h3 class="text-lg font-bold text-white mb-2">
-                Community Partners
-              </h3>
-              <div
-                class="w-12 h-1 bg-gradient-to-r from-cyan-400 to-cyan-500 mx-auto"
-              ></div>
+              <h3 class="text-lg font-bold text-white mb-2">Community Partners</h3>
+              <div class="w-12 h-1 bg-gradient-to-r from-cyan-400 to-cyan-500 mx-auto"></div>
             </div>
-            <div class="grid grid-cols-3 gap-4">
-              <div
-                class="bg-gradient-to-br from-cyan-400/5 to-transparent border border-gray-800 rounded-lg p-4 hover:shadow-lg hover:shadow-cyan-400/10 transition"
-              >
-                <div
-                  class="h-16 flex items-center justify-center text-gray-600"
-                >
-                  <div class="text-2xl"><i class="fas fa-users"></i></div>
-                </div>
-              </div>
-              <div
-                class="bg-gradient-to-br from-cyan-400/5 to-transparent border border-gray-800 rounded-lg p-4 hover:shadow-lg hover:shadow-cyan-400/10 transition"
-              >
-                <div
-                  class="h-16 flex items-center justify-center text-gray-600"
-                >
-                  <div class="text-2xl"><i class="fas fa-users"></i></div>
-                </div>
-              </div>
-              <div
-                class="bg-gradient-to-br from-cyan-400/5 to-transparent border border-gray-800 rounded-lg p-4 hover:shadow-lg hover:shadow-cyan-400/10 transition"
-              >
-                <div
-                  class="h-16 flex items-center justify-center text-gray-600"
-                >
-                  <div class="text-2xl"><i class="fas fa-users"></i></div>
-                </div>
-              </div>
-            </div>
+            <div id="sponsors-community" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4 items-center"></div> 
           </div>
 
           <div>
             <div class="text-center mb-6">
               <h3 class="text-lg font-bold text-white mb-2">Media Partners</h3>
-              <div
-                class="w-12 h-1 bg-gradient-to-r from-blue-400 to-blue-500 mx-auto"
-              ></div>
+              <div class="w-12 h-1 bg-gradient-to-r from-blue-400 to-blue-500 mx-auto"></div>
             </div>
-            <div class="grid grid-cols-3 gap-4">
-              <div
-                class="bg-gradient-to-br from-blue-400/5 to-transparent border border-gray-800 rounded-lg p-4 hover:shadow-lg hover:shadow-blue-400/10 transition"
-              >
-                <div
-                  class="h-16 flex items-center justify-center text-gray-600"
-                >
-                  <div class="text-2xl"><i class="fas fa-newspaper"></i></div>
-                </div>
-              </div>
-              <div
-                class="bg-gradient-to-br from-blue-400/5 to-transparent border border-gray-800 rounded-lg p-4 hover:shadow-lg hover:shadow-blue-400/10 transition"
-              >
-                <div
-                  class="h-16 flex items-center justify-center text-gray-600"
-                >
-                  <div class="text-2xl"><i class="fas fa-newspaper"></i></div>
-                </div>
-              </div>
-              <div
-                class="bg-gradient-to-br from-blue-400/5 to-transparent border border-gray-800 rounded-lg p-4 hover:shadow-lg hover:shadow-blue-400/10 transition"
-              >
-                <div
-                  class="h-16 flex items-center justify-center text-gray-600"
-                >
-                  <div class="text-2xl"><i class="fas fa-newspaper"></i></div>
-                </div>
-              </div>
-            </div>
+            <div id="sponsors-media" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4 items-center"></div> 
           </div>
         </div>
 
@@ -1725,9 +1563,9 @@
             >
               <i class="fas fa-user"></i>
             </div>
-            <h3 class="text-xl font-bold text-white mb-2">Expert Name</h3>
-            <p class="text-cyan-400 text-sm mb-2">Senior Software Engineer</p>
-            <p class="text-gray-500 text-sm mb-4">Technology Company</p>
+             <h3 class="text-xl font-bold text-white mb-2">Expert Name</h3>
+            <p class=" text-sm mb-2" style="color: var(--green);">Revealing</p>
+            <p class=" text-sm mb-4">Soon...</p>
             <a href="#" class="text-gray-400 hover:text-cyan-400 transition">
               <i class="fab fa-linkedin text-2xl"></i>
             </a>
@@ -1742,8 +1580,8 @@
               <i class="fas fa-user"></i>
             </div>
             <h3 class="text-xl font-bold text-white mb-2">Expert Name</h3>
-            <p class="text-blue-400 text-sm mb-2">AI/ML Specialist</p>
-            <p class="text-gray-500 text-sm mb-4">Tech Startup</p>
+            <p class=" text-sm mb-2" style="color: var(--green);">Revealing</p>
+            <p class=" text-sm mb-4">Soon...</p>
             <a href="#" class="text-gray-400 hover:text-blue-400 transition">
               <i class="fab fa-linkedin text-2xl"></i>
             </a>
@@ -1757,9 +1595,9 @@
             >
               <i class="fas fa-user"></i>
             </div>
-            <h3 class="text-xl font-bold text-white mb-2">Expert Name</h3>
-            <p class="text-green-400 text-sm mb-2">Product Manager</p>
-            <p class="text-gray-500 text-sm mb-4">Global Tech Firm</p>
+           <h3 class="text-xl font-bold text-white mb-2">Expert Name</h3>
+            <p class=" text-sm mb-2" style="color: var(--green);">Revealing</p>
+            <p class=" text-sm mb-4">Soon...</p>
             <a href="#" class="text-gray-400 hover:text-green-400 transition">
               <i class="fab fa-linkedin text-2xl"></i>
             </a>
@@ -1773,9 +1611,9 @@
             >
               <i class="fas fa-user"></i>
             </div>
-            <h3 class="text-xl font-bold text-white mb-2">Expert Name</h3>
-            <p class="text-purple-400 text-sm mb-2">CTO</p>
-            <p class="text-gray-500 text-sm mb-4">Innovation Hub</p>
+           <h3 class="text-xl font-bold text-white mb-2">Expert Name</h3>
+            <p class=" text-sm mb-2" style="color: var(--green);">Revealing</p>
+            <p class=" text-sm mb-4">Soon...</p>
             <a href="#" class="text-gray-400 hover:text-purple-400 transition">
               <i class="fab fa-linkedin text-2xl"></i>
             </a>
@@ -1861,17 +1699,17 @@
           </div>
 
           <div class="text-center">
-            <p class="text-gray-400 mb-6">
+            <p class="text-white mb-6">
               Registration closes on
-              <strong class="text-cyan-400">January 25, 2026</strong>
+              <strong class="text-green-400">January 25, 2026</strong>
             </p>
             <a
               href="#"
-              class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-10 py-4 rounded-lg font-bold text-lg hover:shadow-xl hover:shadow-cyan-500/50 transition inline-block transform hover:scale-105"
+              class="bg-red-500 text-white px-10 py-4 rounded-lg font-bold text-lg hover:shadow-xl hover:shadow-red-500/50 transition inline-block transform hover:scale-105"
             >
               <i class="fas fa-user-plus mr-2"></i> Register Your Team Now
             </a>
-            <p class="text-gray-500 text-sm mt-4">
+            <p class="text-white-500 text-sm mt-4">
               Limited spots available • First come, first served
             </p>
           </div>
@@ -2081,7 +1919,7 @@
           <p class="text-gray-400 mb-6">Feel free to reach out to us</p>
           <a
             href="mailto:capec@pec.edu.np"
-            class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:shadow-xl hover:shadow-cyan-500/50 transition inline-block"
+            class="bg-red-500 text-white px-8 py-3 rounded-lg font-bold hover:shadow-xl hover:shadow-cyan-500/50 transition inline-block"
           >
             <i class="fas fa-envelope mr-2"></i> Contact Us
           </a>
@@ -2216,16 +2054,16 @@
           <div>
             <div class="flex items-center space-x-3 mb-4">
               <div
-                class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center"
+                class="w-10 h-10 rounded-lg flex items-center justify-center"
               >
-                <span class="text-white font-bold text-xl">C</span>
+                <img src="/assets/logo.png" alt="">
               </div>
               <div>
-                <div class="text-white font-bold text-lg">CAPEC</div>
-                <div class="text-cyan-400 text-xs">Hackathon Nova 2026</div>
+                <div class="text-white font-bold text-lg">Hackathon Nova 2026</div>
+               
               </div>
             </div>
-            <p class="text-gray-400 text-sm leading-relaxed">
+            <p class="text-white-400 text-sm leading-relaxed">
               Building the future through innovation, collaboration, and
               technology at Pokhara Engineering College.
             </p>
@@ -2237,35 +2075,35 @@
               <li>
                 <a
                   href="#about"
-                  class="text-gray-400 hover:text-cyan-400 transition text-sm"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
                   >About</a
                 >
               </li>
               <li>
                 <a
                   href="#themes"
-                  class="text-gray-400 hover:text-cyan-400 transition text-sm"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
                   >Themes</a
                 >
               </li>
               <li>
                 <a
                   href="#timeline"
-                  class="text-gray-400 hover:text-cyan-400 transition text-sm"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
                   >Timeline</a
                 >
               </li>
               <li>
                 <a
                   href="#prizes"
-                  class="text-gray-400 hover:text-cyan-400 transition text-sm"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
                   >Prizes</a
                 >
               </li>
               <li>
                 <a
                   href="#register"
-                  class="text-gray-400 hover:text-cyan-400 transition text-sm"
+                  class="text-whit-400 hover:text-cyan-400 transition text-sm"
                   >Register</a
                 >
               </li>
@@ -2278,35 +2116,35 @@
               <li>
                 <a
                   href="#rules"
-                  class="text-gray-400 hover:text-cyan-400 transition text-sm"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
                   >Rules</a
                 >
               </li>
               <li>
                 <a
                   href="#judging"
-                  class="text-gray-400 hover:text-cyan-400 transition text-sm"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
                   >Judging Criteria</a
                 >
               </li>
               <li>
                 <a
                   href="#faq"
-                  class="text-gray-400 hover:text-cyan-400 transition text-sm"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
                   >FAQ</a
                 >
               </li>
               <li>
                 <a
                   href="pages/codeOfConduct.html"
-                  class="text-gray-400 hover:text-cyan-400 transition text-sm"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
                   >Code of Conduct</a
                 >
               </li>
               <li>
                 <a
                   href="#contact"
-                  class="text-gray-400 hover:text-cyan-400 transition text-sm"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
                   >Contact</a
                 >
               </li>
@@ -2314,14 +2152,13 @@
           </div>
 
           <div>
-            <h3 class="text-white font-bold mb-4">About CAPEC</h3>
-            <p class="text-gray-400 text-sm leading-relaxed mb-4">
-              Computer Association of Pokhara Engineering College - Empowering
-              students through technology and innovation.
+            <h3 class="text-white font-bold mb-4">About Hackathon Nova</h3>
+            <p class="text-white-400 text-sm leading-relaxed mb-4">
+              Hackathon Nova is a 48-hour student-focused hackathon organized by CAPEC and ITEC-PEC at Pokhara Engineering College. 
             </p>
             <a
               href="#register"
-              class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition inline-block"
+              class="bg-red-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition inline-block"
             >
               Register Now
             </a>
@@ -2330,18 +2167,17 @@
 
         <div class="border-t border-gray-800 pt-8">
           <div class="flex flex-col md:flex-row justify-between items-center">
-            <p class="text-gray-400 text-sm mb-4 md:mb-0">
-              © 2026 CAPEC - Computer Association of Pokhara Engineering
-              College. All rights reserved.
+            <p class="text-white-400 text-sm mb-4 md:mb-0">
+              © 2026 CAPEC - Hackathon Nova. All rights reserved.
             </p>
             <div class="flex space-x-6 text-sm">
-              <a href="#" class="text-gray-400 hover:text-cyan-400 transition"
+              <a href="#" class="text-white-400 hover:text-cyan-400 transition"
                 >Privacy Policy</a
               >
-              <a href="#" class="text-gray-400 hover:text-cyan-400 transition"
+              <a href="#" class="text-white-400 hover:text-cyan-400 transition"
                 >Terms of Service</a
               >
-              <a href="#" class="text-gray-400 hover:text-cyan-400 transition"
+              <a href="#" class="text-white-400 hover:text-cyan-400 transition"
                 >Code of Conduct</a
               >
             </div>
@@ -2349,6 +2185,8 @@
         </div>
       </div>
     </footer>
+
+    <script src="assets/content-loader.js"></script>
 
     <script>
       // Mobile Menu Toggle

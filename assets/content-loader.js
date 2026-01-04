@@ -62,6 +62,42 @@
       const cemail = document.getElementById('footer-contact-email'); if (cemail && data.contact) cemail.href = 'mailto:' + data.contact.email, cemail.textContent = data.contact.email;
       const fc = document.getElementById('footer-copyright'); if (fc && data.footer) fc.textContent = data.footer.copyright;
 
+      // SPONSORS
+      if (data.sponsors) {
+        const renderLogos = (arr, containerId, cardClass) => {
+          const el = document.getElementById(containerId);
+          if (!el || !Array.isArray(arr)) return;
+          el.innerHTML = arr
+            .map(s => {
+              const href = s.href ? `href="${s.href}" target="_blank" rel="noopener noreferrer"` : '';
+              const src = base + (s.img || '');
+              return `
+                <div class="${cardClass}">
+                  <a ${href} class="flex items-center justify-center h-full">
+                    <img src="${src}" alt="${s.name || ''}" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.parentElement.classList.add('hidden');" />
+                  </a>
+                </div>
+              `;
+            })
+            .join('\n');
+        };
+
+        // title uses a larger card style (centered, taller)
+        renderLogos(data.sponsors.title, 'sponsors-title', 'bg-gradient-to-br from-yellow-500/10 to-transparent border-2 border-yellow-500/50 rounded-2xl p-4 w-full max-w-md mx-auto h-48 md:h-64 flex items-center justify-center hover:shadow-2xl hover:shadow-yellow-500/30 transition');
+
+        // Gold sponsors: medium cards with balanced padding
+        renderLogos(data.sponsors.gold, 'sponsors-gold', 'bg-gradient-to-br from-gray-300/10 to-transparent border border-gray-700 rounded-xl p-4 hover:shadow-xl hover:shadow-gray-400/20 transition h-32 md:h-40 flex items-center justify-center');
+
+        // Silver sponsors: slightly smaller cards
+        renderLogos(data.sponsors.silver, 'sponsors-silver', 'bg-gradient-to-br from-orange-400/5 to-transparent border border-gray-800 rounded-lg p-3 hover:shadow-lg hover:shadow-orange-400/10 transition h-28 md:h-32 flex items-center justify-center');
+
+        // Community partners: compact cards
+        renderLogos(data.sponsors.communityPartners, 'sponsors-community', 'bg-gradient-to-br from-cyan-400/5 to-transparent border border-gray-800 rounded-lg p-3 hover:shadow-lg hover:shadow-cyan-400/10 transition h-20 md:h-24 flex items-center justify-center');
+
+        // Media partners: compact cards
+        renderLogos(data.sponsors.mediaPartners, 'sponsors-media', 'bg-gradient-to-br from-blue-400/5 to-transparent border border-gray-800 rounded-lg p-3 hover:shadow-lg hover:shadow-blue-400/10 transition h-20 md:h-24 flex items-center justify-center');
+      }
+
       // PAGE SPECIFIC
       const page = document.body.getAttribute('data-page');
       if (page && data.pages && data.pages[page]) {
