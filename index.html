@@ -16,12 +16,12 @@
     <style>
       @import url(https://fonts.googleapis.com/css?family=Playfair:300,regular,500,600,700,800,900,300italic,italic,500italic,600italic,700italic,800italic,900italic);
       @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
-:root{
-  --primary-color: rgb(185, 28, 28);
-  --secondary-color: rgb(14, 23, 43);
-  --white: #f5e0e0;
-  --green:oklch(79.2% 0.209 151.711);
-}
+      :root {
+        --primary-color: rgb(185, 28, 28);
+        --secondary-color: rgb(14, 23, 43);
+        --white: #f5e0e0;
+        --green: oklch(79.2% 0.209 151.711);
+      }
       * {
         font-family: "Inter", sans-serif;
       }
@@ -90,24 +90,41 @@
       }
 
       /* Responsive improvements */
-      img { max-width: 100%; height: auto; display: block; }
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
 
       /* Make hero title fluid from small to very large screens */
-      .title-text { font-size: clamp(3rem, 6rem, 7.5rem);  }
+      .title-text {
+        font-size: clamp(3rem, 6rem, 7.5rem);
+      }
 
       /* Slightly shorter hero on small devices to avoid excessive scrolling */
-      #hero { min-height: 80vh; }
-      @media (min-width: 768px) { #hero { min-height: 100vh; } }
+      #hero {
+        min-height: 80vh;
+      }
+      @media (min-width: 768px) {
+        #hero {
+          min-height: 100vh;
+        }
+      }
 
       /* Tweak hero background focus on small screens */
       @media (max-width: 640px) {
-        .title-text { font-size: clamp(1.8rem, 9vw, 3.6rem); }
-        .hero-gradient { background-position: center; }
+        .title-text {
+          font-size: clamp(1.8rem, 9vw, 3.6rem);
+        }
+        .hero-gradient {
+          background-position: center;
+        }
       }
 
       /* Ensure countdown scales down nicely */
-      #countdown .text-3xl { font-size: clamp(1.4rem, 4vw, 2rem); }
-
+      #countdown .text-3xl {
+        font-size: clamp(1.4rem, 4vw, 2rem);
+      }
     </style>
   </head>
   <body class="body text-gray-100">
@@ -117,19 +134,22 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
           <div class="flex items-center space-x-3">
-          <a href="#">  <img 
-              src="assets/logo.png"
-              alt="Hackathon Nova Logo"
-              class="w-10 h-10 rounded-lg"
-              onerror="this.style.display='none'; document.getElementById('logo-placeholder').style.display='flex';"
+            <a href="#">
+              <img
+                src="assets/logo.png"
+                alt="Hackathon Nova Logo"
+                class="w-10 h-10 rounded-lg"
+                onerror="this.style.display='none'; document.getElementById('logo-placeholder').style.display='flex';"
             /></a>
             <div>
-              <a href="#"><div
-                class="font-bold text-xl text-orange-500"
-                style="font-family: inter;"
+              <a href="#"
+                ><div
+                  class="font-bold text-xl text-orange-500"
+                  style="font-family: inter"
+                >
+                  Hackathon Nova 2026
+                </div></a
               >
-                Hackathon Nova 2026
-              </div></a>
               <!-- <div class="text-cyan-400 text-xs">Hackathon Nova 2026</div> -->
             </div>
           </div>
@@ -247,11 +267,12 @@
           <h2
             class="text-xl md:text-3xl font-bold text-white mb-6 font-serif italic opacity-90"
           >
-            CAPEC <span class="text-orange-600 mx-2 text-3.5xl">×</span> ITEC-PEC
+            CAPEC
+            <span class="text-orange-600 mx-2 text-3.5xl">×</span> ITEC-PEC
           </h2>
           <span
             class="inline-block border border-green-500/30 text-white px-4 py-2 rounded-full text-sm font-semibold"
-            style="margin-bottom: 10px;"
+            style="margin-bottom: 10px"
           >
             January 26-29, 2026 | 60 Hours
           </span>
@@ -267,36 +288,44 @@
 
         <br />
 
-        <p class="text-xl sm:text-2xl mb-4 max-w-3xl mx-auto" style="color: var(--white);">
+        <p
+          class="text-xl sm:text-2xl mb-4 max-w-3xl mx-auto"
+          style="color: var(--white)"
+        >
           Build the Future. Code Innovation. Transform Ideas into Reality.
         </p>
 
-        <p class="text-lg text-gray-500 mb-8" style="color: var(--white);">
+        <p class="text-lg text-gray-500 mb-8" style="color: var(--white)">
           <i class="fas fa-map-marker-alt text-white-400"></i> Pokhara
           Engineering College, Nepal
         </p>
 
         <div
-          id="countdown" style="color: oklch(85.2% 0.199 91.936);"
+          id="countdown"
+          style="color: oklch(85.2% 0.199 91.936)"
           class="flex justify-center flex-wrap space-x-4 sm:space-x-8 mb-10 gap-y-4"
         >
           <div class="text-center">
-            <div
-              class="text-3xl sm:text-4xl md:text-5xl font-bold "
-              id="days"
-            >
+            <div class="text-3xl sm:text-4xl md:text-5xl font-bold" id="days">
               00
             </div>
-            <div class="text-xs sm:text-sm uppercase" style="color: var(--white);">Days</div>
+            <div
+              class="text-xs sm:text-sm uppercase"
+              style="color: var(--white)"
+            >
+              Days
+            </div>
           </div>
           <div class="text-center">
-            <div
-              class="text-3xl sm:text-4xl md:text-5xl font-bold"
-              id="hours"
-            >
+            <div class="text-3xl sm:text-4xl md:text-5xl font-bold" id="hours">
               00
             </div>
-            <div class="text-xs sm:text-sm uppercase" style="color: var(--white);">Hours</div>
+            <div
+              class="text-xs sm:text-sm uppercase"
+              style="color: var(--white)"
+            >
+              Hours
+            </div>
           </div>
           <div class="text-center">
             <div
@@ -305,7 +334,10 @@
             >
               00
             </div>
-            <div class="text-xs sm:text-sm uppercase"style="color: var(--white);">
+            <div
+              class="text-xs sm:text-sm uppercase"
+              style="color: var(--white)"
+            >
               Minutes
             </div>
           </div>
@@ -316,7 +348,10 @@
             >
               00
             </div>
-            <div class="text-xs sm:text-sm uppercase"style="color: var(--white);">
+            <div
+              class="text-xs sm:text-sm uppercase"
+              style="color: var(--white)"
+            >
               Seconds
             </div>
           </div>
@@ -327,7 +362,7 @@
         >
           <a
             href="#register"
-            class="w-full sm:w-auto text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg hover:shadow-xl hover:shadow-black-500/50 transition transform hover:scale-105 text-center bg-orange-500" 
+            class="w-full sm:w-auto text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg hover:shadow-xl hover:shadow-black-500/50 transition transform hover:scale-105 text-center bg-orange-500"
           >
             Register Now <i class="fas fa-arrow-right ml-2"></i>
           </a>
@@ -395,14 +430,14 @@
             <h3 class="text-3xl font-bold mb-6 text-white">
               Innovate. Collaborate. Compete.
             </h3>
-            <p class=" text-lg mb-6 leading-relaxed">
+            <p class="text-lg mb-6 leading-relaxed">
               Hackathon Nova 2026 is Nepal's premier student-led technology
               innovation challenge, bringing together the brightest minds to
               solve real-world problems through cutting-edge technology. This
               48-hour coding marathon is where ideas transform into impactful
               solutions.
             </p>
-            <p class=" text-lg mb-6 leading-relaxed">
+            <p class="text-lg mb-6 leading-relaxed">
               Organized by the
               <span style="color: #22d3ee"
                 >Computer Association of Pokhara Engineering College
@@ -418,7 +453,7 @@
             <div
               class="bg-gradient-to-r from-cyan-500/10 to-blue-600/10 border border-cyan-500/30 rounded-lg p-6"
             >
-              <h4 class="text-xl font-bold mb-3" style="color: var(--green);">
+              <h4 class="text-xl font-bold mb-3" style="color: var(--green)">
                 Who Can Participate?
               </h4>
               <ul class="space-y-2">
@@ -449,7 +484,7 @@
               class="bg-gradient-to-br from-blue-600/10 to-transparent border border-gray-800 rounded-xl p-6 card-hover"
             >
               <div class="text-4xl mb-4">
-                <i class="fas fa-trophy"style="color:  rgb(231, 83, 83);"></i>
+                <i class="fas fa-trophy" style="color: rgb(231, 83, 83)"></i>
               </div>
               <div class="text-3xl font-bold text-white mb-2">NPR 60K+</div>
               <div class="text-gray-400">Prize Pool</div>
@@ -458,7 +493,7 @@
               class="bg-gradient-to-br from-purple-500/10 to-transparent border border-gray-800 rounded-xl p-6 card-hover"
             >
               <div class="text-4xl mb-4">
-                <i class="fas fa-clock" style="color:  rgb(231, 83, 83);"></i>
+                <i class="fas fa-clock" style="color: rgb(231, 83, 83)"></i>
               </div>
               <div class="text-3xl font-bold text-white mb-2">60</div>
               <div class="text-gray-400">Hours of Coding</div>
@@ -834,7 +869,8 @@
                     January 27-28, 2026 - Throughout
                   </p>
                   <p class="text-gray-400 text-sm">
-                    Get guidance from industry Co-ordinators and experienced mentors
+                    Get guidance from industry Co-ordinators and experienced
+                    mentors
                   </p>
                 </div>
               </div>
@@ -857,7 +893,8 @@
                     January 27-28, 2026 - Throughout
                   </p>
                   <p class="text-gray-400">
-                    Get guidance from industry Co-ordinators and experienced mentors
+                    Get guidance from industry Co-ordinators and experienced
+                    mentors
                   </p>
                 </div>
               </div>
@@ -1491,44 +1528,68 @@
         <div class="mb-16">
           <div class="text-center mb-8">
             <h3 class="text-3xl font-bold text-white mb-2">Title Sponsor</h3>
-            <div class="w-16 h-1 bg-gradient-to-r from-yellow-500 to-yellow-600 mx-auto"></div>
+            <div
+              class="w-16 h-1 bg-gradient-to-r from-yellow-500 to-yellow-600 mx-auto"
+            ></div>
           </div>
           <div class="flex justify-center">
             <div id="sponsors-title" class="w-full max-w-md mx-auto"></div>
           </div>
-        </div> 
+        </div>
 
         <div class="mb-16">
           <div class="text-center mb-8">
             <h3 class="text-2xl font-bold text-white mb-2">Gold Sponsors</h3>
-            <div class="w-16 h-1 bg-gradient-to-r from-gray-300 to-gray-400 mx-auto"></div>
+            <div
+              class="w-16 h-1 bg-gradient-to-r from-gray-300 to-gray-400 mx-auto"
+            ></div>
           </div>
-          <div id="sponsors-gold" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 items-stretch"></div>
-        </div> 
+          <div
+            id="sponsors-gold"
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 items-stretch"
+          ></div>
+        </div>
 
         <div class="mb-16">
           <div class="text-center mb-8">
             <h3 class="text-xl font-bold text-white mb-2">Silver Sponsors</h3>
-            <div class="w-16 h-1 bg-gradient-to-r from-orange-400 to-orange-500 mx-auto"></div>
+            <div
+              class="w-16 h-1 bg-gradient-to-r from-orange-400 to-orange-500 mx-auto"
+            ></div>
           </div>
-          <div id="sponsors-silver" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 items-stretch"></div>
-        </div> 
+          <div
+            id="sponsors-silver"
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 items-stretch"
+          ></div>
+        </div>
 
         <div class="grid md:grid-cols-2 gap-8 mb-16">
           <div>
             <div class="text-center mb-6">
-              <h3 class="text-lg font-bold text-white mb-2">Community Partners</h3>
-              <div class="w-12 h-1 bg-gradient-to-r from-cyan-400 to-cyan-500 mx-auto"></div>
+              <h3 class="text-lg font-bold text-white mb-2">
+                Community Partners
+              </h3>
+              <div
+                class="w-12 h-1 bg-gradient-to-r from-cyan-400 to-cyan-500 mx-auto"
+              ></div>
             </div>
-            <div id="sponsors-community" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4 items-center"></div> 
+            <div
+              id="sponsors-community"
+              class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4 items-center"
+            ></div>
           </div>
 
           <div>
             <div class="text-center mb-6">
               <h3 class="text-lg font-bold text-white mb-2">Media Partners</h3>
-              <div class="w-12 h-1 bg-gradient-to-r from-blue-400 to-blue-500 mx-auto"></div>
+              <div
+                class="w-12 h-1 bg-gradient-to-r from-blue-400 to-blue-500 mx-auto"
+              ></div>
             </div>
-            <div id="sponsors-media" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4 items-center"></div> 
+            <div
+              id="sponsors-media"
+              class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4 items-center"
+            ></div>
           </div>
         </div>
 
@@ -1576,9 +1637,9 @@
             >
               <i class="fas fa-user"></i>
             </div>
-             <h3 class="text-xl font-bold text-white mb-2">Co-ordinator Name</h3>
-            <p class=" text-sm mb-2" style="color: var(--green);">Revealing</p>
-            <p class=" text-sm mb-4">Soon...</p>
+            <h3 class="text-xl font-bold text-white mb-2">Co-ordinator Name</h3>
+            <p class="text-sm mb-2" style="color: var(--green)">Revealing</p>
+            <p class="text-sm mb-4">Soon...</p>
             <a href="#" class="text-gray-400 hover:text-cyan-400 transition">
               <i class="fab fa-linkedin text-2xl"></i>
             </a>
@@ -1593,8 +1654,8 @@
               <i class="fas fa-user"></i>
             </div>
             <h3 class="text-xl font-bold text-white mb-2">Co-ordinator Name</h3>
-            <p class=" text-sm mb-2" style="color: var(--green);">Revealing</p>
-            <p class=" text-sm mb-4">Soon...</p>
+            <p class="text-sm mb-2" style="color: var(--green)">Revealing</p>
+            <p class="text-sm mb-4">Soon...</p>
             <a href="#" class="text-gray-400 hover:text-blue-400 transition">
               <i class="fab fa-linkedin text-2xl"></i>
             </a>
@@ -1608,9 +1669,9 @@
             >
               <i class="fas fa-user"></i>
             </div>
-           <h3 class="text-xl font-bold text-white mb-2">Co-ordinator Name</h3>
-            <p class=" text-sm mb-2" style="color: var(--green);">Revealing</p>
-            <p class=" text-sm mb-4">Soon...</p>
+            <h3 class="text-xl font-bold text-white mb-2">Co-ordinator Name</h3>
+            <p class="text-sm mb-2" style="color: var(--green)">Revealing</p>
+            <p class="text-sm mb-4">Soon...</p>
             <a href="#" class="text-gray-400 hover:text-green-400 transition">
               <i class="fab fa-linkedin text-2xl"></i>
             </a>
@@ -1624,9 +1685,9 @@
             >
               <i class="fas fa-user"></i>
             </div>
-           <h3 class="text-xl font-bold text-white mb-2">Co-ordinator Name</h3>
-            <p class=" text-sm mb-2" style="color: var(--green);">Revealing</p>
-            <p class=" text-sm mb-4">Soon...</p>
+            <h3 class="text-xl font-bold text-white mb-2">Co-ordinator Name</h3>
+            <p class="text-sm mb-2" style="color: var(--green)">Revealing</p>
+            <p class="text-sm mb-4">Soon...</p>
             <a href="#" class="text-gray-400 hover:text-purple-400 transition">
               <i class="fab fa-linkedin text-2xl"></i>
             </a>
@@ -1868,11 +1929,11 @@
             </button>
             <div class="faq-answer hidden px-6 pb-6 text-gray-400">
               <p>
-                Yes! Industry Co-ordinators and experienced mentors will be available
-                throughout the event to provide guidance, answer questions, and
-                help you overcome technical challenges. Mentorship sessions will
-                be scheduled, and mentors will also be available for one-on-one
-                consultations.
+                Yes! Industry Co-ordinators and experienced mentors will be
+                available throughout the event to provide guidance, answer
+                questions, and help you overcome technical challenges.
+                Mentorship sessions will be scheduled, and mentors will also be
+                available for one-on-one consultations.
               </p>
             </div>
           </div>
@@ -2069,11 +2130,12 @@
               <div
                 class="w-10 h-10 rounded-lg flex items-center justify-center"
               >
-                <img src="/assets/logo.png" alt="">
+                <img src="/assets/logo.png" alt="" />
               </div>
               <div>
-                <div class="text-white font-bold text-lg">Hackathon Nova 2026</div>
-               
+                <div class="text-white font-bold text-lg">
+                  Hackathon Nova 2026
+                </div>
               </div>
             </div>
             <p class="text-white-400 text-sm leading-relaxed">
@@ -2167,7 +2229,8 @@
           <div>
             <h3 class="text-white font-bold mb-4">About Hackathon Nova</h3>
             <p class="text-white-400 text-sm leading-relaxed mb-4">
-              Hackathon Nova is a 48-hour student-focused hackathon organized by CAPEC and ITEC-PEC at Pokhara Engineering College. 
+              Hackathon Nova is a 48-hour student-focused hackathon organized by
+              CAPEC and ITEC-PEC at Pokhara Engineering College.
             </p>
             <a
               href="#register"
@@ -2190,7 +2253,9 @@
               <a href="#" class="text-white-400 hover:text-cyan-400 transition"
                 >Terms of Service</a
               >
-              <a href="/pages/codeOfConduct.html" class="text-white-400 hover:text-cyan-400 transition"
+              <a
+                href="/pages/codeOfConduct.html"
+                class="text-white-400 hover:text-cyan-400 transition"
                 >Code of Conduct</a
               >
             </div>
