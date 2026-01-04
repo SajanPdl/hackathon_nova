@@ -14,6 +14,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <style>
+      @import url(https://fonts.googleapis.com/css?family=Playfair:300,regular,500,600,700,800,900,300italic,italic,500italic,600italic,700italic,800italic,900italic);
       @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
 
       * {
@@ -79,6 +80,9 @@
       .float-animation {
         animation: float 6s ease-in-out infinite;
       }
+      .title-text{
+font-family: playfair;
+      }
     </style>
   </head>
   <body class="bg-black text-gray-100">
@@ -88,14 +92,24 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
           <div class="flex items-center space-x-3">
+            <img
+              src="assets/logo.png"
+              alt="Hackathon Nova Logo"
+              class="w-10 h-10 rounded-lg"
+              onerror="this.style.display='none'; document.getElementById('logo-placeholder').style.display='flex';"
+            />
             <div
+              id="logo-placeholder"
               class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center"
+              style="display: none"
             >
               <span class="text-white font-bold text-xl">C</span>
             </div>
             <div>
-              <div class="text-white font-bold text-lg">CAPEC</div>
-              <div class="text-cyan-400 text-xs">Hackathon Nova 2026</div>
+              <div class="text-cyan-400 font-bold text-2xl"style="font-family: Playfair;">
+                Hackathon Nova 2026
+              </div>
+              <!-- <div class="text-cyan-400 text-xs">Hackathon Nova 2026</div> -->
             </div>
           </div>
 
@@ -190,7 +204,7 @@
         </div>
       </div>
     </nav>
-
+    <!-- hero section -->
     <section
       id="hero"
       class="relative min-h-screen flex items-center justify-center overflow-hidden hero-gradient grid-pattern pt-16"
@@ -201,18 +215,28 @@
         class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
       >
         <div class="mb-6">
+          <h2
+          class="text-xl md:text-3xl font-bold text-white mb-6 font-serif italic opacity-90"
+        >
+          CAPEC <span class="text-cyan-500 mx-2">×</span> ITEC-PEC
+        </h2>
           <span
             class="inline-block bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 px-4 py-2 rounded-full text-sm font-semibold"
           >
             January 26-29, 2026 | 48 Hours
           </span>
+          <h1
+            class="text-7xl md:text-[10rem] font-black text-white mb-8 tracking-tighter leading-[0.85] filter drop-shadow-2xl title-text"
+          >
+            HACKATHON <br /><span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-lime-400 to-cyan-400 bg-[length:200%_auto] animate-gradient text-glow-cyan title-text"
+              >NOVA</span
+            >
+          </h1>
         </div>
 
-        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black mb-6">
-          <span class="gradient-text">CAPEC</span>
-          <br />
-          <span class="text-white">Hackathon Nova 2026</span>
-        </h1>
+        
+        <br />
 
         <p class="text-xl sm:text-2xl text-gray-400 mb-4 max-w-3xl mx-auto">
           Build the Future. Code Innovation. Transform Ideas into Reality.
@@ -1413,7 +1437,7 @@
         </div>
       </div>
     </section>
-
+<!-- sponsers -->
     <section id="sponsors" class="py-20 bg-black">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
@@ -1439,14 +1463,7 @@
             <div
               class="bg-gradient-to-br from-yellow-500/10 to-transparent border-2 border-yellow-500/50 rounded-2xl p-12 w-full max-w-md hover:shadow-2xl hover:shadow-yellow-500/30 transition"
             >
-              <div class="h-32 flex items-center justify-center text-gray-600">
-                <div class="text-center">
-                  <div class="text-6xl mb-2">
-                    <i class="fas fa-building"></i>
-                  </div>
-                  <div class="text-sm font-semibold">Your Company Logo</div>
-                </div>
-              </div>
+             <img src="/assets/clz logo.jpeg" alt="pokhara Engineering College">
             </div>
           </div>
         </div>
