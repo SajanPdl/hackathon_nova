@@ -16,7 +16,11 @@
     <style>
       @import url(https://fonts.googleapis.com/css?family=Playfair:300,regular,500,600,700,800,900,300italic,italic,500italic,600italic,700italic,800italic,900italic);
       @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
-
+:root{
+  --primary-color: #B91C1C;
+  --secondary-color: rgb(14, 23, 43);
+  --white: #f5e0e0;
+}
       * {
         font-family: "Inter", sans-serif;
       }
@@ -24,7 +28,7 @@
         background: rgb(14, 23, 43);
       }
       .gradient-text {
-        background: linear-gradient(90deg, #06b6d4 0%, #3b82f6 100%);
+        background: linear-gradient(90deg, var(--primary-color) 0%, #2e0ca8 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -109,8 +113,8 @@
             </div>
             <div>
               <div
-                class="text-cyan-400 font-bold text-2xl"
-                style="font-family: Playfair"
+                class="text-red-400 font-bold text-2xl"
+                style="font-family: inter"
               >
                 Hackathon Nova 2026
               </div>
@@ -152,7 +156,7 @@
           <div class="hidden md:block">
             <a
               href="#register"
-              class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition"
+              class="bg-gradient-to-r from-red-500 to-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition"
             >
               Register Now
             </a>
@@ -231,19 +235,19 @@
           <h2
             class="text-xl md:text-3xl font-bold text-white mb-6 font-serif italic opacity-90"
           >
-            CAPEC <span class="text-cyan-500 mx-2">×</span> ITEC-PEC
+            CAPEC <span class="text-red-500 mx-2">×</span> ITEC-PEC
           </h2>
           <span
-            class="inline-block bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 px-4 py-2 rounded-full text-sm font-semibold"
-            style="margin-bottom: 10px"
+            class="inline-block border border-cyan-500/30 text-white px-4 py-2 rounded-full text-sm font-semibold"
+            style="margin-bottom: 10px; background-color: #B91C1C;"
           >
             January 26-29, 2026 | 48 Hours
           </span>
           <h1
-            class="text-7xl md:text-[10rem] font-black text-white mb-8 tracking-tighter leading-[0.85] filter drop-shadow-2xl title-text"
+            class="text-7xl md:text-[10rem] font-black mb-8 tracking-tighter leading-[0.85] filter drop-shadow-2xl title-text bg-gradient-to-r from-white via-red-100 to-white bg-clip-text text-transparent"
           >
             HACKATHON <br /><span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-lime-400 to-cyan-400 bg-[length:200%_auto] animate-gradient text-glow-cyan title-text"
+              class="bg-clip-text bg-gradient-to-r from-red-600 via-blue-600 to-blue-600 bg-[length:200%_auto] animate-gradient text-glow-cyan title-text"
               >NOVA</span
             >
           </h1>
@@ -251,56 +255,56 @@
 
         <br />
 
-        <p class="text-xl sm:text-2xl text-gray-400 mb-4 max-w-3xl mx-auto">
+        <p class="text-xl sm:text-2xl mb-4 max-w-3xl mx-auto" style="color: var(--white);">
           Build the Future. Code Innovation. Transform Ideas into Reality.
         </p>
 
-        <p class="text-lg text-gray-500 mb-8">
-          <i class="fas fa-map-marker-alt text-cyan-400"></i> Pokhara
+        <p class="text-lg text-gray-500 mb-8" style="color: var(--white);">
+          <i class="fas fa-map-marker-alt text-white-400"></i> Pokhara
           Engineering College, Nepal
         </p>
 
         <div
-          id="countdown"
+          id="countdown" style="color: var(--primary-color);"
           class="flex justify-center flex-wrap space-x-4 sm:space-x-8 mb-10 gap-y-4"
         >
           <div class="text-center">
             <div
-              class="text-3xl sm:text-4xl md:text-5xl font-bold text-cyan-400"
+              class="text-3xl sm:text-4xl md:text-5xl font-bold "
               id="days"
             >
               00
             </div>
-            <div class="text-xs sm:text-sm text-gray-500 uppercase">Days</div>
+            <div class="text-xs sm:text-sm uppercase" style="color: var(--white);">Days</div>
           </div>
           <div class="text-center">
             <div
-              class="text-3xl sm:text-4xl md:text-5xl font-bold text-cyan-400"
+              class="text-3xl sm:text-4xl md:text-5xl font-bold"
               id="hours"
             >
               00
             </div>
-            <div class="text-xs sm:text-sm text-gray-500 uppercase">Hours</div>
+            <div class="text-xs sm:text-sm uppercase" style="color: var(--white);">Hours</div>
           </div>
           <div class="text-center">
             <div
-              class="text-3xl sm:text-4xl md:text-5xl font-bold text-cyan-400"
+              class="text-3xl sm:text-4xl md:text-5xl font-bold"
               id="minutes"
             >
               00
             </div>
-            <div class="text-xs sm:text-sm text-gray-500 uppercase">
+            <div class="text-xs sm:text-sm uppercase"style="color: var(--white);">
               Minutes
             </div>
           </div>
           <div class="text-center">
             <div
-              class="text-3xl sm:text-4xl md:text-5xl font-bold text-cyan-400"
+              class="text-3xl sm:text-4xl md:text-5xl font-bold"
               id="seconds"
             >
               00
             </div>
-            <div class="text-xs sm:text-sm text-gray-500 uppercase">
+            <div class="text-xs sm:text-sm uppercase"style="color: var(--white);">
               Seconds
             </div>
           </div>
@@ -311,7 +315,7 @@
         >
           <a
             href="#register"
-            class=" text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg hover:shadow-xl hover:shadow-cyan-500/50 transition transform hover:scale-105 text-center" style="background-color: #B91C1C;"
+            class=" text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg hover:shadow-xl hover:shadow-black-500/50 transition transform hover:scale-105 text-center bg-red-500" 
           >
             Register Now <i class="fas fa-arrow-right ml-2"></i>
           </a>
@@ -363,7 +367,7 @@
       </div>
     </section>
 
-    <section id="about" class="py-20 bg-gradient-to-b from-black to-gray-900">
+    <section id="about" class="py-20 bg-white-900">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2 class="text-4xl sm:text-5xl font-black mb-4">

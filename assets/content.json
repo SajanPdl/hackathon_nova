@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "logo": "logo.png",
+    "brand": { "name": "CAPEC", "subtitle": "Hackathon Nova 2026" },
+    "links": [
+      { "label": "About", "href": "#about" },
+      { "label": "Themes", "href": "#themes" },
+      { "label": "Timeline", "href": "#timeline" },
+      { "label": "Prizes", "href": "#prizes" },
+      { "label": "Sponsors", "href": "#sponsors" },
+      { "label": "FAQ", "href": "#faq" }
+    ],
+    "cta": { "label": "Register Now", "href": "#register" }
+  },
+  "hero": {
+    "date": "January 26-29, 2026 | 48 Hours",
+    "title": { "line1": "HACKATHON", "line2": "NOVA" },
+    "subtitle": "Build the Future. Code Innovation. Transform Ideas into Reality.",
+    "location": "Pokhara Engineering College, Nepal",
+    "ctas": [
+      { "label": "Register Now", "href": "#register", "style": "primary" },
+      { "label": "View Rules", "href": "#rules", "style": "secondary" }
+    ]
+  },
+  "about": {
+    "heading": "About Hackathon Nova",
+    "subheading": "Innovate. Collaborate. Compete.",
+    "paragraphs": [
+      "Hackathon Nova 2026 is Nepal's premier student-led technology innovation challenge, bringing together the brightest minds to solve real-world problems through cutting-edge technology. This 48-hour coding marathon is where ideas transform into impactful solutions.",
+      "Organized by the Computer Association of Pokhara Engineering College (CAPEC) and Information Technology Engineering Club - PEC (ITEC-PEC), this national-level hackathon provides a platform for students, developers, and innovators to showcase their skills, learn from industry experts, and compete for exciting prizes."
+    ],
+    "who": ["University & College Students", "Tech Enthusiasts Nationwide"]
+  },
+  "contact": { "email": "capec@pec.edu.np" },
+  "footer": { "copyright": "© 2026 CAPEC - Computer Association of Pokhara Engineering College. All rights reserved."},
+  "pages": {
+    "codeOfConduct": {
+      "title": "Code of Conduct",
+      "description": "Guidelines for a safe, inclusive, and productive hackathon environment.",
+      "content": "<p>CAPEC Hackathon 2026 is dedicated to providing a harassment-free experience for everyone. We do not tolerate harassment of participants in any form and expect all attendees to help create a welcoming environment.</p>"
+    },
+    "schedule": {
+      "title": "Schedule",
+      "description": "Complete 48-hour schedule for Hackathon Nova 2026",
+      "content": "<p>Welcome address, workshops, hacking period, mentoring sessions, and final demos across the 48-hour event.</p>"
+    }
+  }
+}
