@@ -170,6 +170,15 @@
       /* Lightbox Animation */
       @keyframes fade-in { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
       .animate-fade-in { animation: fade-in 0.3s ease-out; }
+
+      @keyframes gradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      .animate-gradient {
+        animation: gradient 8s ease infinite;
+      }
     </style>
   </head>
   <body class="body text-gray-100">
@@ -314,9 +323,12 @@
         style="transform: scale(1.09498) rotate(94.5216deg)"
       ></div>
       <div class="absolute inset-0 bg-black/40"></div>
+      
+      <!-- Interactive Nova Canvas -->
+      <canvas id="nova-canvas" class="absolute inset-0 z-0"></canvas>
 
       <div
-        class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
+        class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pb-48 pt-12"
       >
         <div class="mb-6 sm: mt-4">
           <h2
@@ -332,10 +344,11 @@
             January 27-29, 2026 | 60 Hours
           </span>
           <h1
-            class="text-6xl sm:text-6xl md:text-8xl lg:text-[9rem] font-black mb-8 tracking-tighter leading-[0.85] filter drop-shadow-2xl title-text bg-gradient-to-r from-orange-300 via-red-100 to-orange-300 bg-clip-text text-transparent"
+            class="text-6xl sm:text-6xl md:text-8xl lg:text-[9rem] font-black mb-8 tracking-tighter leading-[0.85] filter drop-shadow-2xl title-text bg-gradient-to-r from-orange-300 via-red-100 to-orange-300 bg-clip-text text-transparent transform hover:scale-105 transition duration-500"
           >
             HACKATHON <br /><span
-              class="block text-7xl sm:text-8xl md:text-[8.5rem] lg:text-[9rem] tracking-tighter leading-[0.85] bg-clip-text bg-gradient-to-r from-yellow-600 via-green-600 to-yellow-600 bg-[length:200%_auto] animate-gradient text-glow-cyan-400 title-text"
+              class="block text-7xl sm:text-8xl md:text-[8.5rem] lg:text-[9rem] tracking-tighter leading-[0.85] bg-clip-text bg-gradient-to-r from-orange-500 via-orange-400 to-green-900 bg-[length:200%_auto] title-text relative z-10"
+              style="text-shadow: 0 0 30px rgba(234, 88, 12, 0.6), 0 0 60px rgba(234, 88, 12, 0.3);"
               >NOVA</span
             >
           </h1>
@@ -358,7 +371,7 @@
         <div
           id="countdown"
           style="color: oklch(85.2% 0.199 91.936)"
-          class="flex justify-center flex-wrap space-x-4 sm:space-x-8 mb-10 gap-y-4"
+          class="flex justify-center flex-wrap space-x-4 sm:space-x-8 mb-10 gap-y-4 relative z-20"
         >
           <div class="text-center">
             <div class="text-3xl sm:text-4xl md:text-5xl font-bold" id="days">
@@ -413,60 +426,34 @@
         </div>
 
         <div
-          class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 px-4"
+          class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 px-4 relative z-30"
         >
           <a
             href="#register"
-            class="w-full sm:w-auto text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg hover:shadow-xl hover:shadow-black-500/50 transition transform hover:scale-105 text-center bg-orange-500"
+            class="w-full sm:w-auto text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-[0_0_30px_rgba(234,88,12,0.4)] transition-all transform hover:scale-105 text-center bg-gradient-to-r from-orange-500 to-orange-600 border border-orange-400/50"
+            id="cta-register"
           >
-            Register Now <i class="fas fa-arrow-right ml-2"></i>
+            Register Now <i class="fas fa-arrow-right ml-2 text-sm opacity-70"></i>
           </a>
           <a
             href="#rules"
-            class="w-full sm:w-auto bg-white/5 backdrop-blur-sm border border-gray-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg hover:bg-white/10 transition text-center"
+            class="w-full sm:w-auto bg-white/5 backdrop-blur-md border border-white/10 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/10 transition-all text-center"
+            id="cta-rules"
           >
-            View Rules <i class="fas fa-book ml-2"></i>
+            View Rules <i class="fas fa-book ml-2 text-sm opacity-70"></i>
           </a>
         </div>
       </div>
 
       <div
-        class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce z-20"
+        class="absolute bottom-24 left-1/2 transform -translate-x-1/2 animate-bounce z-50"
       >
-        <a href="#about" class="text-cyan-400 text-3xl">
+        <a href="#about" class="text-orange-500 text-3xl">
           <i class="fas fa-chevron-down"></i>
         </a>
       </div>
 
-      <!-- Wavy Design -->
-      <div
-        class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z--1"
-      >
-        <svg
-          class="relative block w-full h-24 md:h-32"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-          style="transform: scaleY(-1)"
-        >
-          <path
-            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-            fill="#0891b2"
-            fill-opacity="0.3"
-          ></path>
-          <path
-            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-            fill="#3b82f6"
-            fill-opacity="0.2"
-            transform="translate(50, 5)"
-          ></path>
-          <path
-            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-            fill="#06b6d4"
-            fill-opacity="0.15"
-            transform="translate(-30, 10)"
-          ></path>
-        </svg>
-      </div>
+      <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[rgb(14,23,43)] to-transparent z-10 pointer-events-none"></div>
     </section>
 
     <section id="about" class="py-20">
@@ -2483,6 +2470,142 @@
           nav.classList.remove("shadow-lg");
         }
       });
+    </script>
+
+    <!-- Nova Interactive Canvas Script (Particles + Liquid Waves) -->
+    <script>
+      const canvas = document.getElementById('nova-canvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let mouse = { x: null, y: null, radius: 150 };
+      let time = 0;
+      
+      const ctaElements = [
+        document.getElementById('cta-register'),
+        document.getElementById('cta-rules')
+      ].filter(Boolean);
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.x;
+        mouse.y = e.y;
+      });
+
+      class Particle {
+        constructor() {
+          this.reset();
+        }
+
+        reset() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 2.5 + 0.5;
+          this.speedX = (Math.random() - 0.5) * 0.8;
+          this.speedY = (Math.random() - 0.5) * 0.8;
+          const colors = ['#f97316', '#ea580c', '#fbbf24', '#ef4444', '#ffffff'];
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.opacity = Math.random() * 0.5 + 0.1;
+          this.baseOpacity = this.opacity;
+        }
+
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+
+          if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+          if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+
+          ctaElements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            let dx = centerX - this.x;
+            let dy = centerY - this.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < 200) {
+              this.x += dx * 0.01;
+              this.y += dy * 0.01;
+              this.size = Math.min(this.size + 0.05, 4);
+            }
+          });
+
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < mouse.radius) {
+            const force = (mouse.radius - distance) / mouse.radius;
+            this.x -= (dx / distance) * force * 4;
+            this.y -= (dy / distance) * force * 4;
+          }
+          
+          this.opacity = this.baseOpacity + Math.sin(Date.now() * 0.002) * 0.1;
+        }
+
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.globalAlpha = Math.max(0, this.opacity);
+          ctx.fill();
+        }
+      }
+
+      function drawWave(index, color, speed, amplitude, frequency) {
+        ctx.beginPath();
+        ctx.moveTo(0, canvas.height);
+        
+        const mX = mouse.x || 0;
+        const mY = mouse.y || 0;
+        const mouseEffect = Math.max(0, (canvas.height - mY) / canvas.height) * 20;
+
+        for (let x = 0; x <= canvas.width; x += 10) {
+          const y = Math.sin(x * frequency + time * speed + index) * (amplitude + mouseEffect) + (canvas.height - 60 - index * 15);
+          ctx.lineTo(x, y);
+        }
+        
+        ctx.lineTo(canvas.width, canvas.height);
+        ctx.fillStyle = color;
+        ctx.globalAlpha = 0.3 + (index * 0.1);
+        ctx.fill();
+      }
+
+      function init() {
+        particles = [];
+        const particleCount = Math.min(window.innerWidth / 3, 300);
+        for (let i = 0; i < particleCount; i++) {
+          particles.push(new Particle());
+        }
+      }
+
+      function animate() {
+        time += 0.02;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Dynamic Waves
+        drawWave(0, 'rgba(234, 88, 12, 1)', 0.5, 30, 0.002);
+        drawWave(1, 'rgba(185, 28, 28, 1)', 0.7, 20, 0.003);
+        drawWave(2, 'rgba(249, 115, 22, 1)', 0.4, 25, 0.0025);
+        drawWave(3, 'rgba(14, 23, 43, 1)', 0.6, 15, 0.004);
+
+        // Particles
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+        }
+        
+        requestAnimationFrame(animate);
+      }
+
+      init();
+      animate();
     </script>
     <!-- Lightbox -->
     <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
