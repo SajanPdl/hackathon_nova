@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schedule | CAPEC Hackathon 2026</title>
-    <meta name="description" content="Complete schedule for CAPEC Hackathon 2026 - 48 hours of innovation, coding, and collaboration.">
+    <meta name="description" content="Complete schedule for CAPEC Hackathon 2026 - 60 hours of innovation, coding, and collaboration.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -15,10 +15,8 @@
         }
         
         .gradient-text {
-            background: linear-gradient(90deg, #06b6d4 0%, #3b82f6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: orange;
+        background-clip: text;
         }
         
         .timeline-line {
@@ -38,57 +36,159 @@
         img { max-width: 100%; height: auto; display: block; }
     </style>
 </head>
-<body class="bg-black text-gray-100">
+<body class="text-gray-100" style="background: rgb(14, 23, 43);">
     
-    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-lg border-b border-gray-800 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="../index.html" class="flex items-center space-x-3">
-                    <img src="../assets/logo.png" alt="CAPEC Logo" class="w-10 h-10 rounded-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center" style="display: none;">
-                        <span class="text-white font-bold text-xl">C</span>
-                    </div>
-                    <div>
-                        <div class="text-white font-bold text-lg">Hackathon Nova</div>
-                        <div class="text-cyan-400 text-xs">2026</div>
-                    </div>
-                </a>
-                
-                <a href="../index.html" class="text-gray-300 hover:text-cyan-400 transition">
-                    <i class="fas fa-arrow-left mr-2"></i> Back to Home
-                </a>
+    <nav
+      class="fixed top-0 w-full bg-black/80 backdrop-blur-lg border-b border-gray-800 z-50"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center space-x-3">
+            <a href="/index.html">
+              <img
+                src="../assets/logo.png"
+                alt="Hackathon Nova Logo"
+                class="w-10 h-10 rounded-lg"
+                onerror="this.style.display='none'; document.getElementById('logo-placeholder').style.display='flex';"
+            /></a>
+            <div>
+              <a href="/index.html"
+                ><div
+                  class="font-bold text-xl text-orange-500"
+                  style="font-family: inter"
+                >
+                  Hackathon Nova 2026
+                </div></a
+              >
+              <!-- <div class="text-cyan-400 text-xs">Hackathon Nova 2026</div> -->
             </div>
+          </div>
+
+          <div class="hidden md:flex space-x-8">
+            <a
+              href="/index.html#about"
+              class="text-gray-300 hover:text-cyan-400 transition"
+              >About</a
+            >
+            <a
+              href="/index.html#themes"
+              class="text-gray-300 hover:text-cyan-400 transition"
+              >Themes</a
+            >
+            <a
+              href="/index.html#timeline"
+              class="text-gray-300 hover:text-cyan-400 transition"
+              >Timeline</a
+            >
+            <a
+              href="/index.html#prizes"
+              class="text-gray-300 hover:text-cyan-400 transition"
+              >Prizes</a
+            >
+            <a
+              href="/index.html#sponsors"
+              class="text-gray-300 hover:text-cyan-400 transition"
+              >Sponsors</a
+            >
+            <a href="/index.html#faq" class="text-gray-300 hover:text-cyan-400 transition"
+              >FAQ</a
+            >
+          </div>
+
+          <div class="hidden md:block">
+            <a
+              href="/index.html/#register"
+              class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition"
+            >
+              Register Now
+            </a>
+          </div>
+
+          <button id="mobile-menu-button" class="md:hidden text-white text-2xl">
+            <i class="fas fa-bars"></i>
+          </button>
         </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden bg-black/95 backdrop-blur-lg border-b border-gray-800"
+      >
+        <div class="px-4 py-4 space-y-3">
+          <a
+            href="/index.html#about"
+            class="block text-gray-300 hover:text-cyan-400 transition py-2"
+            >About</a
+          >
+          <a
+            href="/index.html#themes"
+            class="block text-gray-300 hover:text-cyan-400 transition py-2"
+            >Themes</a
+          >
+          <a
+            href="/index.html#timeline"
+            class="block text-gray-300 hover:text-cyan-400 transition py-2"
+            >Timeline</a
+          >
+          <a
+            href="/index.html#prizes"
+            class="block text-gray-300 hover:text-cyan-400 transition py-2"
+            >Prizes</a
+          >
+          <a
+            href="/index.html#sponsors"
+            class="block text-gray-300 hover:text-cyan-400 transition py-2"
+            >Sponsors</a
+          >
+          <a
+            href="/index.html#faq"
+            class="block text-gray-300 hover:text-cyan-400 transition py-2"
+            >FAQ</a
+          >
+          <a
+            href="./index.html#register"
+            class="block bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg font-semibold text-center"
+          >
+            Register Now
+          </a>
+        </div>
+      </div>
     </nav>
 
-    <section class="pt-32 pb-20 bg-gradient-to-b from-black to-gray-900 min-h-screen">
+    <section class="pt-32 pb-20 min-h-screen">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h1 class="text-4xl sm:text-5xl font-black mb-4">
                     Event <span class="gradient-text">Schedule</span>
                 </h1>
                 <div class="w-24 h-1 bg-gradient-to-r from-cyan-500 to-blue-600 mx-auto mb-6"></div>
-                <p class="text-gray-400 text-lg">Complete 48-hour schedule for Hackathon Nova 2026</p>
-                <p class="text-cyan-400 font-semibold mt-2">March 15-16, 2026 | Pokhara Engineering College</p>
+                <p class="text-white text-lg">Complete 60-hour schedule for Hackathon Nova 2026</p>
+                <p class="text-cyan-400 font-semibold mt-2">january 27-29, 2026 | Pokhara Engineering College</p>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-8 mb-12">
-                <div class="bg-gradient-to-br from-cyan-500/10 to-blue-600/10 border border-cyan-500/30 rounded-xl p-8 text-center">
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <a href="#day1"><div class="bg-gradient-to-br from-cyan-500/10 to-blue-600/10 border border-cyan-500/30 rounded-xl p-8 text-center">
                     <div class="text-4xl text-cyan-400 mb-4"><i class="fas fa-calendar-day"></i></div>
                     <h2 class="text-2xl font-bold text-white mb-2">Day 1</h2>
-                    <p class="text-gray-400">Saturday, March 15, 2026</p>
-                </div>
-                <div class="bg-gradient-to-br from-blue-600/10 to-purple-600/10 border border-blue-600/30 rounded-xl p-8 text-center">
+                    <p class="text-white">Saturday, january 27, 2026</p>
+                </div></a>
+                <a href="#day2"><div class="bg-gradient-to-br from-blue-600/10 to-purple-600/10 border border-blue-600/30 rounded-xl p-8 text-center">
                     <div class="text-4xl text-blue-400 mb-4"><i class="fas fa-calendar-check"></i></div>
                     <h2 class="text-2xl font-bold text-white mb-2">Day 2</h2>
-                    <p class="text-gray-400">Sunday, March 16, 2026</p>
-                </div>
+                    <p class="text-white">Sunday, january 28, 2026</p>
+                </div></a>
+                <a href="#day3"><div class="bg-gradient-to-br from-blue-600/10 to-purple-600/10 border border-blue-600/30 rounded-xl p-8 text-center">
+                    <div class="text-4xl text-blue-400 mb-4"><i class="fas fa-calendar-check"></i></div>
+                    <h2 class="text-2xl font-bold text-white mb-2">Day 3</h2>
+                    <p class="text-white">Monday, january 29, 2026</p>
+                </div></a>
             </div>
 
             <div class="mb-16">
                 <div class="flex items-center mb-8">
                     <div class="bg-cyan-500 text-black px-6 py-2 rounded-full font-bold text-lg">
-                        DAY 1 - MARCH 15, 2026
+                        DAY 1 - january 27, 2026
                     </div>
                     <div class="flex-1 h-1 bg-gradient-to-r from-cyan-500 to-transparent ml-4"></div>
                 </div>
@@ -99,8 +199,8 @@
                             <h3 class="text-xl font-bold text-white">Registration & Check-in</h3>
                             <span class="bg-cyan-500/20 text-cyan-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">8:00 AM - 9:00 AM</span>
                         </div>
-                        <p class="text-gray-400 mb-3">Participants arrive, collect their badges, swag bags, and set up their workspaces</p>
-                        <div class="flex items-center text-sm text-gray-500">
+                        <p class="text-white mb-3">Participants arrive, collect their badges, swag bags, and set up their workspaces</p>
+                        <div class="flex items-center text-sm text-white">
                             <i class="fas fa-map-marker-alt mr-2"></i>
                             <span>Registration Desk, Main Lobby</span>
                         </div>
@@ -111,14 +211,14 @@
                             <h3 class="text-xl font-bold text-white">Opening Ceremony</h3>
                             <span class="bg-blue-600/20 text-blue-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">9:00 AM - 10:30 AM</span>
                         </div>
-                        <ul class="text-gray-400 space-y-2 mb-3">
+                        <ul class="text-white space-y-2 mb-3">
                             <li><i class="fas fa-check text-blue-400 mr-2"></i> Welcome address by CAPEC President</li>
                             <li><i class="fas fa-check text-blue-400 mr-2"></i> Keynote speech by Chief Guest</li>
                             <li><i class="fas fa-check text-blue-400 mr-2"></i> Hackathon rules and guidelines overview</li>
                             <li><i class="fas fa-check text-blue-400 mr-2"></i> Theme presentation and Q&A</li>
                             <li><i class="fas fa-check text-blue-400 mr-2"></i> Introduction to mentors and judges</li>
                         </ul>
-                        <div class="flex items-center text-sm text-gray-500">
+                        <div class="flex items-center text-sm text-white">
                             <i class="fas fa-map-marker-alt mr-2"></i>
                             <span>Main Auditorium</span>
                         </div>
@@ -129,8 +229,8 @@
                             <h3 class="text-xl font-bold text-white">Team Formation & Ice Breaker</h3>
                             <span class="bg-green-500/20 text-green-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">10:30 AM - 11:00 AM</span>
                         </div>
-                        <p class="text-gray-400 mb-3">Team building activities and networking session for solo participants to find teammates</p>
-                        <div class="flex items-center text-sm text-gray-500">
+                        <p class="text-white mb-3">Team building activities and networking session for solo participants to find teammates</p>
+                        <div class="flex items-center text-sm text-white">
                             <i class="fas fa-map-marker-alt mr-2"></i>
                             <span>Networking Area</span>
                         </div>
@@ -144,7 +244,7 @@
                             </h3>
                             <span class="bg-yellow-500/20 text-yellow-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">11:00 AM</span>
                         </div>
-                        <p class="text-gray-400 mb-3">The 48-hour coding marathon officially starts. Teams begin building their projects!</p>
+                        <p class="text-white mb-3">The 60-hour coding marathon officially starts. Hacking runs continuously until Monday, january 17, 2026 at 11:00 PM — teams begin building their projects!</p>
                         <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 mt-4">
                             <p class="text-yellow-400 font-semibold text-sm">⏰ Timer starts: All code must be written from this point forward</p>
                         </div>
@@ -155,7 +255,7 @@
                             <h3 class="text-xl font-bold text-white">Lunch Break</h3>
                             <span class="bg-purple-500/20 text-purple-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">1:00 PM - 2:00 PM</span>
                         </div>
-                        <p class="text-gray-400">Complimentary lunch for all participants</p>
+                        <p class="text-white">Complimentary lunch for all participants</p>
                     </div>
 
                     <div class="bg-gradient-to-br from-pink-500/5 to-transparent border-l-4 border-pink-500 rounded-r-xl p-6 card-hover">
@@ -163,8 +263,8 @@
                             <h3 class="text-xl font-bold text-white">Mentorship Session 1</h3>
                             <span class="bg-pink-500/20 text-pink-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">3:00 PM - 5:00 PM</span>
                         </div>
-                        <p class="text-gray-400 mb-3">One-on-one guidance with industry mentors. Teams can book 15-minute slots.</p>
-                        <div class="flex items-center text-sm text-gray-500">
+                        <p class="text-white mb-3">One-on-one guidance with industry mentors. Teams can book 15-minute slots.</p>
+                        <div class="flex items-center text-sm text-white">
                             <i class="fas fa-info-circle mr-2"></i>
                             <span>Sign up at the mentorship desk</span>
                         </div>
@@ -175,7 +275,7 @@
                             <h3 class="text-xl font-bold text-white">Evening Snacks & Refreshments</h3>
                             <span class="bg-orange-500/20 text-orange-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">5:00 PM - 6:00 PM</span>
                         </div>
-                        <p class="text-gray-400">Tea, coffee, and snacks available</p>
+                        <p class="text-white">Tea, coffee, and snacks available</p>
                     </div>
 
                     <div class="bg-gradient-to-br from-cyan-500/5 to-transparent border-l-4 border-cyan-500 rounded-r-xl p-6 card-hover">
@@ -183,8 +283,8 @@
                             <h3 class="text-xl font-bold text-white">Workshop: Pitching Your Idea</h3>
                             <span class="bg-cyan-500/20 text-cyan-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">7:00 PM - 8:00 PM</span>
                         </div>
-                        <p class="text-gray-400 mb-3">Learn how to effectively present your project to judges (Optional but recommended)</p>
-                        <div class="flex items-center text-sm text-gray-500">
+                        <p class="text-white mb-3">Learn how to effectively present your project to judges (Optional but recommended)</p>
+                        <div class="flex items-center text-sm text-white">
                             <i class="fas fa-map-marker-alt mr-2"></i>
                             <span>Workshop Room</span>
                         </div>
@@ -195,7 +295,7 @@
                             <h3 class="text-xl font-bold text-white">Dinner</h3>
                             <span class="bg-blue-600/20 text-blue-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">8:00 PM - 9:00 PM</span>
                         </div>
-                        <p class="text-gray-400">Hot dinner served for all participants</p>
+                        <p class="text-white">Hot dinner served for all participants</p>
                     </div>
 
                     <div class="bg-gradient-to-br from-indigo-500/5 to-transparent border-l-4 border-indigo-500 rounded-r-xl p-6 card-hover">
@@ -203,26 +303,26 @@
                             <h3 class="text-xl font-bold text-white">Midnight Snacks</h3>
                             <span class="bg-indigo-500/20 text-indigo-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">12:00 AM - 1:00 AM</span>
                         </div>
-                        <p class="text-gray-400">Pizza, energy drinks, and snacks for the night owls</p>
+                        <p class="text-white">Pizza, energy drinks, and snacks for the night owls</p>
                     </div>
 
-                    <div class="bg-gradient-to-br from-gray-500/5 to-transparent border-l-4 border-gray-500 rounded-r-xl p-6">
+                    <div class="bg-gradient-to-br from-white/5 to-transparent border-l-4 border-white rounded-r-xl p-6">
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-3">
                             <h3 class="text-xl font-bold text-white">Overnight Hacking</h3>
-                            <span class="bg-gray-500/20 text-gray-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">All Night</span>
+                            <span class="bg-white/20 text-white px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">All Night</span>
                         </div>
-                        <p class="text-gray-400 mb-3">Venue open 24/7. Coffee and snacks available throughout the night.</p>
-                        <div class="bg-gray-500/10 border border-gray-500/30 rounded-lg p-4 mt-4">
-                            <p class="text-gray-300 text-sm"><i class="fas fa-bed text-gray-400 mr-2"></i> Quiet zones available for rest</p>
+                        <p class="text-white mb-3">Venue open 24/7. Coffee and snacks available throughout the night.</p>
+                        <div class="bg-white/10 border border-white/30 rounded-lg p-4 mt-4">
+                            <p class="text-gray-300 text-sm"><i class="fas fa-bed text-white mr-2"></i> Quiet zones available for rest</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div>
-                <div class="flex items-center mb-8">
+                <div class="flex items-center mb-8" id="day2">
                     <div class="bg-blue-600 text-white px-6 py-2 rounded-full font-bold text-lg">
-                        DAY 2 - MARCH 16, 2026
+                        DAY 2 - january 27, 2026
                     </div>
                     <div class="flex-1 h-1 bg-gradient-to-r from-blue-600 to-transparent ml-4"></div>
                 </div>
@@ -233,7 +333,7 @@
                             <h3 class="text-xl font-bold text-white">Breakfast</h3>
                             <span class="bg-yellow-500/20 text-yellow-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">8:00 AM - 9:00 AM</span>
                         </div>
-                        <p class="text-gray-400">Fresh breakfast to energize teams for the final stretch</p>
+                        <p class="text-white">Fresh breakfast to energize teams for the final stretch</p>
                     </div>
 
                     <div class="bg-gradient-to-br from-green-500/5 to-transparent border-l-4 border-green-500 rounded-r-xl p-6 card-hover">
@@ -241,8 +341,15 @@
                             <h3 class="text-xl font-bold text-white">Mentorship Session 2</h3>
                             <span class="bg-green-500/20 text-green-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">9:00 AM - 11:00 AM</span>
                         </div>
-                        <p class="text-gray-400">Final round of mentorship. Get last-minute technical help and presentation feedback.</p>
+                        <p class="text-white">Final round of mentorship. Get last-minute technical help and presentation feedback.</p>
                     </div>
+
+                <div class="flex items-center mb-8" id="day3">
+                    <div class="bg-teal-500 text-white px-6 py-2 rounded-full font-bold text-lg">
+                        DAY 3 - january 28, 2026
+                    </div>
+                    <div class="flex-1 h-1 bg-gradient-to-r from-teal-500 to-transparent ml-4"></div>
+                </div>
 
                     <div class="bg-gradient-to-br from-red-500/5 to-transparent border-l-4 border-red-500 rounded-r-xl p-6 card-hover">
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-3">
@@ -250,9 +357,9 @@
                                 <i class="fas fa-flag-checkered text-red-400 mr-2"></i>
                                 Hacking Ends - Submission Deadline
                             </h3>
-                            <span class="bg-red-500/20 text-red-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">11:00 AM SHARP</span>
+                            <span class="bg-red-500/20 text-red-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">11:00 PM SHARP</span>
                         </div>
-                        <p class="text-gray-400 mb-3">All projects must be submitted by this time. No extensions!</p>
+                        <p class="text-white mb-3">All projects must be submitted by Monday, january 17, 2026, 11:00 PM. No extensions!</p>
                         <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-4 mt-4">
                             <p class="text-red-400 font-semibold text-sm mb-2">📤 Submission Requirements:</p>
                             <ul class="text-gray-300 text-sm space-y-1">
@@ -269,7 +376,7 @@
                             <h3 class="text-xl font-bold text-white">Lunch Break</h3>
                             <span class="bg-purple-500/20 text-purple-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">11:00 AM - 12:30 PM</span>
                         </div>
-                        <p class="text-gray-400">Lunch while judges review submissions</p>
+                        <p class="text-white">Lunch while judges review submissions</p>
                     </div>
 
                     <div class="bg-gradient-to-br from-orange-500/5 to-transparent border-l-4 border-orange-500 rounded-r-xl p-6 card-hover">
@@ -277,7 +384,7 @@
                             <h3 class="text-xl font-bold text-white">Judging Round 1: Initial Screening</h3>
                             <span class="bg-orange-500/20 text-orange-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">12:30 PM - 1:00 PM</span>
                         </div>
-                        <p class="text-gray-400">Judges review all submissions and select top 15 teams for presentations</p>
+                        <p class="text-white">Judges review all submissions and select top 15 teams for presentations</p>
                     </div>
 
                     <div class="bg-gradient-to-br from-cyan-500/5 to-transparent border-l-4 border-cyan-500 rounded-r-xl p-6 card-hover">
@@ -285,12 +392,12 @@
                             <h3 class="text-xl font-bold text-white">Final Presentations & Demos</h3>
                             <span class="bg-cyan-500/20 text-cyan-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">1:00 PM - 4:30 PM</span>
                         </div>
-                        <p class="text-gray-400 mb-3">Top 15 teams present to judges and audience</p>
-                        <ul class="text-gray-400 space-y-2 text-sm">
+                        <p class="text-white mb-3">Top 10 teams present to judges and audience</p>
+                        <ul class="text-white space-y-2 text-sm">
                             <li><i class="fas fa-clock text-cyan-400 mr-2"></i> 5 minutes presentation + 3 minutes Q&A per team</li>
                             <li><i class="fas fa-users text-cyan-400 mr-2"></i> Open to all participants and guests</li>
                         </ul>
-                        <div class="flex items-center text-sm text-gray-500 mt-3">
+                        <div class="flex items-center text-sm text-white mt-3">
                             <i class="fas fa-map-marker-alt mr-2"></i>
                             <span>Main Auditorium</span>
                         </div>
@@ -301,7 +408,7 @@
                             <h3 class="text-xl font-bold text-white">Judges' Deliberation</h3>
                             <span class="bg-blue-600/20 text-blue-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">4:30 PM - 5:00 PM</span>
                         </div>
-                        <p class="text-gray-400">Final scoring and winner selection</p>
+                        <p class="text-white">Final scoring and winner selection</p>
                     </div>
 
                     <div class="bg-gradient-to-br from-yellow-500/5 to-transparent border-l-4 border-yellow-500 rounded-r-xl p-6 card-hover">
@@ -312,14 +419,14 @@
                             </h3>
                             <span class="bg-yellow-500/20 text-yellow-400 px-4 py-1 rounded-full text-sm font-semibold mt-2 md:mt-0 inline-block">5:00 PM - 6:00 PM</span>
                         </div>
-                        <ul class="text-gray-400 space-y-2 mb-3">
+                        <ul class="text-white space-y-2 mb-3">
                             <li><i class="fas fa-check text-yellow-400 mr-2"></i> Winners announcement</li>
                             <li><i class="fas fa-check text-yellow-400 mr-2"></i> Prize distribution</li>
                             <li><i class="fas fa-check text-yellow-400 mr-2"></i> Certificate distribution</li>
                             <li><i class="fas fa-check text-yellow-400 mr-2"></i> Closing remarks</li>
                             <li><i class="fas fa-check text-yellow-400 mr-2"></i> Group photos and networking</li>
                         </ul>
-                        <div class="flex items-center text-sm text-gray-500">
+                        <div class="flex items-center text-sm text-white">
                             <i class="fas fa-map-marker-alt mr-2"></i>
                             <span>Main Auditorium</span>
                         </div>
@@ -331,7 +438,7 @@
                 <div class="bg-gradient-to-br from-cyan-500/10 to-transparent border border-gray-800 rounded-xl p-6">
                     <div class="text-3xl text-cyan-400 mb-3"><i class="fas fa-wifi"></i></div>
                     <h3 class="text-lg font-bold text-white mb-2">Facilities Available</h3>
-                    <ul class="text-gray-400 text-sm space-y-1">
+                    <ul class="text-white text-sm space-y-1">
                         <li>• High-speed WiFi</li>
                         <li>• Power outlets at all desks</li>
                         <li>• Printing services</li>
@@ -343,7 +450,7 @@
                 <div class="bg-gradient-to-br from-green-500/10 to-transparent border border-gray-800 rounded-xl p-6">
                     <div class="text-3xl text-green-400 mb-3"><i class="fas fa-utensils"></i></div>
                     <h3 class="text-lg font-bold text-white mb-2">Food & Beverages</h3>
-                    <ul class="text-gray-400 text-sm space-y-1">
+                    <ul class="text-white text-sm space-y-1">
                         <li>• 3 full meals included</li>
                         <li>• 24/7 coffee & tea</li>
                         <li>• Snacks throughout</li>
@@ -355,7 +462,7 @@
                 <div class="bg-gradient-to-br from-purple-500/10 to-transparent border border-gray-800 rounded-xl p-6">
                     <div class="text-3xl text-purple-400 mb-3"><i class="fas fa-info-circle"></i></div>
                     <h3 class="text-lg font-bold text-white mb-2">Important Notes</h3>
-                    <ul class="text-gray-400 text-sm space-y-1">
+                    <ul class="text-white text-sm space-y-1">
                         <li>• Arrive on time for registration</li>
                         <li>• Bring valid ID</li>
                         <li>• Laptop & chargers required</li>
@@ -367,14 +474,154 @@
 
             <div class="mt-12 bg-gradient-to-r from-cyan-500/10 to-blue-600/10 border border-cyan-500/30 rounded-xl p-8 text-center">
                 <h3 class="text-2xl font-bold text-white mb-4">Questions about the schedule?</h3>
-                <p class="text-gray-400 mb-6">Contact us for any clarifications</p>
-                <a href="mailto:capec@pec.edu.np" class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:shadow-xl hover:shadow-cyan-500/50 transition inline-block">
+                <p class="text-white mb-6">Contact us for any clarifications</p>
+                <a href="mailto:capec@pec.edu.np" class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-3 rounded-lg font-bold hover:shadow-xl hover:shadow-cyan-500/50 transition inline-block">
                     <i class="fas fa-envelope mr-2"></i> Contact Organizers
                 </a>
             </div>
 
-            <div class="mt-12 text-center">
-                <a href="../index.html" class="text-gray-400 hover:text-cyan-400 transition">
-                    <i class="fas fa-arrow-left mr-2"></i> Back to Home
-                </a>
-            
+        </div>
+    </section>
+      <footer
+      class=" border-t border-gray-800 py-12" style="background: rgb(14, 23, 43);"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-4 gap-8 mb-8">
+          <div>
+            <div class="flex items-center space-x-3 mb-4">
+              <div
+                class="w-10 h-10 rounded-lg flex items-center justify-center"
+              >
+                <img src="/assets/logo.png" alt="" />
+              </div>
+              <div>
+                <div class="text-white font-bold text-lg">
+                  Hackathon Nova 2026
+                </div>
+              </div>
+            </div>
+            <p class="text-white-400 text-sm leading-relaxed">
+              Building the future through innovation, collaboration, and
+              technology at Pokhara Engineering College.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-white font-bold mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#about"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
+                  >About</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#themes"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
+                  >Themes</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#timeline"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
+                  >Timeline</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#prizes"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
+                  >Prizes</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#register"
+                  class="text-whit-400 hover:text-cyan-400 transition text-sm"
+                  >Register</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-white font-bold mb-4">Resources</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#rules"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
+                  >Rules</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#judging"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
+                  >Judging Criteria</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#faq"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
+                  >FAQ</a
+                >
+              </li>
+              <li>
+                <a
+                  href="pages/codeOfConduct.html"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
+                  >Code of Conduct</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#contact"
+                  class="text-white-400 hover:text-cyan-400 transition text-sm"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-white font-bold mb-4">About Hackathon Nova</h3>
+            <p class="text-white-400 text-sm leading-relaxed mb-4">
+              Hackathon Nova is a 60-hour student-focused hackathon organized by
+              CAPEC and ITEC-PEC at Pokhara Engineering College.
+            </p>
+            <a
+              href="https://forms.gle/ERX6Va5zVJqSMHJa8" target="_blank"
+              class="bg-orange-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition inline-block"
+            >
+              Register Now
+            </a>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-800 pt-8">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <p class="text-white-400 text-sm mb-4 md:mb-0">
+              © 2026 CAPEC - Hackathon Nova. All rights reserved.
+            </p>
+            <div class="flex space-x-6 text-sm">
+              <a href="#" class="text-white-400 hover:text-cyan-400 transition"
+                >Privacy Policy</a
+              >
+              <a href="#" class="text-white-400 hover:text-cyan-400 transition"
+                >Terms of Service</a
+              >
+              <a
+                href="/pages/codeOfConduct.html"
+                class="text-white-400 hover:text-cyan-400 transition"
+                >Code of Conduct</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
