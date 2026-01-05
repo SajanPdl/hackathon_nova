@@ -166,6 +166,10 @@
         .span-2x2 { grid-column: span 2; grid-row: span 2; }
         .span-1x1 { grid-column: span 1; grid-row: span 1; }
       }
+
+      /* Lightbox Animation */
+      @keyframes fade-in { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+      .animate-fade-in { animation: fade-in 0.3s ease-out; }
     </style>
   </head>
   <body class="body text-gray-100">
@@ -1551,6 +1555,32 @@
         </div>
       </div>
     </section>
+    <section id="gallery" class="py-20 bg-black/20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl sm:text-5xl font-black mb-4">
+            Event <span class="gradient-text">Gallery</span>
+          </h2>
+          <div class="w-24 h-1 bg-gradient-to-r from-cyan-500 to-blue-600 mx-auto mb-6"></div>
+          <p class="text-gray-400 text-lg">
+            Highlights from previous events
+          </p>
+        </div>
+
+        <!-- 
+             data-source points to your JSON file. 
+             data-limit optional: limits how many items to show on home page (e.g., 6 or 12).
+        -->
+        <div class="bento mb-12" data-source="/assets/gallery.json" data-limit="12"></div>
+         
+        <div class="text-center">
+             <a href="/pages/gallery.html" class="inline-block border border-cyan-500 text-cyan-400 px-6 py-2 rounded-lg font-semibold hover:bg-cyan-500/10 transition">
+                 View Full Gallery <i class="fas fa-arrow-right ml-2"></i>
+             </a>
+        </div>
+      </div>
+    </section>
+
     <!-- sponsers -->
     <section id="sponsors" class="py-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -2437,5 +2467,31 @@
         }
       });
     </script>
+    <!-- Lightbox -->
+    <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+        <button id="lb-close" class="absolute top-4 right-4 text-white hover:text-orange-500 z-50 p-2">
+            <i class="fas fa-times text-2xl"></i>
+        </button>
+        <button id="lb-prev" class="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-orange-500 z-50 p-4 hidden md:block">
+            <i class="fas fa-chevron-left text-3xl"></i>
+        </button>
+        <button id="lb-next" class="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-orange-500 z-50 p-4 hidden md:block">
+            <i class="fas fa-chevron-right text-3xl"></i>
+        </button>
+        <div class="relative w-full h-full max-w-7xl max-h-screen p-4 flex flex-col items-center justify-center">
+            <div id="lb-content" class="w-full h-full flex items-center justify-center relative"></div>
+            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-4 bg-black/50 backdrop-blur-md px-6 py-3 rounded-full border border-white/10">
+                <button id="lb-download" class="text-white hover:text-cyan-400 flex items-center gap-2 px-2 transition" title="Download High Quality">
+                    <i class="fas fa-download"></i> <span class="hidden sm:inline">Download</span>
+                </button>
+                <div class="w-px bg-white/20"></div>
+                <button id="lb-share" class="text-white hover:text-green-400 flex items-center gap-2 px-2 transition" title="Share">
+                    <i class="fas fa-share-alt"></i> <span class="hidden sm:inline">Share</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/gallery-loader.js"></script>
   </body>
 </html>
