@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gallery | CAPEC Hackathon 2026</title>
+    <meta
+      name="description"
+      content="Gallery for CAPEC Hackathon 2026 - event highlights and snapshots."
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+      * { font-family: "Inter", sans-serif; }
+      ::-webkit-scrollbar { display: none; }
+      .gradient-text { color: orange; background-clip: text; }
+
+      /* Bento grid styles */
+      .bento {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 0.75rem;
+        grid-auto-rows: 9rem;
+      }
+      .bento-item {
+        overflow: hidden;
+        border-radius: 0.5rem;
+        background: #0b1220;
+      }
+      .bento-item img,
+      .bento-item video,
+      .bento-item iframe { width: 100%; height: 100%; object-fit: cover; display: block; border: 0; }
+      .span-2x2 { grid-column: span 4; grid-row: span 2; }
+      .span-1x1 { grid-column: span 2; grid-row: span 1; }
+      @media (max-width: 768px) {
+        .bento { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 9rem; }
+        .span-2x2 { grid-column: span 2; grid-row: span 2; }
+        .span-1x1 { grid-column: span 1; grid-row: span 1; }
+      }
+      img { max-width: 100%; height: auto; display: block; }
+    </style>
+  </head>
+  <body class="text-gray-100" style="background: rgb(14, 23, 43)">
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-lg border-b border-gray-800 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center space-x-3">
+            <a href="/">
+              <img src="/assets/logo.png" alt="" class="w-10 h-10 rounded-lg" />
+            </a>
+            <div>
+              <a href="/"><div class="font-bold text-xl text-orange-500" style="font-family: inter">Hackathon Nova 2026</div></a>
+            </div>
+          </div>
+
+          <div class="hidden md:flex space-x-8">
+            <a href="/index.html#about" class="text-gray-300 hover:text-cyan-400 transition">About</a>
+            <a href="/index.html#themes" class="text-gray-300 hover:text-cyan-400 transition">Themes</a>
+            <a href="/index.html#timeline" class="text-gray-300 hover:text-cyan-400 transition">Timeline</a>
+            <a href="/index.html#prizes" class="text-gray-300 hover:text-cyan-400 transition">Prizes</a>
+            <a href="/index.html#sponsors" class="text-gray-300 hover:text-cyan-400 transition">Sponsors</a>
+            <a href="/index.html#faq" class="text-gray-300 hover:text-cyan-400 transition">FAQ</a>
+          </div>
+
+          <div class="hidden md:block">
+            <a href="/index.html#register" class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition">Register Now</a>
+          </div>
+
+          <button id="mobile-menu-button" class="md:hidden text-white text-2xl"><i class="fas fa-bars"></i></button>
+        </div>
+      </div>
+
+      <div id="mobile-menu" class="hidden md:hidden bg-black/95 backdrop-blur-lg border-b border-gray-800">
+        <div class="px-4 py-4 space-y-3">
+          <a href="/index.html#about" class="block text-gray-300 hover:text-orange-400 transition py-2">About</a>
+          <a href="/index.html#themes" class="block text-gray-300 hover:text-cyan-400 transition py-2">Themes</a>
+          <a href="/index.html#timeline" class="block text-gray-300 hover:text-cyan-400 transition py-2">Timeline</a>
+          <a href="/index.html#prizes" class="block text-gray-300 hover:text-cyan-400 transition py-2">Prizes</a>
+          <a href="/index.html#sponsors" class="block text-gray-300 hover:text-cyan-400 transition py-2">Sponsors</a>
+          <a href="/index.html#faq" class="block text-gray-300 hover:text-cyan-400 transition py-2">FAQ</a>
+          <a href="/index.html#register" class="block bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg font-semibold text-center">Register Now</a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="pt-32 pb-8 min-h-screen">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h1 class="text-4xl sm:text-5xl font-black mb-4">Event <span class="gradient-text">Gallery</span></h1>
+          <div class="w-24 h-1 bg-gradient-to-r from-cyan-500 to-blue-600 mx-auto mb-6"></div>
+          <p class="text-white text-lg">Gallery of highlights from Hackathon Nova 2026</p>
+        </div>
+
+        <div class="bento mb-12" data-source="/assets/gallery.json"></div>
+
+        <div class="text-center">
+          <p class="text-gray-400 text-sm">Images are representative; replace with event photos in <code>assets/</code> as needed.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="border-t border-gray-800 py-12" style="background: rgb(14, 23, 43)">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-4 gap-8 mb-8">
+          <div>
+            <div class="flex items-center space-x-3 mb-4">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center">
+                <img src="/assets/logo.png" alt="" />
+              </div>
+              <div>
+                <div class="text-white font-bold text-lg">Hackathon Nova 2026</div>
+              </div>
+            </div>
+            <p class="text-white-400 text-sm leading-relaxed">Building the future through innovation, collaboration, and technology at Pokhara Engineering College.</p>
+          </div>
+
+          <div>
+            <h3 class="text-white font-bold mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li><a href="/index.html#about" class="text-white-400 hover:text-cyan-400 transition text-sm">About</a></li>
+              <li><a href="/index.html#themes" class="text-white-400 hover:text-cyan-400 transition text-sm">Themes</a></li>
+              <li><a href="/index.html#timeline" class="text-white-400 hover:text-cyan-400 transition text-sm">Timeline</a></li>
+              <li><a href="/index.html#prizes" class="text-white-400 hover:text-cyan-400 transition text-sm">Prizes</a></li>
+              <li><a href="/index.html#register" class="text-whit-400 hover:text-cyan-400 transition text-sm">Register</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-white font-bold mb-4">Resources</h3>
+            <ul class="space-y-2">
+              <li><a href="/index.html#rules" class="text-white-400 hover:text-cyan-400 transition text-sm">Rules</a></li>
+              <li><a href="/index.html#judging" class="text-white-400 hover:text-cyan-400 transition text-sm">Judging Criteria</a></li>
+              <li><a href="/index.html#faq" class="text-white-400 hover:text-cyan-400 transition text-sm">FAQ</a></li>
+              <li><a href="/pages/codeOfConduct.html" class="text-white-400 hover:text-cyan-400 transition text-sm">Code of Conduct</a></li>
+              <li><a href="/index.html#contact" class="text-white-400 hover:text-cyan-400 transition text-sm">Contact</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-white font-bold mb-4">About Hackathon Nova</h3>
+            <p class="text-white-400 text-sm leading-relaxed mb-4">Hackathon Nova is a 60-hour student-focused hackathon organized by CAPEC and ITEC-PEC at Pokhara Engineering College.</p>
+            <a href="https://forms.gle/ERX6Va5zVJqSMHJa8" target="_blank" class="bg-orange-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition inline-block">Register Now</a>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-800 pt-8">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <p class="text-white-400 text-sm mb-4 md:mb-0">© 2026 CAPEC - Hackathon Nova. All rights reserved.</p>
+            <div class="flex space-x-6 text-sm">
+              <a href="#" class="text-white-400 hover:text-cyan-400 transition">Privacy Policy</a>
+              <a href="#" class="text-white-400 hover:text-cyan-400 transition">Terms of Service</a>
+              <a href="/pages/codeOfConduct.html" class="text-white-400 hover:text-cyan-400 transition">Code of Conduct</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu toggle
+      document.getElementById('mobile-menu-button').addEventListener('click', function(){
+        const m = document.getElementById('mobile-menu');
+        m.classList.toggle('hidden');
+      });
+    </script>
+    <script src="/assets/gallery-loader.js"></script>
+  </body>
+</html>
