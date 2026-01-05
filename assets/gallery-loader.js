@@ -129,6 +129,7 @@
         video.src = item.src;
         video.controls = true;
         video.autoplay = true;
+        video.muted = true;
         video.className = 'max-w-full max-h-[85vh] shadow-2xl rounded-lg bg-black';
         wrapper.appendChild(video);
     } else if(item.type === 'youtube'){
