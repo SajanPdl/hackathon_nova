@@ -303,6 +303,35 @@
                 }
 
                 let error;
+                let resultId = editId;
+
+                // Helper function to log activity
+                async function logActivity(actionType, entityType, entityId, description, metadata = {}) {
+                    try {
+                        const { data: { user } } = await supabase.auth.getUser();
+                        if (!user) return;
+
+                        const activityData = {
+                            user_id: user.id,
+                            user_email: user.email,
+                            action_type: actionType,
+                            entity_type: entityType,
+                            entity_id: entityId,
+                            description: description,
+                            metadata: metadata
+                        };
+
+                        const { error: logError } = await supabase
+                            .from('activity_log')
+                            .insert([activityData]);
+
+                        if (logError) {
+                            console.error('Error logging activity:', logError);
+                        }
+                    } catch (logErr) {
+                        console.error('Error logging activity:', logErr);
+                    }
+                }
 
                 if (editId) {
                     // Update
@@ -311,12 +340,36 @@
                         .update(payload)
                         .eq('id', editId);
                     error = updateError;
+
+                    if (!error) {
+                        // Log update activity
+                        await logActivity(
+                            'update',
+                            'announcement',
+                            editId,
+                            `Updated announcement: "${title}"`,
+                            { announcement_id: editId, title: title, type: type }
+                        );
+                    }
                 } else {
                     // Insert
-                    const { error: insertError } = await supabase
+                    const { data: insertData, error: insertError } = await supabase
                         .from('announcements')
-                        .insert([payload]);
+                        .insert([payload])
+                        .select();
                     error = insertError;
+
+                    if (!error && insertData && insertData.length > 0) {
+                        resultId = insertData[0].id;
+                        // Log create activity
+                        await logActivity(
+                            'create',
+                            'announcement',
+                            resultId,
+                            `Created announcement: "${title}"`,
+                            { announcement_id: resultId, title: title, type: type }
+                        );
+                    }
                 }
 
                 if (error) throw error;
