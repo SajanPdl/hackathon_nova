@@ -1,0 +1,6 @@
+[
+  {"type":"video","src":"/assets/meetingvid.mp4","alt":"Event highlight video","span":"2x2","poster":"/assets/meetingthumb.jpg"},
+  {"type":"image","src":"/assets/gallery/meeting.jpeg","alt":"group discussion","span":"2x1"},
+  {"type":"image","src":"/assets/gallery/met2.jpeg","alt":"expo meeting","span":"1x1"}
+  
+]

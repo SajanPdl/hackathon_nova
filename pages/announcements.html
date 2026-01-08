@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements | Hackathon Nova 2026</title>
+    <meta name="description" content="Latest news and announcements for Hackathon Nova 2026. Stay updated!">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gradient-text {
+            color: orange;
+            background-clip: text;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body class="text-gray-100" style="background-color: rgb(14, 23, 43);">
+
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-lg border-b border-gray-800 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <a href="../index.html">
+                        <img src="../assets/logo.png" alt="Hackathon Nova Logo" class="w-10 h-10 rounded-lg"
+                            onerror="this.style.display='none'; document.getElementById('logo-placeholder').style.display='flex';" /></a>
+                    <div>
+                        <a href="../index.html">
+                            <div class="font-bold text-xl text-orange-500" style="font-family: inter">
+                                Hackathon Nova 2026
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hidden md:flex space-x-8">
+                    <a href="../index.html#about" class="text-gray-300 hover:text-orange-200 transition">About</a>
+                    <a href="announcements.html"
+                        class="text-orange-500 hover:text-orange-200 transition font-semibold">Announcements</a>
+                    <a href="../index.html#themes" class="text-gray-300 hover:text-orange-200 transition">Themes</a>
+                    <a href="../index.html#timeline" class="text-gray-300 hover:text-orange-200 transition">Timeline</a>
+                    <a href="../index.html#prizes" class="text-gray-300 hover:text-orange-200 transition">Prizes</a>
+                    <a href="../index.html#sponsors" class="text-gray-300 hover:text-orange-200 transition">Sponsors</a>
+                    <a href="gallery.html" class="text-gray-300 hover:text-orange-200 transition">Gallery</a>
+                    <a href="../index.html#faq" class="text-gray-300 hover:text-orange-200 transition">FAQ</a>
+                </div>
+
+                <div class="hidden md:block">
+                    <a href="../index.html#register"
+                        class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition">
+                        Register Now
+                    </a>
+                </div>
+
+                <button id="mobile-menu-button" class="md:hidden text-white text-2xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black/95 backdrop-blur-lg border-b border-gray-800">
+            <div class="px-4 py-4 space-y-3">
+                <a href="../index.html#about"
+                    class="block text-gray-300 hover:text-orange-200 transition py-2">About</a>
+                <a href="announcements.html"
+                    class="block text-orange-500 hover:text-orange-200 transition py-2 font-semibold">Announcements</a>
+                <a href="../index.html#themes"
+                    class="block text-gray-300 hover:text-orange-200 transition py-2">Themes</a>
+                <a href="../index.html#timeline"
+                    class="block text-gray-300 hover:text-orange-200 transition py-2">Timeline</a>
+                <a href="../index.html#prizes"
+                    class="block text-gray-300 hover:text-orange-200 transition py-2">Prizes</a>
+                <a href="../index.html#sponsors"
+                    class="block text-gray-300 hover:text-orange-200 transition py-2">Sponsors</a>
+                <a href="gallery.html" class="block text-gray-300 hover:text-orange-200 transition py-2">Gallery</a>
+                <a href="../index.html#faq" class="block text-gray-300 hover:text-orange-200 transition py-2">FAQ</a>
+                <a href="../index.html#register"
+                    class="block bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg font-semibold text-center">
+                    Register Now
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="pt-32 pb-20 min-h-screen">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h1 class="text-4xl sm:text-5xl font-black mb-4">
+                    Latest <span class="gradient-text">Announcements</span>
+                </h1>
+                <div class="w-24 h-1 bg-gradient-to-r from-orange-500 to-red-600 mx-auto mb-6"></div>
+                <p class="text-gray-400 text-lg">Stay up to date with the latest news and updates from Hackathon Nova
+                </p>
+            </div>
+
+            <div class="space-y-6">
+                <div id="announcements-container" class="space-y-6">
+                    <!-- Loading State -->
+                    <div class="text-center py-20">
+                        <i class="fas fa-spinner fa-spin text-4xl text-orange-500 mb-4"></i>
+                        <p class="text-gray-400">Loading announcements...</p>
+                    </div>
+                </div>
+
+                <script src="../assets/js/supabase-config.js"></script>
+                <script src="../assets/js/supabase-client.js"></script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const container = document.getElementById('announcements-container');
+
+                        // Modal Elements
+                        const modal = document.getElementById('announcement-modal');
+                        const modalTitle = document.getElementById('modal-title');
+                        const modalDate = document.getElementById('modal-date');
+                        const modalType = document.getElementById('modal-type');
+                        const modalImageContainer = document.getElementById('modal-image-container');
+                        const modalImage = document.getElementById('modal-image');
+                        const modalPdfContainer = document.getElementById('modal-pdf-container');
+                        const modalPdfLink = document.getElementById('modal-pdf-link');
+                        const modalContent = document.getElementById('modal-content');
+                        const closeModalBtn = document.getElementById('close-modal');
+
+                        // Make openModal global so onclick can find it
+                        window.openModal = function (item) {
+                            const date = new Date(item.created_at).toLocaleDateString('en-US', {
+                                year: 'numeric', month: 'long', day: 'numeric'
+                            });
+
+                            modalTitle.innerText = item.title;
+                            modalDate.innerHTML = `<i class="far fa-calendar-alt mr-2"></i>${date}`;
+                            modalType.innerText = item.type;
+                            modalContent.innerText = item.content;
+
+                            // Reset Attachments
+                            modalImageContainer.classList.add('hidden');
+                            modalPdfContainer.classList.add('hidden');
+
+                            if (item.attachment_url) {
+                                if (item.attachment_type === 'image') {
+                                    modalImageContainer.classList.remove('hidden');
+                                    modalImage.src = item.attachment_url;
+                                } else if (item.attachment_type === 'pdf') {
+                                    modalPdfContainer.classList.remove('hidden');
+                                    modalPdfLink.href = item.attachment_url;
+                                }
+                            }
+
+                            modal.classList.remove('hidden');
+                            document.body.style.overflow = 'hidden'; // Prevent scrolling
+                        };
+
+                        window.closeModal = function () {
+                            modal.classList.add('hidden');
+                            document.body.style.overflow = 'auto'; // Restore scrolling
+                        };
+
+                        if (closeModalBtn) closeModalBtn.addEventListener('click', window.closeModal);
+
+                        // Close on click outside
+                        if (modal) modal.addEventListener('click', (e) => {
+                            if (e.target === modal) window.closeModal();
+                        });
+
+
+                        async function fetchAllAnnouncements() {
+                            try {
+                                // Robust check for Supabase initialization
+                                let attempts = 0;
+                                while ((typeof supabase === 'undefined' || !supabase) && attempts < 20) {
+                                    await new Promise(resolve => setTimeout(resolve, 100)); // Wait 100ms
+                                    attempts++;
+                                }
+
+                                if (typeof supabase === 'undefined' || !supabase) {
+                                    if (container) {
+                                        container.innerHTML = `
+                                            <div class="text-center py-10 bg-white/5 rounded-xl border border-white/10">
+                                                <i class="fas fa-exclamation-circle text-4xl text-yellow-500 mb-4"></i>
+                                                <h3 class="text-xl font-bold text-white mb-2">Setup Required</h3>
+                                                <p class="text-gray-400">Supabase connection not configured or slow connection. Please refresh.</p>
+                                            </div>
+                                        `;
+                                    }
+                                    console.error('Supabase failed to initialize after 2 seconds.');
+                                    return;
+                                }
+
+                                const { data, error } = await supabase
+                                    .from('announcements')
+                                    .select('*')
+                                    .eq('is_active', true)
+                                    .order('created_at', { ascending: false });
+
+                                if (error) throw error;
+
+                                if (!data || data.length === 0) {
+                                    if (container) {
+                                        container.innerHTML = `
+                                            <div class="text-center py-20 bg-white/5 rounded-xl border border-white/10">
+                                                <i class="far fa-folder-open text-5xl text-gray-600 mb-4"></i>
+                                                <h3 class="2xl font-bold text-white mb-2">No Announcements Yet</h3>
+                                                <p class="text-gray-400">Check back later for updates!</p>
+                                            </div>
+                                        `;
+                                    }
+                                    return;
+                                }
+
+                                if (container) container.innerHTML = '';
+
+                                // Store globally
+                                window.announcementsData = data;
+
+                                data.forEach((item, index) => {
+                                    const date = new Date(item.created_at).toLocaleDateString('en-US', {
+                                        year: 'numeric', month: 'long', day: 'numeric'
+                                    });
+
+                                    const typeColors = {
+                                        'Important': 'text-orange-400 bg-orange-500/10 border-orange-500/30 icon-orange-500',
+                                        'Update': 'text-blue-400 bg-blue-500/10 border-blue-500/30 icon-blue-500',
+                                        'Tip': 'text-green-400 bg-green-500/10 border-green-500/30 icon-green-500',
+                                        'General': 'text-gray-400 bg-gray-500/10 border-gray-500/30 icon-gray-400'
+                                    };
+                                    const badgeClass = typeColors[item.type] || typeColors['General'];
+
+                                    const iconMap = {
+                                        'Important': 'fa-bullhorn',
+                                        'Update': 'fa-sync-alt',
+                                        'Tip': 'fa-lightbulb',
+                                        'General': 'fa-info-circle'
+                                    };
+                                    const iconClass = iconMap[item.type] || 'fa-info-circle';
+
+                                    const card = document.createElement('div');
+                                    card.className = "bg-gradient-to-br from-white/5 to-transparent border border-white/10 rounded-xl p-8 card-hover relative overflow-hidden group flex flex-col h-full";
+
+                                    // Attachment Indicator
+                                    let attachmentBadge = '';
+                                    if (item.attachment_url) {
+                                        attachmentBadge = `
+                                            <div class="absolute top-4 right-4 bg-white/10 backdrop-blur-md px-2 py-1 rounded-md text-xs text-gray-300 border border-white/10 z-10">
+                                                <i class="fas fa-paperclip mr-1"></i> Attachment
+                                            </div>
+                                        `;
+                                    }
+
+                                    card.innerHTML = `
+                                    ${attachmentBadge}
+                                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition z-0">
+                                        <i class="fas ${iconClass} text-6xl text-white"></i>
+                                    </div>
+                                    <div class="flex items-center gap-4 mb-4 z-10">
+                                        <span class="${badgeClass.replace(/icon-[\w-]+/, '')} px-3 py-1 rounded-full text-sm font-semibold">
+                                            ${item.type}
+                                        </span>
+                                        <span class="text-gray-400 text-sm">
+                                            <i class="far fa-calendar-alt mr-2"></i>${date}
+                                        </span>
+                                    </div>
+                                    <h2 class="text-2xl font-bold text-white mb-3 z-10">${item.title}</h2>
+                                    <p class="text-gray-300 leading-relaxed line-clamp-3 mb-6 flex-1 z-10 whitespace-pre-line">${item.content}</p>
+                                    
+                                    <button onclick="window.openModal(window.announcementsData[${index}])" 
+                                        class="inline-flex items-center text-orange-500 hover:text-orange-400 font-semibold transition z-10 self-start group/btn">
+                                        Read More <i class="fas fa-arrow-right ml-2 group-hover/btn:translate-x-1 transition-transform"></i>
+                                    </button>
+                                `;
+                                    if (container) container.appendChild(card);
+                                });
+
+                            } catch (error) {
+                                console.error('Error fetching announcements:', error);
+                                if (container) {
+                                    container.innerHTML = `
+                                        <div class="text-center py-10 text-red-400">
+                                            <p>Failed to load announcements. Please try refreshing the page.</p>
+                                        </div>
+                                    `;
+                                }
+                            }
+                        }
+
+                        // Call immediately
+                        fetchAllAnnouncements();
+                    });
+                </script>
+            </div>
+    </section>
+
+    <!-- Announcement Detail Modal -->
+    <div id="announcement-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog"
+        aria-modal="true">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity"></div>
+
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+
+                <div
+                    class="relative transform overflow-hidden rounded-2xl bg-[#0f172a] border border-gray-700 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-2xl">
+
+                    <!-- Header -->
+                    <div class="bg-gray-800/50 px-6 py-4 border-b border-gray-700 flex justify-between items-center">
+                        <div>
+                            <span id="modal-type"
+                                class="px-3 py-1 rounded-full text-xs font-semibold bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                                Typ
+                            </span>
+                        </div>
+                        <button id="close-modal" class="text-gray-400 hover:text-white transition">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="px-6 py-6 max-h-[70vh] overflow-y-auto">
+                        <h3 class="text-2xl font-bold text-white mb-2" id="modal-title">Announcement Title</h3>
+                        <p class="text-sm text-gray-500 mb-6" id="modal-date">Date</p>
+
+                        <!-- Image Container -->
+                        <div id="modal-image-container" class="mb-6 hidden">
+                            <img id="modal-image" src="" alt="Announcement Attachment"
+                                class="w-full h-auto rounded-xl border border-gray-700">
+                        </div>
+
+                        <!-- PDF Container -->
+                        <div id="modal-pdf-container"
+                            class="mb-6 hidden p-4 bg-white/5 rounded-xl border border-white/10 flex items-center justify-between">
+                            <div class="flex items-center text-gray-300">
+                                <i class="fas fa-file-pdf text-red-500 text-2xl mr-3"></i>
+                                <span>Attached Document</span>
+                            </div>
+                            <a id="modal-pdf-link" href="#" target="_blank"
+                                class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
+                                <i class="fas fa-download mr-2"></i> Download
+                            </a>
+                        </div>
+
+                        <div class="prose prose-invert max-w-none text-gray-300 whitespace-pre-line" id="modal-content">
+                            <!-- Content goes here -->
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="bg-gray-800/30 px-6 py-4 border-t border-gray-700">
+                        <button onclick="closeModal()"
+                            class="w-full sm:w-auto bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-semibold transition">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gradient-to-b border-t border-gray-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center">
+                            <img src="../assets/logo.png" alt="" />
+                        </div>
+                        <div>
+                            <div class="text-white font-bold text-lg">Hackathon Nova 2026</div>
+                        </div>
+                    </div>
+                    <p class="text-white-400 text-sm leading-relaxed">
+                        Building the future through innovation, collaboration, and technology at Pokhara Engineering
+                        College.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../index.html#about"
+                                class="text-white-400 hover:text-cyan-400 transition text-sm">About</a></li>
+                        <li><a href="announcements.html"
+                                class="text-cyan-400 hover:text-cyan-400 transition text-sm font-semibold">Announcements</a>
+                        </li>
+                        <li><a href="../index.html#themes"
+                                class="text-white-400 hover:text-cyan-400 transition text-sm">Themes</a></li>
+                        <li><a href="../index.html#timeline"
+                                class="text-white-400 hover:text-cyan-400 transition text-sm">Timeline</a></li>
+                        <li><a href="../index.html#prizes"
+                                class="text-white-400 hover:text-cyan-400 transition text-sm">Prizes</a></li>
+                        <li><a href="../index.html#register"
+                                class="text-white-400 hover:text-cyan-400 transition text-sm">Register</a></li>
+                        <li><a href="gallery.html"
+                                class="text-white-400 hover:text-cyan-400 transition text-sm">Gallery</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-bold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../index.html#rules"
+                                class="text-white-400 hover:text-cyan-400 transition text-sm">Rules</a></li>
+                        <li><a href="../index.html#judging"
+                                class="text-white-400 hover:text-cyan-400 transition text-sm">Judging Criteria</a></li>
+                        <li><a href="../index.html#faq"
+                                class="text-white-400 hover:text-cyan-400 transition text-sm">FAQ</a></li>
+                        <li><a href="codeOfConduct.html"
+                                class="text-white-400 hover:text-cyan-400 transition text-sm">Code of Conduct</a></li>
+                        <li><a href="../index.html#contact"
+                                class="text-white-400 hover:text-cyan-400 transition text-sm">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-bold mb-4">About Hackathon Nova</h3>
+                    <p class="text-white-400 text-sm leading-relaxed mb-4">
+                        Hackathon Nova is a 60-hour student-focused hackathon organized by CAPEC and ITEC-PEC at Pokhara
+                        Engineering College.
+                    </p>
+                    <a href="https://forms.gle/ERX6Va5zVJqSMHJa8" target="_blank"
+                        class="bg-orange-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition inline-block">
+                        Register Now
+                    </a>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-white-400 text-sm mb-4 md:mb-0">
+                        © 2026 CAPEC - Hackathon Nova. All rights reserved.
+                    </p>
+                    <div class="flex space-x-6 text-sm">
+                        <a href="#" class="text-white-400 hover:text-cyan-400 transition">Privacy Policy</a>
+                        <a href="termsOfService.html" class="text-white-400 hover:text-cyan-400 transition">Terms of
+                            Service</a>
+                        <a href="codeOfConduct.html" class="text-white-400 hover:text-cyan-400 transition">Code of
+                            Conduct</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener("click", () => {
+                mobileMenu.classList.toggle("hidden");
+                const icon = mobileMenuButton.querySelector("i");
+                if (icon) {
+                    icon.classList.toggle("fa-bars");
+                    icon.classList.toggle("fa-times");
+                }
+            });
+
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll("#mobile-menu a").forEach((link) => {
+                link.addEventListener("click", () => {
+                    mobileMenu.classList.add("hidden");
+                    const icon = mobileMenuButton.querySelector("i");
+                    if (icon) {
+                        icon.classList.remove("fa-times");
+                        icon.classList.add("fa-bars");
+                    }
+                });
+            });
+        }
+    </script>
+    <script src="../assets/back-to-top.js"></script>
+</body>
+
+</html>

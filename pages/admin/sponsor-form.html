@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsor Form | Hackathon Nova 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .input-dark {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .input-dark:focus {
+            outline: none;
+            border-color: #ea580c;
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+
+<body class="bg-[#0e172b] text-white min-h-screen">
+    <nav class="bg-black/80 backdrop-blur-lg border-b border-gray-800">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="dashboard.html" class="flex items-center text-gray-300 hover:text-white transition">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
+                </a>
+                <div class="font-bold text-xl text-orange-500" id="page-title">New Sponsor</div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="bg-white/5 border border-white/10 rounded-xl p-8 backdrop-blur-sm">
+            <form id="sponsor-form" class="space-y-6">
+                <!-- Name -->
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-300 mb-2">Sponsor Name *</label>
+                    <input type="text" id="name" required class="input-dark w-full rounded-lg px-4 py-3 transition"
+                        placeholder="e.g. Tech Company Inc.">
+                </div>
+
+                <!-- Category & Display Order -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="category" class="block text-sm font-medium text-gray-300 mb-2">Category *</label>
+                        <select id="category" required
+                            class="input-dark w-full rounded-lg px-4 py-3 transition cursor-pointer">
+                            <option value="title">Title Sponsor</option>
+                            <option value="gold">Gold Sponsor</option>
+                            <option value="silver">Silver Sponsor</option>
+                            <option value="community">Community Partner</option>
+                            <option value="media">Media Partner</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="display-order" class="block text-sm font-medium text-gray-300 mb-2">Display Order</label>
+                        <input type="number" id="display-order" min="0" value="0"
+                            class="input-dark w-full rounded-lg px-4 py-3 transition"
+                            placeholder="0">
+                        <p class="text-xs text-gray-500 mt-1">Lower numbers appear first</p>
+                    </div>
+                </div>
+
+                <!-- Logo Upload -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Logo Image</label>
+                    <input type="file" id="logo-upload" accept="image/*"
+                        class="input-dark w-full rounded-lg px-4 py-3 text-sm text-gray-300 
+                            file:mr-4 file:py-2 file:px-4
+                            file:rounded-full file:border-0
+                            file:text-sm file:font-semibold
+                            file:bg-orange-500 file:text-white
+                            hover:file:bg-orange-600 transition">
+                    <p class="text-xs text-gray-500 mt-1">Upload sponsor logo (PNG, JPG, or SVG recommended)</p>
+                    <div id="current-logo" class="mt-2 text-sm text-gray-400 hidden">
+                        Current: <a href="#" target="_blank" id="current-logo-link"
+                            class="text-orange-500 hover:text-orange-400 underline truncate"></a>
+                    </div>
+                </div>
+
+                <!-- Website URL -->
+                <div>
+                    <label for="website-url" class="block text-sm font-medium text-gray-300 mb-2">Website URL</label>
+                    <input type="url" id="website-url"
+                        class="input-dark w-full rounded-lg px-4 py-3 transition"
+                        placeholder="https://example.com">
+                </div>
+
+                <!-- Active Status -->
+                <div class="flex items-center">
+                    <label class="flex items-center cursor-pointer">
+                        <div class="relative">
+                            <input type="checkbox" id="is-active" class="sr-only" checked>
+                            <div class="w-10 h-6 bg-gray-700 rounded-full shadow-inner toggle-bg transition"></div>
+                            <div
+                                class="dot absolute w-4 h-4 bg-white rounded-full shadow -left-1 -top-1 transition transform translate-x-1 translate-y-2">
+                            </div>
+                        </div>
+                        <div class="ml-3 text-gray-300 font-medium">
+                            Active (Visible on site)
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Logo Preview -->
+                <div id="logo-preview-container" class="hidden">
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Logo Preview</label>
+                    <div class="relative w-full md:w-1/2 aspect-video rounded-lg overflow-hidden border border-white/10 bg-black/20">
+                        <img id="logo-preview" src="" alt="Logo Preview" class="w-full h-full object-contain">
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex justify-end gap-4 pt-4 border-t border-gray-700">
+                    <a href="dashboard.html"
+                        class="px-6 py-2 rounded-lg text-gray-300 hover:text-white transition">Cancel</a>
+                    <button type="submit" id="save-btn"
+                        class="bg-gradient-to-r from-orange-500 to-red-600 text-white px-8 py-2 rounded-lg font-bold hover:shadow-lg hover:shadow-orange-500/30 transition">
+                        Save Sponsor
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Custom CSS for toggle switch -->
+    <style>
+        input:checked~.toggle-bg {
+            background-color: #ea580c;
+        }
+
+        input:checked~.dot {
+            transform: translateX(100%) translateX(4px) translateY(8px);
+        }
+    </style>
+
+    <script src="../../assets/js/supabase-config.js"></script>
+    <script src="../../assets/js/supabase-client.js"></script>
+
+    <script>
+        const form = document.getElementById('sponsor-form');
+        const saveBtn = document.getElementById('save-btn');
+        const pageTitle = document.getElementById('page-title');
+        const logoPreviewContainer = document.getElementById('logo-preview-container');
+        const logoPreview = document.getElementById('logo-preview');
+        const logoUploadInput = document.getElementById('logo-upload');
+        const currentLogoDiv = document.getElementById('current-logo');
+        const currentLogoLink = document.getElementById('current-logo-link');
+
+        // Check session
+        async function checkSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) window.location.href = 'login.html';
+            return session;
+        }
+
+        // Check if editing
+        const urlParams = new URLSearchParams(window.location.search);
+        const editId = urlParams.get('id');
+
+        async function loadSponsor(id) {
+            const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+            if (!uuidRegex.test(id)) {
+                console.error("Invalid ID format:", id);
+                alert("Invalid Sponsor ID. Please return to the dashboard and refresh the page.");
+                return;
+            }
+
+            pageTitle.innerText = 'Edit Sponsor';
+            saveBtn.innerHTML = 'Update Sponsor';
+
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading Data...';
+
+            try {
+                if (typeof supabase === 'undefined') {
+                    throw new Error("Supabase client not initialized");
+                }
+
+                const { data, error } = await supabase
+                    .from('sponsors')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (error) throw error;
+
+                if (data) {
+                    document.getElementById('name').value = data.name || '';
+                    document.getElementById('category').value = data.category || 'silver';
+                    document.getElementById('display-order').value = data.display_order || 0;
+                    document.getElementById('website-url').value = data.website_url || '';
+                    document.getElementById('is-active').checked = data.is_active !== false;
+
+                    if (data.logo_url) {
+                        currentLogoDiv.classList.remove('hidden');
+                        currentLogoLink.href = data.logo_url;
+                        currentLogoLink.textContent = 'View Current Logo';
+                        logoPreview.src = data.logo_url;
+                        logoPreviewContainer.classList.remove('hidden');
+                    }
+                }
+            } catch (err) {
+                console.error("Error loading sponsor:", err);
+                alert("Failed to load sponsor: " + err.message);
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = 'Update Sponsor';
+            }
+        }
+
+        if (editId) {
+            if (editId.includes("${")) {
+                alert("Your dashboard page is outdated. Please go back and REFRESH the dashboard page.");
+            } else {
+                loadSponsor(editId);
+            }
+        }
+
+        // Logo file upload change listener for preview
+        logoUploadInput.addEventListener('change', function (e) {
+            const file = this.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    logoPreview.src = e.target.result;
+                    logoPreviewContainer.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                if (file) {
+                    alert('Please select an image file (PNG, JPG, SVG, etc.)');
+                    this.value = '';
+                }
+                logoPreviewContainer.classList.add('hidden');
+            }
+        });
+
+        // Helper function to log activity
+        async function logActivity(actionType, entityType, entityId, description, metadata = {}) {
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) return;
+
+                const activityData = {
+                    user_id: user.id,
+                    user_email: user.email,
+                    action_type: actionType,
+                    entity_type: entityType,
+                    entity_id: entityId,
+                    description: description,
+                    metadata: metadata
+                };
+
+                const { error: logError } = await supabase
+                    .from('activity_log')
+                    .insert([activityData]);
+
+                if (logError) {
+                    console.error('Error logging activity:', logError);
+                }
+            } catch (logErr) {
+                console.error('Error logging activity:', logErr);
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const category = document.getElementById('category').value;
+            const displayOrder = parseInt(document.getElementById('display-order').value) || 0;
+            const websiteUrl = document.getElementById('website-url').value.trim();
+            const isActive = document.getElementById('is-active').checked;
+            const logoFile = logoUploadInput.files[0];
+
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                let logoUrl = null;
+
+                // Handle Logo File Upload
+                if (logoFile) {
+                    const fileExt = logoFile.name.split('.').pop();
+                    const fileName = `sponsors/${Date.now()}.${fileExt}`;
+                    const filePath = fileName;
+
+                    const { data: uploadData, error: uploadError } = await supabase.storage
+                        .from('announcements')
+                        .upload(filePath, logoFile);
+
+                    if (uploadError) throw uploadError;
+
+                    // Get Public URL
+                    const { data: { publicUrl } } = supabase.storage
+                        .from('announcements')
+                        .getPublicUrl(filePath);
+
+                    logoUrl = publicUrl;
+                }
+
+                const payload = {
+                    name,
+                    category,
+                    display_order: displayOrder,
+                    is_active: isActive
+                };
+
+                // Only update logo_url if a new file was uploaded
+                if (logoUrl) {
+                    payload.logo_url = logoUrl;
+                } else if (editId) {
+                    // If editing and no new file, keep existing logo_url
+                    const { data: existingSponsor } = await supabase
+                        .from('sponsors')
+                        .select('logo_url')
+                        .eq('id', editId)
+                        .single();
+                    if (existingSponsor?.logo_url) {
+                        payload.logo_url = existingSponsor.logo_url;
+                    }
+                }
+
+                if (websiteUrl) payload.website_url = websiteUrl;
+
+                let error;
+                let resultId = editId;
+
+                if (editId) {
+                    // Update
+                    const { error: updateError } = await supabase
+                        .from('sponsors')
+                        .update(payload)
+                        .eq('id', editId);
+                    error = updateError;
+
+                    if (!error) {
+                        await logActivity(
+                            'update',
+                            'sponsor',
+                            editId,
+                            `Updated sponsor: "${name}"`,
+                            { sponsor_id: editId, name: name, category: category }
+                        );
+                    }
+                } else {
+                    // Insert
+                    const { data: insertData, error: insertError } = await supabase
+                        .from('sponsors')
+                        .insert([payload])
+                        .select();
+                    error = insertError;
+
+                    if (!error && insertData && insertData.length > 0) {
+                        resultId = insertData[0].id;
+                        await logActivity(
+                            'create',
+                            'sponsor',
+                            resultId,
+                            `Created sponsor: "${name}"`,
+                            { sponsor_id: resultId, name: name, category: category }
+                        );
+                    }
+                }
+
+                if (error) throw error;
+
+                // Success
+                window.location.href = 'dashboard.html#sponsors';
+            } catch (error) {
+                console.error('Error saving:', error);
+                alert('Error saving sponsor: ' + error.message);
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = editId ? 'Update Sponsor' : 'Save Sponsor';
+            }
+        });
+
+        checkSession();
+    </script>
+</body>
+
+</html>
+

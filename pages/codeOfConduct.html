@@ -1,308 +1,489 @@
-
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code of Conduct | CAPEC Hackathon 2026</title>
-    <meta name="description" content="Code of Conduct for CAPEC Hackathon 2026 - Guidelines for a safe, inclusive, and productive hackathon environment.">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-        
-        * {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .gradient-text {
-            background: linear-gradient(90deg, #06b6d4 0%, #3b82f6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code of Conduct | CAPEC Hackathon 2026</title>
+  <meta name="description"
+    content="Code of Conduct for CAPEC Hackathon 2026 - Guidelines for a safe, inclusive, and productive hackathon environment.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .gradient-text {
+      color: orange;
+
+      background-clip: text;
+    }
+
+    /* Ensure media elements scale on small screens */
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+  </style>
 </head>
-<body class="bg-black text-gray-100">
-    
-    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-lg border-b border-gray-800 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="index.html" class="flex items-center space-x-3">
-                    <img src="logo.png" alt="CAPEC Logo" class="w-10 h-10 rounded-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center" style="display: none;">
-                        <span class="text-white font-bold text-xl">C</span>
-                    </div>
-                    <div>
-                        <div class="text-white font-bold text-lg">Hackathon Nova</div>
-                        <div class="text-cyan-400 text-xs">2026</div>
-                    </div>
-                </a>
-                
-                <a href="../index.html" class="text-gray-300 hover:text-cyan-400 transition">
-                    <i class="fas fa-arrow-left mr-2"></i> Back to Home
-                </a>
-            </div>
+
+<body class="text-gray-100" style="background-color:  rgb(14, 23, 43);">
+
+  <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-lg border-b border-gray-800 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-3">
+          <a href="../index.html">
+            <img src="../assets/logo.png" alt="Hackathon Nova Logo" class="w-10 h-10 rounded-lg"
+              onerror="this.style.display='none'; document.getElementById('logo-placeholder').style.display='flex';" /></a>
+          <div>
+            <a href="../index.html">
+              <div class="font-bold text-xl text-orange-500" style="font-family: inter">
+                Hackathon Nova 2026
+              </div>
+            </a>
+          </div>
         </div>
-    </nav>
 
-    <section class="pt-32 pb-20 bg-gradient-to-b from-black to-gray-900 min-h-screen">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h1 class="text-4xl sm:text-5xl font-black mb-4">
-                    Code of <span class="gradient-text">Conduct</span>
-                </h1>
-                <div class="w-24 h-1 bg-gradient-to-r from-cyan-500 to-blue-600 mx-auto mb-6"></div>
-                <p class="text-gray-400 text-lg">Building a safe, inclusive, and respectful hackathon environment</p>
-            </div>
-
-            <div class="bg-gradient-to-br from-cyan-500/10 to-blue-600/10 border border-cyan-500/30 rounded-xl p-8 mb-8">
-                <p class="text-gray-300 leading-relaxed text-lg">
-                    CAPEC Hackathon 2026 is dedicated to providing a harassment-free experience for everyone, regardless of gender, gender identity and expression, age, sexual orientation, disability, physical appearance, body size, race, ethnicity, nationality, religion, or computing experience. We do not tolerate harassment of participants in any form.
-                </p>
-            </div>
-
-            <div class="space-y-8">
-                <div class="bg-gradient-to-br from-cyan-500/5 to-transparent border border-gray-800 rounded-xl p-8">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mr-4">
-                            <i class="fas fa-handshake text-cyan-400 text-xl"></i>
-                        </div>
-                        <h2 class="text-2xl font-bold text-white">Our Commitment</h2>
-                    </div>
-                    <p class="text-gray-400 leading-relaxed mb-4">
-                        We are committed to creating a welcoming environment where all participants can learn, collaborate, and innovate together. Every participant deserves to be treated with respect and dignity.
-                    </p>
-                    <ul class="space-y-2 text-gray-400">
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-cyan-400 mr-3 mt-1"></i>
-                            <span>We value diverse perspectives and experiences</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-cyan-400 mr-3 mt-1"></i>
-                            <span>We prioritize marginalized people's safety over privileged people's comfort</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-cyan-400 mr-3 mt-1"></i>
-                            <span>We promote constructive collaboration and learning</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="bg-gradient-to-br from-green-500/5 to-transparent border border-gray-800 rounded-xl p-8">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mr-4">
-                            <i class="fas fa-heart text-green-400 text-xl"></i>
-                        </div>
-                        <h2 class="text-2xl font-bold text-white">Expected Behavior</h2>
-                    </div>
-                    <p class="text-gray-400 mb-4">All participants are expected to:</p>
-                    <ul class="space-y-3 text-gray-400">
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
-                            <span>Be respectful of different viewpoints and experiences</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
-                            <span>Gracefully accept constructive criticism</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
-                            <span>Focus on what is best for the community and event</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
-                            <span>Show empathy towards other participants</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
-                            <span>Use welcoming and inclusive language</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
-                            <span>Respect personal boundaries and privacy</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
-                            <span>Ask for consent before taking photos or sharing content</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
-                            <span>Follow all event rules and venue guidelines</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="bg-gradient-to-br from-red-500/5 to-transparent border border-gray-800 rounded-xl p-8">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mr-4">
-                            <i class="fas fa-ban text-red-400 text-xl"></i>
-                        </div>
-                        <h2 class="text-2xl font-bold text-white">Unacceptable Behavior</h2>
-                    </div>
-                    <p class="text-gray-400 mb-4">The following behaviors are considered harassment and will not be tolerated:</p>
-                    <ul class="space-y-3 text-gray-400">
-                        <li class="flex items-start">
-                            <i class="fas fa-times-circle text-red-400 mr-3 mt-1"></i>
-                            <span>Offensive comments related to gender, gender identity, sexual orientation, disability, appearance, body size, race, ethnicity, religion, or technology choices</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-times-circle text-red-400 mr-3 mt-1"></i>
-                            <span>Unwelcome sexual attention or advances</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-times-circle text-red-400 mr-3 mt-1"></i>
-                            <span>Deliberate intimidation, stalking, or following</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-times-circle text-red-400 mr-3 mt-1"></i>
-                            <span>Photography or recording without consent</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-times-circle text-red-400 mr-3 mt-1"></i>
-                            <span>Sustained disruption of talks or other events</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-times-circle text-red-400 mr-3 mt-1"></i>
-                            <span>Inappropriate physical contact</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-times-circle text-red-400 mr-3 mt-1"></i>
-                            <span>Trolling, insulting/derogatory comments, and personal attacks</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-times-circle text-red-400 mr-3 mt-1"></i>
-                            <span>Public or private harassment</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-times-circle text-red-400 mr-3 mt-1"></i>
-                            <span>Publishing others' private information without permission</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-times-circle text-red-400 mr-3 mt-1"></i>
-                            <span>Advocating for or encouraging any of the above behaviors</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="bg-gradient-to-br from-blue-600/5 to-transparent border border-gray-800 rounded-xl p-8">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center mr-4">
-                            <i class="fas fa-shield-alt text-blue-400 text-xl"></i>
-                        </div>
-                        <h2 class="text-2xl font-bold text-white">Enforcement</h2>
-                    </div>
-                    <p class="text-gray-400 leading-relaxed mb-4">
-                        Participants asked to stop any harassing behavior are expected to comply immediately. If a participant engages in unacceptable behavior, the event organizers may take any action they deem appropriate, including:
-                    </p>
-                    <ul class="space-y-2 text-gray-400">
-                        <li class="flex items-start">
-                            <i class="fas fa-exclamation-triangle text-yellow-400 mr-3 mt-1"></i>
-                            <span>Warning the offender</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-exclamation-triangle text-orange-400 mr-3 mt-1"></i>
-                            <span>Expulsion from the event without refund</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-exclamation-triangle text-red-400 mr-3 mt-1"></i>
-                            <span>Banning from future CAPEC events</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-exclamation-triangle text-red-500 mr-3 mt-1"></i>
-                            <span>Reporting to law enforcement if necessary</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="bg-gradient-to-br from-purple-500/5 to-transparent border border-gray-800 rounded-xl p-8">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mr-4">
-                            <i class="fas fa-bullhorn text-purple-400 text-xl"></i>
-                        </div>
-                        <h2 class="text-2xl font-bold text-white">Reporting</h2>
-                    </div>
-                    <p class="text-gray-400 leading-relaxed mb-4">
-                        If you are being harassed, notice that someone else is being harassed, or have any other concerns, please contact a member of the event staff immediately. Event staff will be wearing distinctive badges and can be identified at the registration desk.
-                    </p>
-                    <div class="bg-black/50 rounded-lg p-6 border border-gray-800 mb-4">
-                        <h3 class="text-white font-semibold mb-3">How to Report</h3>
-                        <ul class="space-y-2 text-gray-400">
-                            <li><i class="fas fa-envelope text-purple-400 mr-2"></i> Email: <a href="mailto:capec@pec.edu.np" class="text-cyan-400 hover:underline">capec@pec.edu.np</a></li>
-                            <li><i class="fas fa-phone text-purple-400 mr-2"></i> Emergency Contact: +977 980-0000000</li>
-                            <li><i class="fas fa-user text-purple-400 mr-2"></i> Speak to any event organizer in person</li>
-                        </ul>
-                    </div>
-                    <p class="text-gray-400 leading-relaxed">
-                        All reports will be handled with discretion. Event staff will help participants contact venue security or local law enforcement, provide escorts, or otherwise assist those experiencing harassment to feel safe for the duration of the event.
-                    </p>
-                </div>
-
-                <div class="bg-gradient-to-br from-yellow-500/5 to-transparent border border-gray-800 rounded-xl p-8">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center mr-4">
-                            <i class="fas fa-code text-yellow-400 text-xl"></i>
-                        </div>
-                        <h2 class="text-2xl font-bold text-white">Intellectual Property & Ethics</h2>
-                    </div>
-                    <ul class="space-y-3 text-gray-400">
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-yellow-400 mr-3 mt-1"></i>
-                            <span>Respect intellectual property rights of others</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-yellow-400 mr-3 mt-1"></i>
-                            <span>Do not plagiarize or copy code without attribution</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-yellow-400 mr-3 mt-1"></i>
-                            <span>Properly license and credit open-source components</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-yellow-400 mr-3 mt-1"></i>
-                            <span>Do not create projects that promote harm or illegal activities</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="bg-gradient-to-br from-cyan-500/5 to-transparent border border-gray-800 rounded-xl p-8">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mr-4">
-                            <i class="fas fa-book text-cyan-400 text-xl"></i>
-                        </div>
-                        <h2 class="text-2xl font-bold text-white">Scope</h2>
-                    </div>
-                    <p class="text-gray-400 leading-relaxed">
-                        This Code of Conduct applies to all Hackathon Nova 2026 spaces, including the physical venue, online platforms, social media, and any related events. It also applies to unacceptable behavior occurring outside the scope of event activities when such behavior has the potential to adversely affect the safety and well-being of participants.
-                    </p>
-                </div>
-
-                <div class="bg-gradient-to-r from-cyan-500/10 to-blue-600/10 border border-cyan-500/30 rounded-xl p-8 text-center">
-                    <h3 class="text-2xl font-bold text-white mb-4">Agreement</h3>
-                    <p class="text-gray-400 mb-4">
-                        By participating in CAPEC Hackathon 2026, you agree to abide by this Code of Conduct. We expect all participants to help create a safe and positive experience for everyone.
-                    </p>
-                    <p class="text-lg text-white font-semibold">
-                        Thank you for helping make this a welcoming, friendly event for all!
-                    </p>
-                </div>
-            </div>
-
-            <div class="mt-12 text-center">
-                <a href="../index.html" class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:shadow-xl hover:shadow-cyan-500/50 transition inline-block">
-                    <i class="fas fa-arrow-left mr-2"></i> Back to Home
-                </a>
-            </div>
+        <div class="hidden md:flex space-x-8">
+          <a href="../index.html#about" class="text-gray-300 hover:text-orange-200 transition">About</a>
+          <a href="announcements.html" class="text-gray-300 hover:text-orange-200 transition">Announcements</a>
+          <a href="../index.html#themes" class="text-gray-300 hover:text-orange-200 transition">Themes</a>
+          <a href="../index.html#timeline" class="text-gray-300 hover:text-orange-200 transition">Timeline</a>
+          <a href="../index.html#prizes" class="text-gray-300 hover:text-orange-200 transition">Prizes</a>
+          <a href="../index.html#sponsors" class="text-gray-300 hover:text-orange-200 transition">Sponsors</a>
+          <a href="gallery.html" class="text-gray-300 hover:text-orange-200 transition">Gallery</a>
+          <a href="../index.html#faq" class="text-gray-300 hover:text-orange-200 transition">FAQ</a>
         </div>
-    </section>
 
-    <footer class="bg-gradient-to-b from-black to-gray-900 border-t border-gray-800 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-gray-400 text-sm">
-                © 2026 CAPEC - Computer Association of Pokhara Engineering College. All rights reserved.
-            </p>
+        <div class="hidden md:block">
+          <a href="../index.html#register"
+            class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition">
+            Register Now
+          </a>
         </div>
-    </footer>
 
+        <button id="mobile-menu-button" class="md:hidden text-white text-2xl">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-black/95 backdrop-blur-lg border-b border-gray-800">
+      <div class="px-4 py-4 space-y-3">
+        <a href="../index.html#about" class="block text-gray-300 hover:text-orange-200 transition py-2">About</a>
+        <a href="announcements.html" class="block text-gray-300 hover:text-orange-200 transition py-2">Announcements</a>
+        <a href="../index.html#themes" class="block text-gray-300 hover:text-orange-200 transition py-2">Themes</a>
+        <a href="../index.html#timeline" class="block text-gray-300 hover:text-orange-200 transition py-2">Timeline</a>
+        <a href="../index.html#prizes" class="block text-gray-300 hover:text-orange-200 transition py-2">Prizes</a>
+        <a href="../index.html#sponsors" class="block text-gray-300 hover:text-orange-200 transition py-2">Sponsors</a>
+        <a href="gallery.html" class="block text-gray-300 hover:text-orange-200 transition py-2">Gallery</a>
+        <a href="../index.html#faq" class="block text-gray-300 hover:text-orange-200 transition py-2">FAQ</a>
+        <a href="../index.html#register"
+          class="block bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg font-semibold text-center">
+          Register Now
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="pt-32 pb-20 min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h1 class="text-4xl sm:text-5xl font-black mb-4">
+          Code of <span class="gradient-text">Conduct</span>
+        </h1>
+        <div class="w-24 h-1 bg-gradient-to-r from-orange-500 to-red-600 mx-auto mb-6"></div>
+        <p class="text-gray-400 text-lg">Building a safe, inclusive, and respectful hackathon environment</p>
+      </div>
+
+      <div class="bg-gradient-to-br from-orange-500/10 to-red-600/10 border border-orange-500/30 rounded-xl p-8 mb-8">
+        <p class="text-gray-300 leading-relaxed text-lg">
+          CAPEC Hackathon 2026 is dedicated to providing a harassment-free experience for everyone, regardless of
+          gender, gender identity and expression, age, sexual orientation, disability, physical appearance, body size,
+          race, ethnicity, nationality, religion, or computing experience. We do not tolerate harassment of participants
+          in any form.
+        </p>
+      </div>
+
+      <div class="space-y-8">
+        <div class="bg-gradient-to-br from-orange-500/5 to-transparent border border-gray-800 rounded-xl p-8">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-handshake text-orange-400 text-xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white">Our Commitment</h2>
+          </div>
+          <p class="text-gray-400 leading-relaxed mb-4">
+            We are committed to creating a welcoming environment where all participants can learn, collaborate, and
+            innovate together. Every participant deserves to be treated with respect and dignity.
+          </p>
+          <ul class="space-y-2 text-gray-400">
+            <li class="flex items-start">
+              <i class="fas fa-check text-orange-400 mr-3 mt-1"></i>
+              <span>We value diverse perspectives and experiences</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-orange-400 mr-3 mt-1"></i>
+              <span>We prioritize marginalized people's safety over privileged people's comfort</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-orange-400 mr-3 mt-1"></i>
+              <span>We promote constructive collaboration and learning</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-gradient-to-br from-green-500/5 to-transparent border border-gray-800 rounded-xl p-8">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-heart text-green-400 text-xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white">Expected Behavior</h2>
+          </div>
+          <p class="text-gray-400 mb-4">All participants are expected to:</p>
+          <ul class="space-y-3 text-gray-400">
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+              <span>Be respectful of different viewpoints and experiences</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+              <span>Gracefully accept constructive criticism</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+              <span>Focus on what is best for the community and event</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+              <span>Show empathy towards other participants</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+              <span>Use welcoming and inclusive language</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+              <span>Respect personal boundaries and privacy</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+              <span>Ask for consent before taking photos or sharing content</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+              <span>Follow all event rules and venue guidelines</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-gradient-to-br from-red-500/5 to-transparent border border-gray-800 rounded-xl p-8">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-ban text-red-500 text-xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white">Unacceptable Behavior</h2>
+          </div>
+          <p class="text-gray-400 mb-4">The following behaviors are considered harassment and will not be tolerated:</p>
+          <ul class="space-y-3 text-gray-400">
+            <li class="flex items-start">
+              <i class="fas fa-times-circle text-red-500 mr-3 mt-1"></i>
+              <span>Offensive comments related to gender, gender identity, sexual orientation, disability, appearance,
+                body size, race, ethnicity, religion, or technology choices</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-times-circle text-red-500 mr-3 mt-1"></i>
+              <span>Unwelcome sexual attention or advances</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-times-circle text-red-500 mr-3 mt-1"></i>
+              <span>Deliberate intimidation, stalking, or following</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-times-circle text-red-500 mr-3 mt-1"></i>
+              <span>Photography or recording without consent</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-times-circle text-red-500 mr-3 mt-1"></i>
+              <span>Sustained disruption of talks or other events</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-times-circle text-red-500 mr-3 mt-1"></i>
+              <span>Inappropriate physical contact</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-times-circle text-red-500 mr-3 mt-1"></i>
+              <span>Trolling, insulting/derogatory comments, and personal attacks</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-times-circle text-red-500 mr-3 mt-1"></i>
+              <span>Public or private harassment</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-times-circle text-red-500 mr-3 mt-1"></i>
+              <span>Publishing others' private information without permission</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-times-circle text-red-500 mr-3 mt-1"></i>
+              <span>Advocating for or encouraging any of the above behaviors</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-gradient-to-br from-red-600/5 to-transparent border border-gray-800 rounded-xl p-8">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-red-600/20 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-shield-alt text-red-500 text-xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white">Enforcement</h2>
+          </div>
+          <p class="text-gray-400 leading-relaxed mb-4">
+            Participants asked to stop any harassing behavior are expected to comply immediately. If a participant
+            engages in unacceptable behavior, the event organizers may take any action they deem appropriate, including:
+          </p>
+          <ul class="space-y-2 text-gray-400">
+            <li class="flex items-start">
+              <i class="fas fa-exclamation-triangle text-yellow-500 mr-3 mt-1"></i>
+              <span>Warning the offender</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-exclamation-triangle text-orange-500 mr-3 mt-1"></i>
+              <span>Expulsion from the event without refund</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-exclamation-triangle text-red-500 mr-3 mt-1"></i>
+              <span>Banning from future CAPEC events</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-exclamation-triangle text-red-600 mr-3 mt-1"></i>
+              <span>Reporting to law enforcement if necessary</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-gradient-to-br from-purple-500/5 to-transparent border border-gray-800 rounded-xl p-8">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-bullhorn text-purple-400 text-xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white">Reporting</h2>
+          </div>
+          <p class="text-gray-400 leading-relaxed mb-4">
+            If you are being harassed, notice that someone else is being harassed, or have any other concerns, please
+            contact a member of the event staff immediately. Event staff will be wearing distinctive badges and can be
+            identified at the registration desk.
+          </p>
+          <div class="bg-black/50 rounded-lg p-6 border border-gray-800 mb-4">
+            <h3 class="text-white font-semibold mb-3">How to Report</h3>
+            <ul class="space-y-2 text-gray-400">
+              <li><i class="fas fa-envelope text-purple-400 mr-2"></i> Email: <a href="mailto:capec@pec.edu.np"
+                  class="text-orange-400 hover:underline">capec@pec.edu.np</a></li>
+              <li><i class="fas fa-phone text-purple-400 mr-2"></i> Emergency Contact: +977 980-0000000</li>
+              <li><i class="fas fa-user text-purple-400 mr-2"></i> Speak to any event organizer in person</li>
+            </ul>
+          </div>
+          <p class="text-gray-400 leading-relaxed">
+            All reports will be handled with discretion. Event staff will help participants contact venue security or
+            local law enforcement, provide escorts, or otherwise assist those experiencing harassment to feel safe for
+            the duration of the event.
+          </p>
+        </div>
+
+        <div class="bg-gradient-to-br from-yellow-500/5 to-transparent border border-gray-800 rounded-xl p-8">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-code text-yellow-400 text-xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white">Intellectual Property & Ethics</h2>
+          </div>
+          <ul class="space-y-3 text-gray-400">
+            <li class="flex items-start">
+              <i class="fas fa-check text-yellow-400 mr-3 mt-1"></i>
+              <span>Respect intellectual property rights of others</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-yellow-400 mr-3 mt-1"></i>
+              <span>Do not plagiarize or copy code without attribution</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-yellow-400 mr-3 mt-1"></i>
+              <span>Properly license and credit open-source components</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-yellow-400 mr-3 mt-1"></i>
+              <span>Do not create projects that promote harm or illegal activities</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-gradient-to-br from-orange-500/5 to-transparent border border-gray-800 rounded-xl p-8">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-book text-orange-400 text-xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white">Scope</h2>
+          </div>
+          <p class="text-gray-400 leading-relaxed">
+            This Code of Conduct applies to all Hackathon Nova 2026 spaces, including the physical venue, online
+            platforms, social media, and any related events. It also applies to unacceptable behavior occurring outside
+            the scope of event activities when such behavior has the potential to adversely affect the safety and
+            well-being of participants.
+          </p>
+        </div>
+
+        <div
+          class="bg-gradient-to-r from-orange-500/10 to-red-600/10 border border-orange-500/30 rounded-xl p-8 text-center">
+          <h3 class="text-2xl font-bold text-white mb-4">Agreement</h3>
+          <p class="text-gray-400 mb-4">
+            By participating in CAPEC Hackathon 2026, you agree to abide by this Code of Conduct. We expect all
+            participants to help create a safe and positive experience for everyone.
+          </p>
+          <p class="text-lg text-white font-semibold">
+            Thank you for helping make this a welcoming, friendly event for all!
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-12 text-center">
+        <a href="../index.html"
+          class="bg-gradient-to-r from-orange-500 to-red-600 text-white px-8 py-3 rounded-lg font-bold hover:shadow-xl hover:shadow-orange-500/50 transition inline-block">
+          <i class="fas fa-arrow-left mr-2"></i> Back to Home
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-gradient-to-b border-t border-gray-800 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-10 h-10 rounded-lg flex items-center justify-center">
+              <img src="../assets/logo.png" alt="" />
+            </div>
+            <div>
+              <div class="text-white font-bold text-lg">
+                Hackathon Nova 2026
+              </div>
+            </div>
+          </div>
+          <p class="text-white-400 text-sm leading-relaxed">
+            Building the future through innovation, collaboration, and
+            technology at Pokhara Engineering College.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li>
+              <a href="../index.html#about" class="text-white-400 hover:text-cyan-400 transition text-sm">About</a>
+            </li>
+            <li>
+              <a href="../index.html#themes" class="text-white-400 hover:text-cyan-400 transition text-sm">Themes</a>
+            </li>
+            <li>
+              <a href="../index.html#timeline"
+                class="text-white-400 hover:text-cyan-400 transition text-sm">Timeline</a>
+            </li>
+            <li>
+              <a href="../index.html#prizes" class="text-white-400 hover:text-cyan-400 transition text-sm">Prizes</a>
+            </li>
+            <li>
+              <a href="../index.html#register" class="text-whit-400 hover:text-cyan-400 transition text-sm">Register</a>
+            </li>
+            <li>
+              <a href="gallery.html" class="text-white-400 hover:text-cyan-400 transition text-sm">Gallery</a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-4">Resources</h3>
+          <ul class="space-y-2">
+            <li>
+              <a href="../index.html#rules" class="text-white-400 hover:text-cyan-400 transition text-sm">Rules</a>
+            </li>
+            <li>
+              <a href="../index.html#judging" class="text-white-400 hover:text-cyan-400 transition text-sm">Judging
+                Criteria</a>
+            </li>
+            <li>
+              <a href="../index.html#faq" class="text-white-400 hover:text-cyan-400 transition text-sm">FAQ</a>
+            </li>
+            <li>
+              <a href="codeOfConduct.html" class="text-white-400 hover:text-cyan-400 transition text-sm">Code of
+                Conduct</a>
+            </li>
+            <li>
+              <a href="../index.html#contact" class="text-white-400 hover:text-cyan-400 transition text-sm">Contact</a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-4">About Hackathon Nova</h3>
+          <p class="text-white-400 text-sm leading-relaxed mb-4">
+            Hackathon Nova is a 60-hour student-focused hackathon organized by
+            CAPEC and ITEC-PEC at Pokhara Engineering College.
+          </p>
+          <a href="https://forms.gle/ERX6Va5zVJqSMHJa8" target="_blank"
+            class="bg-orange-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition inline-block">
+            Register Now
+          </a>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-800 pt-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <p class="text-white-400 text-sm mb-4 md:mb-0">
+            © 2026 CAPEC - Hackathon Nova. All rights reserved.
+          </p>
+          <div class="flex space-x-6 text-sm">
+            <a href="#" class="text-white-400 hover:text-cyan-400 transition">Privacy Policy</a>
+            <a href="#" class="text-white-400 hover:text-cyan-400 transition">Terms of Service</a>
+            <a href="codeOfConduct.html" class="text-white-400 hover:text-cyan-400 transition">Code of Conduct</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    if (mobileMenuButton && mobileMenu) {
+      mobileMenuButton.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+        const icon = mobileMenuButton.querySelector("i");
+        if (icon) {
+          icon.classList.toggle("fa-bars");
+          icon.classList.toggle("fa-times");
+        }
+      });
+
+      // Close mobile menu when clicking on a link
+      document.querySelectorAll("#mobile-menu a").forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileMenu.classList.add("hidden");
+          const icon = mobileMenuButton.querySelector("i");
+          if (icon) {
+            icon.classList.remove("fa-times");
+            icon.classList.add("fa-bars");
+          }
+        });
+      });
+    }
+  </script>
+  <script src="../assets/back-to-top.js"></script>
 </body>
+
 </html>
