@@ -1,0 +1,8 @@
+{"type":"image","src":"https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80","alt":"Coding close-up","span":"2x2"},
+  {"type":"image","src":"https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80","alt":"Team brainstorming","span":"1x1"},
+  {"type":"image","src":"https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=crop&w=1200&q=80","alt":"Awards","span":"1x1"},
+  {"type":"image","src":"https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80","alt":"Team celebration","span":"2x2"},
+  {"type":"youtube","src":"https://www.youtube.com/watch?v=dQw4w9WgXcQ","alt":"Talk excerpt","span":"1x1"},
+  {"type":"image","src":"https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80","alt":"Speakers","span":"1x1"},
+  {"type":"image","src":"https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1200&q=80","alt":"Notes","span":"1x1"},
+  {"type":"image","src":"https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=1200&q=80","alt":"Networking","span":"1x1"}

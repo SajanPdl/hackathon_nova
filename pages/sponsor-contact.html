@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Become a Sponsor | Hackathon Nova 2026</title>
+    <meta name="description"
+        content="Partner with CAPEC Hackathon 2026. Empower the next generation of innovators at Pokhara Engineering College." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+        :root {
+            --primary-color: rgb(185, 28, 28);
+            --secondary-color: rgb(14, 23, 43);
+            --white: #f5e0e0;
+        }
+
+        * {
+            font-family: "Inter", sans-serif;
+        }
+
+        body {
+            background: rgb(14, 23, 43);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #f97316, #ea580c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .input-field {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            border-color: #ea580c;
+            background: rgba(255, 255, 255, 0.08);
+            outline: none;
+            box-shadow: 0 0 15px rgba(234, 88, 12, 0.2);
+        }
+
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #fff;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="text-gray-100">
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-lg border-b border-gray-800 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <a href="../index.html">
+                        <img src="../assets/logo.png" alt="Hackathon Nova Logo" class="w-10 h-10 rounded-lg"
+                            onerror="this.style.display='none'; document.getElementById('logo-placeholder').style.display='flex';" /></a>
+                    <div>
+                        <a href="../index.html">
+                            <div class="font-bold text-xl text-orange-500" style="font-family: inter">
+                                Hackathon Nova 2026
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hidden md:flex space-x-8">
+                    <a href="../index.html#about" class="text-gray-300 hover:text-orange-400 transition">About</a>
+                    <a href="announcements.html"
+                        class="text-gray-300 hover:text-orange-400 transition">Announcements</a>
+                    <a href="../index.html#themes" class="text-gray-300 hover:text-orange-400 transition">Themes</a>
+                    <a href="../index.html#timeline" class="text-gray-300 hover:text-orange-400 transition">Timeline</a>
+                    <a href="../index.html#sponsors"
+                        class="text-gray-300 hover:text-orange-400 transition font-semibold text-orange-400">Sponsors</a>
+                    <a href="gallery.html" class="text-gray-300 hover:text-orange-400 transition">Gallery</a>
+                    <a href="schedule.html" class="text-gray-300 hover:text-orange-400 transition">Schedule</a>
+                </div>
+
+                <div class="hidden md:block">
+                    <a href="../index.html#register"
+                        class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition">
+                        Register Now
+                    </a>
+                </div>
+
+                <button id="mobile-menu-button" class="md:hidden text-white text-2xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black/95 backdrop-blur-lg border-b border-gray-800">
+            <div class="px-4 py-4 space-y-3">
+                <a href="../index.html#about"
+                    class="block text-gray-300 hover:text-orange-400 transition py-2">About</a>
+                <a href="announcements.html"
+                    class="block text-gray-300 hover:text-orange-400 transition py-2">Announcements</a>
+                <a href="../index.html#themes"
+                    class="block text-gray-300 hover:text-orange-400 transition py-2">Themes</a>
+                <a href="../index.html#timeline"
+                    class="block text-gray-300 hover:text-orange-400 transition py-2">Timeline</a>
+                <a href="../index.html#sponsors" class="block text-orange-400 font-semibold py-2">Sponsors</a>
+                <a href="gallery.html" class="block text-gray-300 hover:text-orange-400 transition py-2">Gallery</a>
+                <a href="schedule.html" class="block text-gray-300 hover:text-orange-400 transition py-2">Schedule</a>
+                <a href="../index.html#register"
+                    class="block bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-lg font-semibold text-center">
+                    Register Now
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="pt-32 pb-20 min-h-screen relative overflow-hidden">
+        <!-- Background Decor -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl -z-10"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-red-600/10 rounded-full blur-3xl -z-10"></div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl sm:text-5xl font-black mb-4">
+                    Become a <span class="gradient-text">Partner</span>
+                </h1>
+                <div class="w-24 h-1 bg-gradient-to-r from-orange-500 to-red-600 mx-auto mb-6"></div>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                    Support innovation, empower students, and elevate your brand at Nepal's premier hackathon.
+                </p>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 sm:p-10 shadow-2xl">
+                <form id="sponsor-form" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Company Name -->
+                        <div>
+                            <label for="company_name" class="block text-sm font-medium text-white mb-2">Company
+                                Name</label>
+                            <input type="text" id="company_name" name="company_name" required
+                                class="input-field w-full px-4 py-3 rounded-xl focus:ring-0"
+                                placeholder="Enter company name">
+                        </div>
+                        <!-- Industry -->
+                        <div>
+                            <label for="industry" class="block text-sm font-medium text-white mb-2">Industry</label>
+                            <input type="text" id="industry" name="industry" required
+                                class="input-field w-full px-4 py-3 rounded-xl focus:ring-0"
+                                placeholder="e.g. Technology, Education">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Contact Name -->
+                        <div>
+                            <label for="contact_name" class="block text-sm font-medium text-white mb-2">Contact
+                                Person Name</label>
+                            <input type="text" id="contact_name" name="contact_name" required
+                                class="input-field w-full px-4 py-3 rounded-xl focus:ring-0" placeholder="Full name">
+                        </div>
+                        <!-- Designation -->
+                        <div>
+                            <label for="designation"
+                                class="block text-sm font-medium text-white mb-2">Designation</label>
+                            <input type="text" id="designation" name="designation" required
+                                class="input-field w-full px-4 py-3 rounded-xl focus:ring-0" placeholder="Job title">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Email -->
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-white mb-2">Email
+                                Address</label>
+                            <input type="email" id="email" name="email" required
+                                class="input-field w-full px-4 py-3 rounded-xl focus:ring-0"
+                                placeholder="email@company.com">
+                        </div>
+                        <!-- Phone -->
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-white mb-2">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required
+                                class="input-field w-full px-4 py-3 rounded-xl focus:ring-0" placeholder="+977 ...">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Interest -->
+                        <div class="relative">
+                            <label for="interest" class="block text-sm font-medium text-white mb-2">Sponsorship
+                                Interest</label>
+                            <div class="relative">
+                                <select id="interest" name="interest" required
+                                    class="input-field w-full px-4 py-3 rounded-xl focus:ring-0 appearance-none pr-10 cursor-pointer">
+                                    <option value="" disabled selected class="bg-[#0e172b] text-white">Select Tier
+                                    </option>
+                                    <option value="Title Sponsor" class="bg-[#0e172b] text-white">Title Sponsor</option>
+                                    <option value="Platinum/Gold" class="bg-[#0e172b] text-white">Gold Sponsor</option>
+                                    <option value="Silver/Bronze" class="bg-[#0e172b] text-white">Silver Sponsor
+                                    </option>
+                                    <option value="Community Partner" class="bg-[#0e172b] text-white">Community Partner
+                                    </option>
+                                    <option value="Media Partner" class="bg-[#0e172b] text-white">Media Partner</option>
+                                    <option value="Other" class="bg-[#0e172b] text-white">Other Integration</option>
+                                </select>
+                                <div
+                                    class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-gray-400">
+                                    <i class="fas fa-chevron-down text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Budget -->
+                        <div>
+                            <label for="budget" class="block text-sm font-medium text-white mb-2">Budget Range
+                                (Optional)</label>
+                            <input type="text" id="budget" name="budget"
+                                class="input-field w-full px-4 py-3 rounded-xl focus:ring-0"
+                                placeholder="e.g. NPR 50k - 100k">
+                        </div>
+                    </div>
+
+                    <!-- Message -->
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-white mb-2">Message / Additional
+                            Details</label>
+                        <textarea id="message" name="message" rows="4" required
+                            class="input-field w-full px-4 py-3 rounded-xl focus:ring-0"
+                            placeholder="How would you like to partner with us?"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="submit-btn"
+                        class="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-4 rounded-xl hover:shadow-lg hover:shadow-orange-500/30 transition-all transform hover:scale-[1.01] flex items-center justify-center space-x-2">
+                        <span>Send Inquiry</span>
+                        <i class="fas fa-paper-plane text-sm opacity-80"></i>
+                    </button>
+                </form>
+
+                <!-- Success/Error Message -->
+                <div id="form-response" class="hidden mt-6 p-4 rounded-xl text-center font-semibold"></div>
+            </div>
+
+            <!-- Help Section -->
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <div class="glass-card rounded-2xl p-6 text-left border-orange-500/20">
+                    <h3 class="text-lg font-bold text-white mb-2 flex items-center">
+                        <i class="fas fa-question-circle text-orange-500 mr-2"></i>
+                        Need help filling the form?
+                    </h3>
+                    <p class="text-white text-sm">
+                        Our team is here to guide you through the process. Reach out if you have questions about
+                        sponsorship tiers or benefits.
+                    </p>
+                    <div class="mt-4 flex space-x-6 text-sm">
+                        <a href="tel:+9779741786797"
+                            class="text-orange-500 hover:text-orange-400 font-semibold transition">
+                            <i class="fas fa-phone-alt mr-1"></i> Call Us
+                        </a>
+                        <a href="https://wa.me/9779741786797"
+                            class="text-green-500 hover:text-green-400 font-semibold transition">
+                            <i class="fab fa-whatsapp mr-1"></i> WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <div class="text-center md:text-right">
+                    <p class="text-green-500 text-sm">Already have a proposal?</p>
+                    <p class="text-white text-sm">Send it directly to
+                        <a href="mailto:capec@pec.edu.np"
+                            class="text-orange-500 hover:underline font-semibold text-base">capec@pec.edu.np</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gradient-to-b border-t border-gray-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center">
+                            <img src="../assets/logo.png" alt="Logo" />
+                        </div>
+                        <div>
+                            <div class="text-white font-bold text-lg">
+                                Hackathon Nova 2026
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Building the future through innovation, collaboration, and
+                        technology at Pokhara Engineering College.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="../index.html#about"
+                                class="text-gray-400 hover:text-orange-400 transition text-sm">About</a>
+                        </li>
+                        <li>
+                            <a href="../index.html#themes"
+                                class="text-gray-400 hover:text-orange-400 transition text-sm">Themes</a>
+                        </li>
+                        <li>
+                            <a href="../index.html#timeline"
+                                class="text-gray-400 hover:text-orange-400 transition text-sm">Timeline</a>
+                        </li>
+                        <li>
+                            <a href="../index.html#sponsors"
+                                class="text-gray-400 hover:text-orange-400 transition text-sm">Sponsors</a>
+                        </li>
+                        <li>
+                            <a href="gallery.html"
+                                class="text-gray-400 hover:text-orange-400 transition text-sm">Gallery</a>
+                        </li>
+                        <li>
+                            <a href="schedule.html"
+                                class="text-gray-400 hover:text-orange-400 transition text-sm">Schedule</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-bold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="../index.html#rules"
+                                class="text-gray-400 hover:text-orange-400 transition text-sm">Rules</a>
+                        </li>
+                        <li>
+                            <a href="../index.html#judging"
+                                class="text-gray-400 hover:text-orange-400 transition text-sm">Judging Criteria</a>
+                        </li>
+                        <li>
+                            <a href="../index.html#faq"
+                                class="text-gray-400 hover:text-orange-400 transition text-sm">FAQ</a>
+                        </li>
+                        <li>
+                            <a href="codeOfConduct.html"
+                                class="text-gray-400 hover:text-orange-400 transition text-sm">Code of
+                                Conduct</a>
+                        </li>
+                        <li>
+                            <a href="termsOfService.html"
+                                class="text-gray-400 hover:text-orange-400 transition text-sm">Terms of Service</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-bold mb-4">About Hackathon Nova</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        Hackathon Nova is a 60-hour student-focused hackathon organized by
+                        CAPEC and ITEC-PEC at Pokhara Engineering College.
+                    </p>
+                    <a href="../index.html#register"
+                        class="bg-orange-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:shadow-lg hover:shadow-orange-500/50 transition inline-block">
+                        Register Now
+                    </a>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-500 text-sm mb-4 md:mb-0">
+                        © 2026 CAPEC - Hackathon Nova. All rights reserved.
+                    </p>
+                    <div class="flex space-x-6 text-sm">
+                        <a href="#" class="text-gray-500 hover:text-orange-400 transition">Privacy Policy</a>
+                        <a href="termsOfService.html" class="text-gray-500 hover:text-orange-400 transition">Terms of
+                            Service</a>
+                        <a href="codeOfConduct.html" class="text-gray-500 hover:text-orange-400 transition">Code of
+                            Conduct</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // EmailJS Initialization
+        (function () {
+            emailjs.init("HttppTM2bWLYgdeAq");
+        })();
+
+        const form = document.getElementById('sponsor-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const responseDiv = document.getElementById('form-response');
+        const menuBtn = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Mobile menu toggle
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Loading state
+            submitBtn.disabled = true;
+            const originalBtnContent = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<div class="loading-spinner"></div><span>Sending...</span>';
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            // Execute EmailJS call
+            // NOTE: You still need to replace "template_id" with your actual Template ID from EmailJS
+            emailjs.send("service_7rbfo8o", "template_wv2fuvi", data)
+                .then(function () {
+                    showSuccess();
+                }, function (error) {
+                    console.error("EmailJS Error:", error);
+                    showError("Failed to send. Please try again or email us directly.");
+                });
+
+            function showSuccess() {
+                responseDiv.innerText = "Thank you! Your inquiry has been sent. We will get back to you shortly.";
+                responseDiv.classList.remove('hidden', 'bg-red-500/10', 'text-red-400');
+                responseDiv.classList.add('bg-green-500/10', 'text-green-400');
+                form.reset();
+                submitBtn.innerHTML = originalBtnContent;
+                submitBtn.disabled = false;
+            }
+
+            function showError(msg) {
+                responseDiv.innerText = msg;
+                responseDiv.classList.remove('hidden', 'bg-green-500/10', 'text-green-400');
+                responseDiv.classList.add('bg-red-500/10', 'text-red-400');
+                submitBtn.innerHTML = originalBtnContent;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>
