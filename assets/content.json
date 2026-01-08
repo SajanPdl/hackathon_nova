@@ -33,32 +33,7 @@
   },
   "contact": { "email": "capec@pec.edu.np" },
   "footer": { "copyright": "© 2026 CAPEC - Computer Association of Pokhara Engineering College. All rights reserved."},
-  "sponsors": {
-    "title": [
-      { "name": "Pokhara Engineering College", "img": "clzlogo.jpeg", "href": "" }
-    ],
-    "gold": [
-      { "name": "Gold Sponsor 2", "img": "logo.png" },
-      { "name": "Gold Sponsor 3", "img": "logo.png" },
-      { "name": "Gold Sponsor 4", "img": "logo.png" }
-    ],
-    "silver": [
-      { "name": "Silver Sponsor 1", "img": "logo.png" },
-      { "name": "Silver Sponsor 2", "img": "logo.png" },
-      { "name": "Silver Sponsor 3", "img": "logo.png" },
-      { "name": "Silver Sponsor 4", "img": "logo.png" }
-    ],
-    "communityPartners": [
-      { "name": "Community Partner 1", "img": "logo.png" },
-      { "name": "Community Partner 2", "img": "logo.png" },
-      { "name": "Community Partner 3", "img": "logo.png" }
-    ],
-    "mediaPartners": [
-      { "name": "Media Partner 1", "img": "logo.png" },
-      { "name": "Media Partner 2", "img": "logo.png" },
-      { "name": "Media Partner 3", "img": "logo.png" }
-    ]
-  },
+
   "pages": {
     "codeOfConduct": {
       "title": "Code of Conduct",

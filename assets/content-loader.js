@@ -62,7 +62,10 @@
       const cemail = document.getElementById('footer-contact-email'); if (cemail && data.contact) cemail.href = 'mailto:' + data.contact.email, cemail.textContent = data.contact.email;
       const fc = document.getElementById('footer-copyright'); if (fc && data.footer) fc.textContent = data.footer.copyright;
 
-      // SPONSORS
+      // SPONSORS - Now loaded from database, skip JSON loading
+      // Sponsors are loaded from Supabase database via script in index.html
+      // This section is kept for backward compatibility but disabled
+      /*
       if (data.sponsors) {
         const renderLogos = (arr, containerId, cardClass) => {
           const el = document.getElementById(containerId);
@@ -97,6 +100,7 @@
         // Media partners: compact cards
         renderLogos(data.sponsors.mediaPartners, 'sponsors-media', 'bg-gradient-to-br from-blue-400/5 to-transparent border border-gray-800 rounded-lg p-3 hover:shadow-lg hover:shadow-blue-400/10 transition h-20 md:h-24 flex items-center justify-center');
       }
+      */
 
       // PAGE SPECIFIC
       const page = document.body.getAttribute('data-page');

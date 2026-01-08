@@ -135,6 +135,9 @@
                 <button id="tab-activity" class="tab-button py-4 px-2 border-b-2 border-transparent text-gray-400 hover:text-white transition">
                     <i class="fas fa-history mr-2"></i>Recent Activity
                 </button>
+                <button id="tab-sponsors" class="tab-button py-4 px-2 border-b-2 border-transparent text-gray-400 hover:text-white transition">
+                    <i class="fas fa-handshake mr-2"></i>Sponsors
+                </button>
                 <button id="tab-settings" class="tab-button py-4 px-2 border-b-2 border-transparent text-gray-400 hover:text-white transition">
                     <i class="fas fa-cog mr-2"></i>Settings
                 </button>
@@ -196,6 +199,59 @@
                 </div>
                 <h3 class="text-xl font-bold text-white mb-2">No Activity Yet</h3>
                 <p class="text-gray-400">Activity will appear here as you manage announcements.</p>
+            </div>
+        </div>
+
+        <!-- Sponsors Tab Content -->
+        <div id="sponsors-tab" class="tab-content hidden">
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold">Manage Sponsors</h1>
+                <a href="sponsor-form.html"
+                    class="bg-gradient-to-r from-orange-500 to-red-600 text-white px-6 py-2 rounded-lg font-bold hover:opacity-90 transition">
+                    <i class="fas fa-plus mr-2"></i> New Sponsor
+                </a>
+            </div>
+
+            <!-- Filter by Category -->
+            <div class="mb-6 flex gap-3 flex-wrap">
+                <button onclick="filterSponsors('all')" class="filter-btn active px-4 py-2 rounded-lg bg-orange-500/20 text-orange-400 border border-orange-500/30 transition">
+                    All
+                </button>
+                <button onclick="filterSponsors('title')" class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
+                    Title
+                </button>
+                <button onclick="filterSponsors('gold')" class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
+                    Gold
+                </button>
+                <button onclick="filterSponsors('silver')" class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
+                    Silver
+                </button>
+                <button onclick="filterSponsors('community')" class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
+                    Community
+                </button>
+                <button onclick="filterSponsors('media')" class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
+                    Media
+                </button>
+            </div>
+
+            <div id="sponsors-loading" class="text-center py-10 text-gray-400">
+                <i class="fas fa-spinner fa-spin text-2xl mb-2"></i>
+                <p>Loading sponsors...</p>
+            </div>
+
+            <div id="sponsors-list" class="grid gap-6 hidden">
+                <!-- Sponsors will be injected here -->
+            </div>
+
+            <div id="sponsors-empty-state" class="text-center py-20 hidden">
+                <div class="bg-white/5 inline-block p-6 rounded-full mb-4">
+                    <i class="fas fa-handshake text-4xl text-gray-500"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">No Sponsors Yet</h3>
+                <p class="text-gray-400 mb-6">Add your first sponsor to showcase on the website.</p>
+                <a href="sponsor-form.html" class="text-orange-500 hover:text-orange-400 font-semibold">
+                    Add Sponsor &rarr;
+                </a>
             </div>
         </div>
 
@@ -469,6 +525,10 @@
             switchTab('activity');
         });
 
+        document.getElementById('tab-sponsors').addEventListener('click', () => {
+            switchTab('sponsors');
+        });
+
         document.getElementById('tab-settings').addEventListener('click', () => {
             openCodeModal();
         });
@@ -495,6 +555,11 @@
                 document.getElementById('tab-activity').classList.remove('border-transparent', 'text-gray-400');
                 document.getElementById('activity-tab').classList.remove('hidden');
                 fetchActivities();
+            } else if (tabName === 'sponsors') {
+                document.getElementById('tab-sponsors').classList.add('active', 'border-orange-500', 'text-orange-500');
+                document.getElementById('tab-sponsors').classList.remove('border-transparent', 'text-gray-400');
+                document.getElementById('sponsors-tab').classList.remove('hidden');
+                fetchSponsors();
             } else if (tabName === 'settings') {
                 if (!settingsUnlocked) {
                     openCodeModal();
@@ -872,6 +937,149 @@
 
                 // Refresh list
                 fetchAnnouncements();
+            } catch (error) {
+                console.error('Error deleting:', error);
+                alert('Failed to delete: ' + error.message);
+            }
+        }
+
+        // Sponsor Management Functions
+        let currentSponsorFilter = 'all';
+
+        function filterSponsors(category) {
+            currentSponsorFilter = category;
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.classList.remove('active', 'bg-orange-500/20', 'text-orange-400', 'border-orange-500/30');
+                btn.classList.add('bg-white/5', 'text-gray-300', 'border-white/10');
+            });
+            event.target.classList.add('active', 'bg-orange-500/20', 'text-orange-400', 'border-orange-500/30');
+            event.target.classList.remove('bg-white/5', 'text-gray-300', 'border-white/10');
+            fetchSponsors();
+        }
+
+        async function fetchSponsors() {
+            const sponsorsList = document.getElementById('sponsors-list');
+            const sponsorsLoading = document.getElementById('sponsors-loading');
+            const sponsorsEmptyState = document.getElementById('sponsors-empty-state');
+
+            try {
+                sponsorsLoading.classList.remove('hidden');
+                sponsorsList.classList.add('hidden');
+                sponsorsEmptyState.classList.add('hidden');
+
+                let query = supabase
+                    .from('sponsors')
+                    .select('*')
+                    .order('display_order', { ascending: true })
+                    .order('created_at', { ascending: false });
+
+                if (currentSponsorFilter !== 'all') {
+                    query = query.eq('category', currentSponsorFilter);
+                }
+
+                const { data, error } = await query;
+
+                if (error) throw error;
+
+                sponsorsLoading.classList.add('hidden');
+
+                if (!data || data.length === 0) {
+                    sponsorsEmptyState.classList.remove('hidden');
+                    return;
+                }
+
+                sponsorsList.classList.remove('hidden');
+                sponsorsList.innerHTML = '';
+
+                const categoryLabels = {
+                    'title': 'Title Sponsor',
+                    'gold': 'Gold Sponsor',
+                    'silver': 'Silver Sponsor',
+                    'community': 'Community Partner',
+                    'media': 'Media Partner'
+                };
+
+                const categoryColors = {
+                    'title': 'bg-purple-500/10 border-purple-500/30 text-purple-400',
+                    'gold': 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400',
+                    'silver': 'bg-gray-500/10 border-gray-500/30 text-gray-400',
+                    'community': 'bg-green-500/10 border-green-500/30 text-green-400',
+                    'media': 'bg-blue-500/10 border-blue-500/30 text-blue-400'
+                };
+
+                data.forEach(sponsor => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition';
+                    card.innerHTML = `
+                        <div class="flex flex-col md:flex-row items-start md:items-center gap-4">
+                            <div class="flex-1">
+                                ${sponsor.logo_url ? 
+                                    `<img src="${sponsor.logo_url}" alt="${sponsor.name}" class="h-16 w-auto object-contain mb-4 md:mb-0">` :
+                                    `<div class="h-16 w-32 bg-white/10 rounded flex items-center justify-center text-gray-400 text-sm mb-4 md:mb-0">No Logo</div>`
+                                }
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-2 flex-wrap">
+                                    <span class="px-3 py-1 rounded-full text-xs font-semibold border ${categoryColors[sponsor.category] || categoryColors['silver']}">
+                                        ${categoryLabels[sponsor.category] || sponsor.category}
+                                    </span>
+                                    ${!sponsor.is_active ? '<span class="bg-red-500/10 text-red-500 px-2 py-0.5 rounded text-xs border border-red-500/20">Inactive</span>' : ''}
+                                </div>
+                                <h3 class="text-xl font-bold text-white mb-1">${sponsor.name}</h3>
+                                ${sponsor.website_url ? 
+                                    `<a href="${sponsor.website_url}" target="_blank" class="text-blue-400 hover:text-blue-300 text-sm">
+                                        <i class="fas fa-external-link-alt mr-1"></i>${sponsor.website_url}
+                                    </a>` : 
+                                    '<p class="text-gray-500 text-sm">No website</p>'
+                                }
+                                <p class="text-gray-500 text-xs mt-2">Order: ${sponsor.display_order}</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <a href="sponsor-form.html?id=${sponsor.id}" class="bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 p-3 rounded-lg transition" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <button onclick="deleteSponsor('${sponsor.id}')" class="bg-red-600/20 text-red-400 hover:bg-red-600/30 p-3 rounded-lg transition" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    sponsorsList.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error('Error fetching sponsors:', error);
+                sponsorsLoading.innerHTML = `<p class="text-red-500">Error loading sponsors: ${error.message}</p>`;
+            }
+        }
+
+        async function deleteSponsor(id) {
+            if (!confirm('Are you sure you want to delete this sponsor?')) return;
+
+            try {
+                const { data: sponsorData } = await supabase
+                    .from('sponsors')
+                    .select('name')
+                    .eq('id', id)
+                    .single();
+
+                const { error } = await supabase
+                    .from('sponsors')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                await logActivity(
+                    'delete',
+                    'sponsor',
+                    id,
+                    `Deleted sponsor: "${sponsorData?.name || 'Unknown'}"`,
+                    { sponsor_id: id, name: sponsorData?.name }
+                );
+
+                fetchSponsors();
             } catch (error) {
                 console.error('Error deleting:', error);
                 alert('Failed to delete: ' + error.message);
