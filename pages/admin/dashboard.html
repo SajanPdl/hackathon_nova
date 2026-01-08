@@ -1039,6 +1039,9 @@
                                 <a href="sponsor-form.html?id=${sponsor.id}" class="bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 p-3 rounded-lg transition" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
+                                <button onclick="duplicateSponsor('${sponsor.id}')" class="bg-green-600/20 text-green-400 hover:bg-green-600/30 p-3 rounded-lg transition" title="Duplicate">
+                                    <i class="fas fa-copy"></i>
+                                </button>
                                 <button onclick="deleteSponsor('${sponsor.id}')" class="bg-red-600/20 text-red-400 hover:bg-red-600/30 p-3 rounded-lg transition" title="Delete">
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -1051,6 +1054,76 @@
             } catch (error) {
                 console.error('Error fetching sponsors:', error);
                 sponsorsLoading.innerHTML = `<p class="text-red-500">Error loading sponsors: ${error.message}</p>`;
+            }
+        }
+
+        async function duplicateSponsor(id) {
+            try {
+                // Fetch the sponsor data
+                const { data: sponsorData, error: fetchError } = await supabase
+                    .from('sponsors')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (fetchError) throw fetchError;
+                if (!sponsorData) {
+                    alert('Sponsor not found');
+                    return;
+                }
+
+                // Get the maximum display order to set a new unique order
+                const { data: maxOrderData, error: maxOrderError } = await supabase
+                    .from('sponsors')
+                    .select('display_order')
+                    .order('display_order', { ascending: false })
+                    .limit(1)
+                    .single();
+
+                // Calculate new display order: max + 1, or original + 1 if max fetch fails
+                let newDisplayOrder = (sponsorData.display_order || 0) + 1;
+                if (!maxOrderError && maxOrderData && maxOrderData.display_order !== null) {
+                    newDisplayOrder = (maxOrderData.display_order || 0) + 1;
+                }
+
+                // Create a duplicate with modified name and new display order
+                const duplicatedData = {
+                    name: sponsorData.name + ' (Copy)',
+                    category: sponsorData.category,
+                    display_order: newDisplayOrder,
+                    logo_url: sponsorData.logo_url,
+                    website_url: sponsorData.website_url,
+                    is_active: false // Set to inactive by default for duplicated sponsors
+                };
+
+                // Insert the duplicated sponsor
+                const { data: newSponsor, error: insertError } = await supabase
+                    .from('sponsors')
+                    .insert([duplicatedData])
+                    .select()
+                    .single();
+
+                if (insertError) throw insertError;
+
+                // Log activity
+                await logActivity(
+                    'create',
+                    'sponsor',
+                    newSponsor.id,
+                    `Duplicated sponsor: "${sponsorData.name}" to "${duplicatedData.name}"`,
+                    { 
+                        original_sponsor_id: id,
+                        new_sponsor_id: newSponsor.id,
+                        name: duplicatedData.name,
+                        category: duplicatedData.category
+                    }
+                );
+
+                // Refresh the sponsors list
+                fetchSponsors();
+            } catch (error) {
+                console.error('Error duplicating sponsor:', error);
+                alert('Failed to duplicate sponsor: ' + error.message);
             }
         }
 
