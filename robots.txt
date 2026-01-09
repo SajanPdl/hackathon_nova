@@ -1,0 +1,11 @@
+# robots.txt for Hackathon Nova 2026
+
+User-agent: *
+Allow: /
+Disallow: /pages/admin/
+
+# Sitemap
+Sitemap: https://novaspark.tech/sitemap.xml
+
+# Crawl-delay (optional)
+Crawl-delay: 1
