@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sponsor Form | Hackathon Nova 2026</title>
+    <link rel="icon" href="/assets/logo.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -54,14 +55,14 @@
                 <!-- Category & Display Order -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label for="category" class="block text-sm font-medium text-gray-300 mb-2">Category *</label>
+                        <label for="category" class="block text-sm font-medium text-white mb-2">Category *</label>
                         <select id="category" required
-                            class="input-dark w-full rounded-lg px-4 py-3 transition cursor-pointer">
-                            <option value="title">Title Sponsor</option>
-                            <option value="gold">Gold Sponsor</option>
-                            <option value="silver">Silver Sponsor</option>
-                            <option value="community">Community Partner</option>
-                            <option value="media">Media Partner</option>
+                            class="input-dark w-full bg-white text-black rounded-lg px-4 py-3 transition cursor-pointer">
+                            <option value="title" class="bg-white text-black">Title Sponsor</option>
+                            <option value="gold" class="bg-white text-black">Gold Sponsor</option>
+                            <option value="silver" class="bg-white text-black">Silver Sponsor</option>
+                            <option value="community" class="bg-white text-black">Community Partner</option>
+                            <option value="media" class="bg-white text-black">Media Partner</option>
                         </select>
                     </div>
                     <div>
@@ -393,4 +394,3 @@
 </body>
 
 </html>
-
