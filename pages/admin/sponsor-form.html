@@ -99,20 +99,36 @@
                         placeholder="https://example.com">
                 </div>
 
-                <!-- Active Status -->
-                <div class="flex items-center">
-                    <label class="flex items-center cursor-pointer">
-                        <div class="relative">
-                            <input type="checkbox" id="is-active" class="sr-only" checked>
-                            <div class="w-10 h-6 bg-gray-700 rounded-full shadow-inner toggle-bg transition"></div>
-                            <div
-                                class="dot absolute w-4 h-4 bg-white rounded-full shadow -left-1 -top-1 transition transform translate-x-1 translate-y-2">
+                <!-- Active Status & Show Name -->
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <label class="flex items-center cursor-pointer">
+                            <div class="relative">
+                                <input type="checkbox" id="is-active" class="sr-only" checked>
+                                <div class="w-10 h-6 bg-gray-700 rounded-full shadow-inner toggle-bg transition"></div>
+                                <div
+                                    class="dot absolute w-4 h-4 bg-white rounded-full shadow -left-1 -top-1 transition transform translate-x-1 translate-y-2">
+                                </div>
                             </div>
-                        </div>
-                        <div class="ml-3 text-gray-300 font-medium">
-                            Active (Visible on site)
-                        </div>
-                    </label>
+                            <div class="ml-3 text-gray-300 font-medium">
+                                Active (Visible on site)
+                            </div>
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <label class="flex items-center cursor-pointer">
+                            <div class="relative">
+                                <input type="checkbox" id="show-name" class="sr-only">
+                                <div class="w-10 h-6 bg-gray-700 rounded-full shadow-inner toggle-bg transition"></div>
+                                <div
+                                    class="dot absolute w-4 h-4 bg-white rounded-full shadow -left-1 -top-1 transition transform translate-x-1 translate-y-2">
+                                </div>
+                            </div>
+                            <div class="ml-3 text-gray-300 font-medium">
+                                Show Name (Display sponsor name below logo)
+                            </div>
+                        </label>
+                    </div>
                 </div>
 
                 <!-- Logo Preview -->
@@ -204,6 +220,7 @@
                     document.getElementById('display-order').value = data.display_order || 0;
                     document.getElementById('website-url').value = data.website_url || '';
                     document.getElementById('is-active').checked = data.is_active !== false;
+                    document.getElementById('show-name').checked = data.show_name === true;
 
                     if (data.logo_url) {
                         currentLogoDiv.classList.remove('hidden');
@@ -285,6 +302,7 @@
             const displayOrder = parseInt(document.getElementById('display-order').value) || 0;
             const websiteUrl = document.getElementById('website-url').value.trim();
             const isActive = document.getElementById('is-active').checked;
+            const showName = document.getElementById('show-name').checked;
             const logoFile = logoUploadInput.files[0];
 
             saveBtn.disabled = true;
@@ -317,7 +335,8 @@
                     name,
                     category,
                     display_order: displayOrder,
-                    is_active: isActive
+                    is_active: isActive,
+                    show_name: showName
                 };
 
                 // Only update logo_url if a new file was uploaded
