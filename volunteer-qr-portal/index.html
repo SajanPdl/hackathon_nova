@@ -5,13 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login | Hackathon Nova</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-color: #f1f5f9;
-            --primary: #3b82f6;
-            --error: #ef4444;
+            /* Brand Palette */
+            --primary-orange: #FF6B35;
+            --primary-blue: #004E89;
+            --dark-bg: #0A0E27;
+            --card-glass: rgba(26, 31, 58, 0.7);
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B8C8;
+            --error: #E74C3C;
         }
 
         * {
@@ -21,100 +26,166 @@
         }
 
         body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1f3a 100%);
+            color: var(--text-primary);
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Ambient Glow effects */
+        body::before,
+        body::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        body::before {
+            background: var(--primary-orange);
+            top: -50px;
+            left: -50px;
+        }
+
+        body::after {
+            background: var(--primary-blue);
+            bottom: -50px;
+            right: -50px;
         }
 
         .login-card {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 16px;
+            background: var(--card-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 48px;
+            border-radius: 24px;
             width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            max-width: 420px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-orange), var(--primary-blue));
         }
 
         h1 {
-            margin-bottom: 10px;
-            font-size: 1.8rem;
+            margin-bottom: 8px;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         p {
-            color: #94a3b8;
-            margin-bottom: 30px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
             font-size: 0.95rem;
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             text-align: left;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
-            font-size: 0.9rem;
-            color: #cbd5e1;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         input {
             width: 100%;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             color: white;
             font-size: 1rem;
             outline: none;
+            transition: all 0.3s ease;
         }
 
         input:focus {
-            border-color: var(--primary);
+            border-color: var(--primary-orange);
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
         }
 
         .btn {
             width: 100%;
-            padding: 12px;
-            background: var(--primary);
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary-orange), #FF8C42);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.25);
+            margin-top: 8px;
         }
 
         .btn:hover {
-            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(255, 107, 53, 0.35);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
         }
 
         .btn:disabled {
-            opacity: 0.5;
+            opacity: 0.6;
             cursor: not-allowed;
+            transform: none;
         }
 
         .error-msg {
             color: var(--error);
             font-size: 0.9rem;
-            margin-top: 15px;
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 8px;
             display: none;
         }
 
         .loader {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
+            animation: spin 0.8s linear infinite;
             margin-right: 8px;
             vertical-align: middle;
         }
@@ -131,11 +202,11 @@
 
     <div class="login-card">
         <h1>Admin Portal</h1>
-        <p>Sign in to access your dashboard</p>
+        <p>Sign in to manage volunteers</p>
 
         <form id="login-form">
             <div class="input-group">
-                <label for="email">Email</label>
+                <label for="email">Email Address</label>
                 <input type="email" id="email" required placeholder="admin@hackathon-nova.com">
             </div>
             <div class="input-group">
@@ -177,40 +248,29 @@
 
                 btn.innerHTML = '<span class="loader"></span> Authorizing...';
 
-                // 2. Determine Role/Access (Probe RLS)
-                // We try checking access to 'attendance_capec' and 'attendance_itecpec'
-                // Whoever we can read from, that's our org.
+                // 2. Determine Role/Access (Using Secure RPC)
+                // We bypass fickle RLS probing and ask the DB directly via 'security definer' functions.
 
-                // Check CAPEC
-                const { error: capecError } = await sb.from('attendance_capec').select('id').limit(1);
-                const isCapec = !capecError;
+                const { data: isCapec } = await sb.rpc('check_capec_access');
+                const { data: isItec } = await sb.rpc('check_itec_access');
 
-                // Check ITEC-PEC
-                const { error: itecError } = await sb.from('attendance_itecpec').select('id').limit(1);
-                const isItec = !itecError;
+                console.log("Access Check RPC:", { isCapec, isItec });
 
                 let redirectTarget = null;
 
+                // Determine Directory based on current location
+                // If we are at root/index.html, we redirect relatively.
+
                 if (isCapec && isItec) {
-                    // Both? Probably Super Admin
-                    // Or check if there's a specific Super Admin table
-                    // For now, if both, maybe probe a super-admin specific table or default to super-admin
-                    redirectTarget = '/super-admin/';
+                    redirectTarget = 'super-admin/';
                 } else if (isCapec) {
-                    // Redirect to CAPEC Admin
-                    // If deployed on admin.hackathon-nova.com, maybe it's /capec/ or similar?
-                    // But based on user request: "enters to cpec admin portal" (on admin domain)
-                    // I'll assume standard directory structure relative to this login
-                    redirectTarget = '/admin-capec/';
+                    redirectTarget = 'admin-capec/';
                 } else if (isItec) {
-                    redirectTarget = '/admin-itecpec/';
+                    redirectTarget = 'admin-itecpec/';
                 } else {
-                    // Check if Super Admin (maybe they have no access to attendance tables but different access?)
-                    // Let's assume Super Admin has access to ALL, so they would fall into the 'isCapec && isItec' case above
-                    // UNLESS audit_log access is the key?
-                    const { error: auditError } = await sb.from('audit_log').select('id').limit(1);
-                    if (!auditError) {
-                        redirectTarget = '/super-admin/';
+                    // Fallback check on email string if RPC fails (failsafe)
+                    if (data.user.email.includes('super')) {
+                        redirectTarget = 'super-admin/';
                     } else {
                         throw new Error("Access Denied: You do not have permission to access any admin portal.");
                     }
@@ -218,6 +278,7 @@
 
                 // Redirect
                 if (redirectTarget) {
+                    btn.innerHTML = 'Redirecting...';
                     window.location.href = redirectTarget;
                 }
 

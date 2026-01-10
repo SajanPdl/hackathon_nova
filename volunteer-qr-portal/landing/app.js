@@ -3,19 +3,24 @@
 // ========================================
 
 let detectedOrg = null;
-let html5QrcodeScanner = null;
-let isScannerActive = false;
+let html5QrCode = null;
+let isScanning = false;
+let feedbackTimeout = null;
+
+const SUPABASE_FUNC_URL = 'https://lhbipoprzdfzxkkrdpnw.supabase.co/functions/v1';
 
 // DOM Elements
-const orgBadge = document.getElementById('org-badge');
-const qrReaderDiv = document.getElementById('qr-reader');
-const btnStartScan = document.getElementById('btn-start-scan');
-const scanStatus = document.getElementById('scan-status');
-const manualForm = document.getElementById('manual-form');
-const manualCodeInput = document.getElementById('manual-code');
-const feedbackArea = document.getElementById('feedback-area');
-const feedbackMessage = document.getElementById('feedback-message');
-const loadingOverlay = document.getElementById('loading-overlay');
+const elements = {
+    orgBadge: document.getElementById('org-badge'),
+    statusIndicator: document.getElementById('status-indicator'),
+    statusText: document.getElementById('status-text'),
+    participantCard: document.getElementById('participant-card'),
+    manualModal: document.getElementById('manual-modal'),
+    manualForm: document.getElementById('manual-form'),
+    manualCodeInput: document.getElementById('manual-code'),
+    loadingOverlay: document.getElementById('loading-overlay'),
+    cameraWarning: document.getElementById('camera-warning')
+};
 
 // ========================================
 // INITIALIZATION
@@ -23,291 +28,109 @@ const loadingOverlay = document.getElementById('loading-overlay');
 
 document.addEventListener('DOMContentLoaded', () => {
     detectOrganization();
-    setupEventListeners();
-    checkCameraPermission();
+    initScanner();
+    setupListeners();
 });
 
-// ========================================
-// ORGANIZATION DETECTION
-// ========================================
-
-/**
- * Detects organization from subdomain
- * capec.domain.com → CAPEC
- * itecpec.domain.com → ITECPEC
- * localhost/others → BOTH (Universal Mode)
- */
 function detectOrganization() {
     const hostname = window.location.hostname.toLowerCase();
-    
     if (hostname.includes('capec')) {
         detectedOrg = 'CAPEC';
-        orgBadge.textContent = 'CAPEC';
-        orgBadge.classList.add('capec');
     } else if (hostname.includes('itecpec') || hostname.includes('itec')) {
         detectedOrg = 'ITECPEC';
-        orgBadge.textContent = 'ITEC-PEC';
-        orgBadge.classList.add('itecpec');
     } else {
-        // Universal Mode - Supports both
         detectedOrg = 'BOTH';
-        orgBadge.textContent = 'Universal Portal';
-        orgBadge.className = 'org-badge'; // neutral style
-        
-        // Add minimal styling for universal badge if not exists
-        if (!document.getElementById('universal-style')) {
-            const style = document.createElement('style');
-            style.id = 'universal-style';
-            style.innerHTML = `.org-badge { background: linear-gradient(135deg, #6366f1, #ec4899); color: white; }`;
-            document.head.appendChild(style);
+    }
+    
+    elements.orgBadge.textContent = detectedOrg === 'BOTH' ? 'UNIVERSAL' : detectedOrg;
+    elements.orgBadge.className = `badge ${detectedOrg.toLowerCase()}`;
+}
+
+function setupListeners() {
+    // Manual Scan Toggle
+    document.getElementById('btn-manual-scan').onclick = () => elements.manualModal.classList.remove('hidden');
+    document.getElementById('btn-close-manual').onclick = () => elements.manualModal.classList.add('hidden');
+    
+    // Enable Camera Button (Fallback)
+    document.getElementById('btn-enable-camera').onclick = () => initScanner();
+
+    // Manual Form Submit
+    elements.manualForm.onsubmit = (e) => {
+        e.preventDefault();
+        const code = elements.manualCodeInput.value.trim().toUpperCase();
+        if (code) {
+            elements.manualModal.classList.add('hidden');
+            processCheckIn(code, detectedOrg === 'BOTH' ? 'ITECPEC' : detectedOrg);
         }
+    };
+}
+
+// ========================================
+// SCANNER LOGIC
+// ========================================
+
+async function initScanner() {
+    updateUIStatus('idle', 'Ready to Scan');
+    
+    // Create clear instance
+    if (html5QrCode) {
+        try { await html5QrCode.stop(); } catch(e) {}
     }
     
-    console.log('Detected Organization:', detectedOrg);
-}
-
-// ========================================
-// EVENT LISTENERS
-// ========================================
-
-function setupEventListeners() {
-    // Start scan button
-    btnStartScan.addEventListener('click', toggleScanner);
+    html5QrCode = new Html5Qrcode("qr-reader");
     
-    // Manual form submission
-    manualForm.addEventListener('submit', handleManualSubmit);
-    
-    // Auto-uppercase manual input
-    manualCodeInput.addEventListener('input', (e) => {
-        e.target.value = e.target.value.toUpperCase();
-    });
-}
-
-// ========================================
-// CAMERA PERMISSION CHECK
-// ========================================
-
-async function checkCameraPermission() {
-    try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        stream.getTracks().forEach(track => track.stop());
-        updateStatus('Camera ready. Click "Start Camera Scan" to begin.', 'info');
-    } catch (error) {
-        console.warn('Camera permission not granted yet:', error);
-        updateStatus('Camera access required for QR scanning', 'info');
-    }
-}
-
-// ========================================
-// QR SCANNER CONTROL
-// ========================================
-
-function toggleScanner() {
-    if (isScannerActive) {
-        stopScanner();
-    } else {
-        startScanner();
-    }
-}
-
-function startScanner() {
-    // Show QR reader div
-    qrReaderDiv.classList.add('active');
-    
-    // Initialize scanner
-    html5QrcodeScanner = new Html5Qrcode("qr-reader");
-    
-    const config = {
-        fps: 10,
+    const config = { 
+        fps: 20, // High performance
         qrbox: { width: 250, height: 250 },
-        aspectRatio: 1.0
+        aspectRatio: 1.0 
     };
-    
-    html5QrcodeScanner.start(
-        { facingMode: "environment" }, // Use back camera
-        config,
-        onScanSuccess,
-        onScanFailure
-    ).then(() => {
-        isScannerActive = true;
-        btnStartScan.textContent = '⏹ Stop Scanner';
-        btnStartScan.classList.remove('btn-primary');
-        btnStartScan.classList.add('btn-secondary');
-        updateStatus('Scanner active. Point camera at QR code.', 'info');
-    }).catch(err => {
-        console.error('Failed to start scanner:', err);
-        updateStatus('Camera access denied. Please use manual code entry.', 'error');
-        qrReaderDiv.classList.remove('active');
-    });
-}
 
-function stopScanner() {
-    if (html5QrcodeScanner) {
-        html5QrcodeScanner.stop().then(() => {
-            isScannerActive = false;
-            qrReaderDiv.classList.remove('active');
-            btnStartScan.textContent = '📷 Start Camera Scan';
-            btnStartScan.classList.remove('btn-secondary');
-            btnStartScan.classList.add('btn-primary');
-            updateStatus('Scanner stopped.', 'info');
-        }).catch(err => {
-            console.error('Error stopping scanner:', err);
-        });
+    try {
+        await html5QrCode.start(
+            { facingMode: "environment" },
+            config,
+            onScanSuccess
+        );
+        isScanning = true;
+        elements.cameraWarning.classList.add('hidden');
+    } catch (err) {
+        console.error("Camera Error:", err);
+        elements.cameraWarning.classList.remove('hidden');
+        updateUIStatus('error', 'Camera Error');
     }
 }
 
-// ========================================
-// QR SCAN HANDLERS
-// ========================================
-
-function onScanSuccess(decodedText, decodedResult) {
-    console.log('QR Code detected:', decodedText);
+function onScanSuccess(decodedText) {
+    if (!isScanning) return; // Prevent double scans
     
-    // Stop scanner immediately
-    stopScanner();
+    // Haptic Feedback (Vibration)
+    if (navigator.vibrate) navigator.vibrate(100);
     
-    // Validate QR format
-    const validationResult = validateQRCode(decodedText);
+    // Visual Feedback
+    updateUIStatus('scanning', 'Reading QR...');
     
-    if (validationResult.valid) {
-        updateStatus(`✓ Valid QR code for ${validationResult.org}!`, 'success');
-        processCheckIn(validationResult.code, validationResult.org);
-    } else {
-        updateStatus('✗ ' + validationResult.error, 'error');
+    // Stop scanning to process
+    isScanning = false;
+    
+    try {
+        const parts = decodedText.split('|');
+        if (parts.length === 3 && parts[0] === 'VOL') {
+            const [_, org, code] = parts;
+            processCheckIn(code, org);
+        } else {
+            handleError('Invalid QR Format');
+        }
+    } catch (e) {
+        handleError('Scan Error');
     }
-}
-
-function onScanFailure(error) {
-    // Silent - scanning continuously, errors are normal
-}
-
-// ========================================
-// QR CODE VALIDATION
-// ========================================
-
-/**
- * Validates QR code format: VOL|ORG|UNIQUECODE
- * Returns: { valid: boolean, code: string, org: string, error: string }
- */
-function validateQRCode(qrText) {
-    const parts = qrText.split('|');
-    
-    // Check format
-    if (parts.length !== 3) {
-        return {
-            valid: false,
-            error: 'Invalid QR code format. Expected: VOL|ORG|CODE'
-        };
-    }
-    
-    const [prefix, org, code] = parts;
-    const upperOrg = org.toUpperCase();
-    
-    // Validate prefix
-    if (prefix !== 'VOL') {
-        return {
-            valid: false,
-            error: 'Invalid QR code. Not a volunteer badge.'
-        };
-    }
-    
-    // Validate organization match
-    // If strict mode (detectedOrg is specific), must match
-    // If universal mode (detectedOrg is BOTH), accept known orgs
-    if (detectedOrg !== 'BOTH' && upperOrg !== detectedOrg) {
-        return {
-            valid: false,
-            error: `This QR code is for ${upperOrg}, but you're on ${detectedOrg} portal.`
-        };
-    }
-    
-    // If in universal mode, ensure it's a valid known org
-    if (detectedOrg === 'BOTH' && !['ITECPEC', 'CAPEC'].includes(upperOrg)) {
-         return {
-            valid: false,
-            error: `Unknown organization: ${upperOrg}`
-        };       
-    }
-    
-    // Validate code exists
-    if (!code || code.trim().length === 0) {
-        return {
-            valid: false,
-            error: 'Invalid volunteer code in QR.'
-        };
-    }
-    
-    return {
-        valid: true,
-        code: code.trim().toUpperCase(),
-        org: upperOrg,
-        error: null
-    };
-}
-
-// ========================================
-// MANUAL CODE ENTRY
-// ========================================
-
-function handleManualSubmit(e) {
-    e.preventDefault();
-    
-    const code = manualCodeInput.value.trim().toUpperCase();
-    
-    // Validate code length
-    if (code.length < 4 || code.length > 12) {
-        showFeedback('Please enter a valid volunteer code (4-12 characters)', 'error');
-        return;
-    }
-    
-    // Validate alphanumeric
-    if (!/^[A-Z0-9]+$/.test(code)) {
-        showFeedback('Code must contain only letters and numbers', 'error');
-        return;
-    }
-    
-    // In universal mode, manual entry defaults to ITECPEC if not specified 
-    // (Future improvement: Add org selector for manual entry)
-    const orgToUse = detectedOrg === 'BOTH' ? 'ITECPEC' : detectedOrg;
-    
-    processCheckIn(code, orgToUse);
 }
 
 // ========================================
 // CHECK-IN PROCESSING
 // ========================================
 
-/**
- * Processes check-in with validated volunteer code
- * This is where backend integration will happen
- */
-function processCheckIn(code, org = detectedOrg) {
-    console.log('Processing check-in:', {
-        code: code,
-        organization: org,
-        timestamp: new Date().toISOString()
-    });
-    
-    // Show loading
-    showLoading(true);
-    
-    // Simulate network delay (remove in production)
-    setTimeout(() => {
-        // TODO: Replace with actual backend call
-        submitCheckIn(code, org);
-    }, 1500);
-}
-
-// CONFIGURATION
-const SUPABASE_FUNC_URL = 'https://lhbipoprzdfzxkkrdpnw.supabase.co/functions/v1';
-
-/**
- * Real backend integration for check-in
- */
-async function submitCheckIn(code, org) {
-    console.log('=== submitCheckIn ===');
-    console.log('Code:', code);
-    console.log('Organization:', org);
+async function processCheckIn(code, org) {
+    elements.loadingOverlay.classList.remove('hidden');
     
     try {
         const res = await fetch(`${SUPABASE_FUNC_URL}/checkin`, {
@@ -322,102 +145,73 @@ async function submitCheckIn(code, org) {
         });
         
         const data = await res.json();
-        
+        elements.loadingOverlay.classList.add('hidden');
+
         if (data.success || data.error === 'Already checked in') {
-            // Success!
-            const successMsg = data.error === 'Already checked in' ? '✓ Session restored! Redirecting...' : '✓ Check-in successful! Redirecting...';
-            showFeedback(successMsg, 'success');
-            
-            // Save session for the portal to pick up
-            localStorage.setItem('volunteer_code', code);
-            
-            // Redirect to appropriate portal on subdomains
-            setTimeout(() => {
-                const subdomain = org === 'CAPEC' ? 'capec' : 'itecpec';
-                // Redirect to the respective subdomain
-                // Assuming the volunteer portal is hosted at the root of the subdomain
-                // or at /volunteer-portal/ depending on their deployment.
-                // User said: "enters to capec.hackathon-nova.com"
-                window.location.href = `https://${subdomain}.hackathon-nova.com/`;
-            }, 1000);
+            const isRestored = data.error === 'Already checked in';
+            handleSuccess(code, org, isRestored, data.participant);
         } else {
-            showFeedback(data.error || 'Check-in failed. Please try again.', 'error');
-            showLoading(false);
+            handleError(data.error || 'Check-in failed');
         }
     } catch (e) {
-        console.error("Checkin Error:", e);
-        showFeedback('Network error. Please check your connection.', 'error');
-        showLoading(false);
+        elements.loadingOverlay.classList.add('hidden');
+        handleError('Network Error');
     }
 }
 
 // ========================================
-// UI FEEDBACK FUNCTIONS
+// UI FEEDBACK TRIGGERS
 // ========================================
 
-function updateStatus(message, type = 'info') {
-    scanStatus.textContent = message;
-    scanStatus.className = 'status-text ' + type;
+function updateUIStatus(state, message) {
+    elements.statusIndicator.className = `status-indicator ${state}`;
+    elements.statusText.textContent = message;
 }
 
-function showFeedback(message, type = 'success') {
-    feedbackMessage.textContent = message;
-    feedbackMessage.className = 'feedback-message ' + type;
-    feedbackArea.classList.remove('hidden');
+function handleSuccess(code, org, isRestored, participant = {}) {
+    updateUIStatus('success', isRestored ? 'Already Checked-In' : 'Check-In Successful');
     
-    // Auto-hide after 5 seconds
+    // Show Participant Card
+    showParticipantCard({
+        name: participant.name || 'Volunteer',
+        team: participant.team || 'N/A',
+        role: participant.role || 'Volunteer',
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    });
+    
+    // Auto-Reset after 3 seconds
+    if (feedbackTimeout) clearTimeout(feedbackTimeout);
+    feedbackTimeout = setTimeout(() => {
+        resetUI();
+    }, 3000);
+}
+
+function handleError(message) {
+    updateUIStatus('error', message);
+    if (feedbackTimeout) clearTimeout(feedbackTimeout);
+    feedbackTimeout = setTimeout(() => {
+        resetUI();
+    }, 2500);
+}
+
+function showParticipantCard(data) {
+    document.getElementById('part-name').textContent = data.name;
+    document.getElementById('part-team').textContent = data.team;
+    document.getElementById('part-role').textContent = data.role;
+    document.getElementById('part-time').textContent = data.time;
+    
+    elements.participantCard.classList.remove('hidden');
+    // Force reflow for animation
+    elements.participantCard.offsetHeight; 
+    elements.participantCard.classList.add('active');
+}
+
+function resetUI() {
+    elements.participantCard.classList.remove('active');
     setTimeout(() => {
-        feedbackArea.classList.add('hidden');
-    }, 5000);
+        elements.participantCard.classList.add('hidden');
+    }, 400);
+    
+    updateUIStatus('idle', 'Ready to Scan');
+    isScanning = true; // Resume scanning
 }
-
-function showLoading(show) {
-    if (show) {
-        loadingOverlay.classList.remove('hidden');
-    } else {
-        loadingOverlay.classList.add('hidden');
-    }
-}
-
-// ========================================
-// UTILITY FUNCTIONS
-// ========================================
-
-/**
- * Normalizes volunteer code to uppercase
- */
-function normalizeCode(code) {
-    return code.trim().toUpperCase().replace(/\s+/g, '');
-}
-
-/**
- * Checks if code format is valid
- */
-function isValidCodeFormat(code) {
-    return /^[A-Z0-9]{4,12}$/.test(code);
-}
-
-// ========================================
-// ERROR HANDLING
-// ========================================
-
-window.addEventListener('error', (event) => {
-    console.error('Global error:', event.error);
-    showFeedback('An error occurred. Please try again.', 'error');
-});
-
-// Handle unhandled promise rejections
-window.addEventListener('unhandledrejection', (event) => {
-    console.error('Unhandled promise rejection:', event.reason);
-    showFeedback('An error occurred. Please try again.', 'error');
-});
-
-// ========================================
-// CLEANUP ON PAGE UNLOAD
-// ========================================
-
-window.addEventListener('beforeunload', () => {
-    if (isScannerActive && html5QrcodeScanner) {
-        html5QrcodeScanner.stop();
-    }
-});

@@ -21,86 +21,109 @@
         })();
     </script>
 
+    <title>Volunteer Portal | Hackathon Nova</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
-    <!-- Header Section -->
-    <header class="header">
-        <div class="container">
-            <h1 class="logo">Hackathon Nova</h1>
-            <p class="subtitle">Volunteer Attendance & Activity Portal</p>
-            <div id="org-badge" class="org-badge">Loading...</div>
-        </div>
-    </header>
+    <!-- Scanner App Container -->
+    <div class="app-container">
+        <!-- Minimal Header -->
+        <header class="app-header">
+            <img src="logo.png" alt="Logo" class="mini-logo">
+            <div class="header-text">
+                <h1>Volunteer QR Scan Portal</h1>
+                <p>Hackathon Nova 2026</p>
+            </div>
+            <div id="org-badge" class="badge">...</div>
+        </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="container">
-
-            <!-- Instructions Card -->
-            <section class="card instructions-card">
-                <div class="icon-circle">📱</div>
-                <h2>Welcome, Volunteer!</h2>
-                <p class="instructions-text">
-                    Scan your QR code on your ID card or enter your volunteer code manually to mark your attendance.
-                </p>
-                <div class="features">
-                    <div class="feature-item">
-                        <span class="check-icon">✓</span>
-                        <span>No login required</span>
-                    </div>
-                    <div class="feature-item">
-                        <span class="check-icon">✓</span>
-                        <span>One scan to check in</span>
+        <!-- Main Scanner Zone (70% Focus) -->
+        <main class="scanner-zone">
+            <div class="scanner-viewport">
+                <div id="qr-reader" class="qr-reader-view"></div>
+                <div class="scanner-overlay">
+                    <div class="scan-frame">
+                        <div class="scan-laser"></div>
+                        <div class="scan-corner-bottom-left"></div>
+                        <div class="scan-corner-bottom-right"></div>
+                        <p class="frame-hint">Align QR code inside the frame</p>
                     </div>
                 </div>
-            </section>
 
-            <!-- QR Scanner Section -->
-            <section class="card scanner-card">
-                <h3>Scan QR Code</h3>
-                <div id="qr-reader" class="qr-reader"></div>
-                <button id="btn-start-scan" class="btn btn-primary">
-                    <span class="btn-icon">📷</span>
-                    Start Camera Scan
-                </button>
-                <p id="scan-status" class="status-text"></p>
-            </section>
+                <!-- Camera Permission Warning -->
+                <div id="camera-warning" class="camera-warning hidden">
+                    <i class="fas fa-camera-slash"></i>
+                    <p>Camera permission denied</p>
+                    <button id="btn-enable-camera" class="btn btn-warning">Enable Camera</button>
+                </div>
+            </div>
+        </main>
 
-            <!-- Manual Entry Section -->
-            <section class="card manual-card">
-                <h3>Manual Code Entry</h3>
-                <p class="helper-text">Enter your 8-character volunteer code</p>
-                <form id="manual-form" class="manual-form">
-                    <input type="text" id="manual-code" class="code-input" placeholder="e.g., VOL12345" maxlength="8"
-                        autocomplete="off" required>
-                    <button type="submit" class="btn btn-secondary">
-                        Continue with Code
-                    </button>
-                </form>
-            </section>
-
-            <!-- Feedback Area -->
-            <div id="feedback-area" class="feedback-area hidden">
-                <div id="feedback-message" class="feedback-message"></div>
+        <!-- Status & Feedback Area -->
+        <section class="feedback-zone">
+            <div id="status-indicator" class="status-indicator idle">
+                <i class="fas fa-spinner fa-spin icon-scanning"></i>
+                <i class="fas fa-check-circle icon-success"></i>
+                <i class="fas fa-exclamation-circle icon-error"></i>
+                <span id="status-text">Ready to Scan</span>
             </div>
 
-        </div>
-    </main>
+            <button id="btn-manual-scan" class="btn btn-secondary btn-sm">Enter Manually</button>
+        </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p class="footer-text">Powered by <strong>Hackathon Nova</strong></p>
-            <p class="help-text">💡 If camera fails, use manual code entry above</p>
+        <!-- Participant Preview Card (Slide-up) -->
+        <div id="participant-card" class="participant-card hidden">
+            <div class="card-content">
+                <div class="card-header">
+                    <h2 id="part-name">...</h2>
+                    <span id="part-status" class="status-badge">Checked-In ✔️</span>
+                </div>
+                <div class="card-details">
+                    <div class="detail-item">
+                        <label>Team</label>
+                        <span id="part-team">...</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Role</label>
+                        <span id="part-role">...</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Time</label>
+                        <span id="part-time">...</span>
+                    </div>
+                </div>
+            </div>
         </div>
-    </footer>
+
+        <!-- Tiny Footer -->
+        <footer class="app-footer">
+            <p>Powered by Sajan Poudel <span class="version">v1.2</span></p>
+        </footer>
+    </div>
+
+    <!-- Manual Entry Modal (Hidden by default) -->
+    <div id="manual-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3>Manual Entry</h3>
+            <p>Enter your VOL-ID</p>
+            <form id="manual-form">
+                <input type="text" id="manual-code" placeholder="VOL-XXXXX" maxlength="8" required>
+                <div class="modal-actions">
+                    <button type="button" id="btn-close-manual" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Identify</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Loading Overlay -->
     <div id="loading-overlay" class="loading-overlay hidden">
         <div class="spinner"></div>
-        <p>Processing...</p>
     </div>
 
     <!-- Scripts -->
