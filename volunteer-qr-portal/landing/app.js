@@ -171,6 +171,9 @@ function updateUIStatus(state, message) {
 function handleSuccess(code, org, isRestored, participant = {}) {
     updateUIStatus('success', isRestored ? 'Already Checked-In' : 'Check-In Successful');
     
+    // Save session for the portal to pick up
+    localStorage.setItem('volunteer_code', code);
+
     // Show Participant Card
     showParticipantCard({
         name: participant.name || 'Volunteer',
@@ -179,11 +182,12 @@ function handleSuccess(code, org, isRestored, participant = {}) {
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     });
     
-    // Auto-Reset after 3 seconds
+    // Redirect to appropriate portal on subdomains after 2.5 seconds
     if (feedbackTimeout) clearTimeout(feedbackTimeout);
     feedbackTimeout = setTimeout(() => {
-        resetUI();
-    }, 3000);
+        const subdomain = org.toLowerCase() === 'capec' ? 'capec' : 'itecpec';
+        window.location.href = `https://${subdomain}.hackathon-nova.com/`;
+    }, 2500);
 }
 
 function handleError(message) {
