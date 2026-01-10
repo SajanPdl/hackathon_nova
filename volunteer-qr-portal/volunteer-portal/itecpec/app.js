@@ -21,6 +21,7 @@ let html5QrcodeScanner = null;
 // DOM ELEMENTS
 const views = {
     login: document.getElementById('view-login'),
+    loading: document.getElementById('view-loading'),
     dashboard: document.getElementById('view-dashboard'),
     task: document.getElementById('view-task')
 };
@@ -324,6 +325,9 @@ function checkRestoreSession() {
     if (urlCode && urlCode.trim() !== '') {
         const normalizedCode = normalizeCode(urlCode);
         console.log("Auto-login via URL code:", normalizedCode);
+        
+        // Show loading state immediately
+        showView('loading');
         
         // Clean URL immediately
         const newUrl = window.location.origin + window.location.pathname;
