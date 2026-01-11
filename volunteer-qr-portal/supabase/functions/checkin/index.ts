@@ -12,32 +12,34 @@ Deno.serve(async (req: any) => {
 
     const supabase = createAdminClient();
 
-    // Parallelize Volunteer Lookup and Open Session Check
     const [volResult, sessionResult] = await Promise.all([
       supabase
         .from(`volunteers_${suffix}`)
-        .select('id, name')
+        .select('id, name, role')
         .eq('unique_code', code)
         .single(),
       supabase
         .from(`attendance_${suffix}`)
         .select('id')
-        .eq('unique_code', code) // Use code for faster lookup if possible, or vol.id later. 
+        .eq('unique_code', code)
         .is('exit_time', null)
-        .maybeSingle() // Use maybeSingle to avoid 406 errors on empty results
+        .maybeSingle()
     ]);
 
     const { data: vol, error: volError } = volResult;
     const { data: openSession } = sessionResult;
 
     if (volError || !vol) {
-      // (Error handling remains the same for robustness)
       console.log(`Checkin Failed: Code '${code}' not found.`);
       throw new Error(`Invalid Code: '${code}'`);
     }
 
     if (openSession) {
-      return new Response(JSON.stringify({ success: false, error: 'Already checked in' }), {
+      return new Response(JSON.stringify({
+        success: false,
+        error: 'Already checked in',
+        participant: vol
+      }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
     }
@@ -58,7 +60,11 @@ Deno.serve(async (req: any) => {
 
     await logAudit(supabase, org, 'system', 'check-in', `attendance_${suffix}`, newSession.id, { code });
 
-    return new Response(JSON.stringify({ success: true, data: newSession }), {
+    return new Response(JSON.stringify({
+      success: true,
+      data: newSession,
+      participant: vol
+    }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
 

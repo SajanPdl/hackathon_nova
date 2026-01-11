@@ -178,7 +178,8 @@ function handleSuccess(code, org, isRestored, participant = {}) {
     // Show Participant Card
     showParticipantCard({
         name: participant.name || 'Volunteer',
-        team: participant.team || 'N/A',
+        // Fallback: If no specific team is defined, show the Organization (CAPEC/ITECPEC) as the Team
+        team: participant.team || org || 'N/A',
         role: participant.role || 'Volunteer',
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     });
