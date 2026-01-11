@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Scan Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+
+<body class="dark-mode">
+    <div class="scan-container">
+        <header>
+            <div class="logo">Nova Scan</div>
+            <p>Attendance Portal</p>
+        </header>
+
+        <main>
+            <div id="reader" style="width: 100%; border-radius: 1rem; overflow: hidden;"></div>
+
+            <div class="manual-input">
+                <p>Or enter code manually</p>
+                <div class="input-group">
+                    <input type="text" id="manualCode" placeholder="VOL-XXXX">
+                    <button id="manualSubmit" class="btn btn-primary">Check In/Out</button>
+                </div>
+            </div>
+        </main>
+
+        <div id="statusOverlay" class="status-overlay hidden">
+            <div class="status-card">
+                <div id="statusIcon"></div>
+                <h3 id="statusTitle">Processing</h3>
+                <p id="statusMsg">Please wait...</p>
+                <button id="closeStatus" class="btn btn-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>

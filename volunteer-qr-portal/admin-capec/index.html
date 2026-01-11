@@ -379,6 +379,36 @@
 
     </main>
 
+    <!-- WhatsApp Action Confirmation Modal -->
+    <div id="modal-action-confirm" class="overlay hidden">
+        <div class="login-box" style="text-align:center;">
+            <div class="activity-icon"
+                style="margin: 0 auto 15px; width: 60px; height: 60px; font-size: 2rem; display: flex; align-items: center; justify-content: center; background: rgba(34, 197, 94, 0.15); border-radius: 50%;">
+                🔔</div>
+            <h2 id="action-title">Confirm Action</h2>
+            <div
+                style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; margin: 15px 0; text-align: left;">
+                <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 5px;">Volunteer</p>
+                <p id="action-vol-name" style="font-weight: 600; margin-bottom: 15px;">Loading...</p>
+
+                <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 5px;">Requested Action</p>
+                <p id="action-type-label" style="font-weight: 600; color: var(--accent-color);">Loading...</p>
+            </div>
+
+            <label style="display: block; text-align: left; margin-bottom: 5px; font-size: 0.85rem;">Admin Note
+                (Optional)</label>
+            <input type="text" id="action-admin-note" placeholder="e.g., Valid location, Wrong checkout time..."
+                style="width: 100%; padding: 10px; margin-bottom: 20px; border-radius: 8px; border: 1px solid var(--card-border); background: rgba(0,0,0,0.3); color: white;">
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <button type="button" class="btn primary" onclick="submitWhatsAppAction('approve')">✅ Approve</button>
+                <button type="button" class="btn danger" onclick="submitWhatsAppAction('decline')">❌ Decline</button>
+            </div>
+            <button type="button" class="btn secondary small" onclick="closeModal('modal-action-confirm')"
+                style="width: 100%; margin-top: 10px;">Cancel</button>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>

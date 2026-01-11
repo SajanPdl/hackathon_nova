@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Action | Admin Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="mobile-action-site dark-mode">
+    <div id="loader" class="loader-overlay">
+        <div class="spinner"></div>
+        <p>Validating Token...</p>
+    </div>
+
+    <div class="content hidden" id="mainContent">
+        <header>
+            <div class="logo">Nova Verify</div>
+        </header>
+
+        <section class="action-card fade-in">
+            <h2 id="actionTitle">Pending Approval</h2>
+            <div class="details">
+                <div class="detail-item">
+                    <span class="label">Volunteer</span>
+                    <span id="volName" class="value">Loading...</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Organization</span>
+                    <span id="volOrg" class="value">Loading...</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Event</span>
+                    <span id="volEvent" class="value">Loading...</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Time</span>
+                    <span id="volTime" class="value">Loading...</span>
+                </div>
+            </div>
+
+            <div id="pinSection" class="hidden">
+                <label for="pinInput">Enter 4-Digit Admin PIN</label>
+                <input type="password" id="pinInput" maxlength="4" placeholder="••••" inputmode="numeric">
+            </div>
+
+            <div class="note-section">
+                <label for="adminNote">Feedback / Note (Optional)</label>
+                <textarea id="adminNote" placeholder="Add a comment..."></textarea>
+            </div>
+
+            <div class="action-buttons">
+                <button id="approveBtn" class="btn btn-approve">APPROVE</button>
+                <button id="declineBtn" class="btn btn-decline">DECLINE</button>
+            </div>
+
+            <button id="assignBtn" class="btn btn-secondary btn-full">ASSIGN TASK</button>
+        </section>
+    </div>
+
+    <div id="resultScreen" class="result-screen hidden">
+        <div class="icon-circle">
+            <div id="resultIcon">✓</div>
+        </div>
+        <h2 id="resultTitle">Success</h2>
+        <p id="resultMsg">Action applied successfully.</p>
+        <button onclick="window.close()" class="btn btn-primary">Close Page</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

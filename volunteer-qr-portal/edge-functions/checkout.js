@@ -42,6 +42,28 @@ serve(async (req) => {
 
     logAudit(supabase, org, 'system', 'checkout', `attendance_${suffix}`, session.id, { duration: durationParam });
 
+    // --- INTEGRATION: Create Action Link for Admin (Checkout Approval) ---
+    try {
+      const EF_URL = Deno.env.get('SUPABASE_URL') + '/functions/v1/create-action-link';
+      await fetch(EF_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')}`
+        },
+        body: JSON.stringify({
+          target_table: `attendance_${suffix}`,
+          target_id: session.id,
+          action_type: 'approve_attendance', // Or 'approve_checkout'
+          volunteer_name: '', // We could fetch name if needed, but keeping it light
+          org: org,
+          require_pin: false
+        })
+      });
+    } catch (err) {
+      console.error("Action Link Integration Error:", err);
+    }
+
     return new Response(JSON.stringify({ success: true, data: updated }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });

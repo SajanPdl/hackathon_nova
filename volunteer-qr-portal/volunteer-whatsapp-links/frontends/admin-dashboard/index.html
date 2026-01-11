@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | WhatsApp Action System</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="dark-mode">
+    <div class="dashboard-container">
+        <header>
+            <div class="header-content">
+                <h1>Admin Notification Portal</h1>
+                <p>Pending Volunteer Actions</p>
+            </div>
+            <div class="header-actions">
+                <button id="refreshBtn" class="btn btn-secondary">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <div class="stats-row">
+                <div class="stat-card">
+                    <span class="label">Pending Actions</span>
+                    <span id="pendingCount" class="value">0</span>
+                </div>
+            </div>
+
+            <div class="table-container fade-in">
+                <table id="actionsTable">
+                    <thead>
+                        <tr>
+                            <th>Volunteer</th>
+                            <th>Org</th>
+                            <th>Action Type</th>
+                            <th>Created</th>
+                            <th>Expires In</th>
+                            <th>WhatsApp Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="actionsBody">
+                        <!-- Polled data will appear here -->
+                        <tr class="empty-state">
+                            <td colspan="6">Loading pending actions...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Volunteer QR Attendance System. WhatsApp-Only Notification System.</p>
+        </footer>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="admin.js"></script>
+</body>
+
+</html>

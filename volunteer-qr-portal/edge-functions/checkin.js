@@ -49,6 +49,31 @@ serve(async (req) => {
 
     logAudit(supabase, org, 'system', 'checkin', `attendance_${suffix}`, newSession.id, { code });
 
+    // --- INTEGRATION: Create Action Link for Admin ---
+    try {
+      // We call the neighboring edge function to keep logic decoupled
+      // In production, you might want to call the logic directly or use a internal trigger
+      const EF_URL = Deno.env.get('SUPABASE_URL') + '/functions/v1/create-action-link';
+      await fetch(EF_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')}`
+        },
+        body: JSON.stringify({
+          target_table: `attendance_${suffix}`,
+          target_id: newSession.id,
+          action_type: 'approve_attendance',
+          volunteer_name: vol.name,
+          org: org,
+          require_pin: false
+        })
+      });
+    } catch (err) {
+      console.error("Action Link Integration Error:", err);
+      // We don't fail the checkin just because the notification failed
+    }
+
     return new Response(JSON.stringify({ success: true, data: newSession }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });

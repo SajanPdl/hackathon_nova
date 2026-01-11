@@ -60,6 +60,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('sidebar').classList.toggle('active');
     });
 
+    // Check for WhatsApp Action Token
+    checkWhatsAppToken();
+
     if (user) {
         showApp();
     }
@@ -101,6 +104,82 @@ async function handleLogout() {
     await sb.auth.signOut();
     window.location.reload();
 }
+
+// --- WHATSAPP ACTION HANDLERS ---
+async function checkWhatsAppToken() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('t');
+    if (!token) return;
+
+    try {
+        // Show loading state
+        document.getElementById('modal-action-confirm').classList.remove('hidden');
+        document.getElementById('action-vol-name').textContent = "Fetching details...";
+        
+        const response = await fetch(`${SUPABASE_URL}/functions/v1/action-page?t=${token}`);
+        const data = await response.json();
+
+        if (!data.success) {
+            alert("This link is invalid or has expired.");
+            closeModal('modal-action-confirm');
+            window.history.replaceState({}, document.title, window.location.pathname);
+            return;
+        }
+
+        // Populate Modal
+        document.getElementById('action-vol-name').textContent = data.volunteer?.name || "Unknown Volunteer";
+        document.getElementById('action-type-label').textContent = data.token?.action_type?.replace(/_/g, ' ').toUpperCase() || "ACTION";
+        
+        // Save token for submission
+        window.activeActionToken = token;
+        
+    } catch (err) {
+        console.error("Token error:", err);
+        closeModal('modal-action-confirm');
+    }
+}
+
+window.submitWhatsAppAction = async (action) => {
+    const token = window.activeActionToken;
+    const note = document.getElementById('action-admin-note').value;
+    
+    if (!token) return;
+
+    try {
+        const btn = event.target;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "Processing...";
+        btn.disabled = true;
+
+        const response = await fetch(`${SUPABASE_URL}/functions/v1/action-apply`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                token: token,
+                action: action,
+                notes: note
+            })
+        });
+
+        const result = await response.json();
+        
+        if (result.success) {
+            alert(`Success: Request ${action}d!`);
+            closeModal('modal-action-confirm');
+            // Clear URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+            // Refresh dashboard if logged in
+            if (user) loadDashboard();
+        } else {
+            alert("Error: " + result.error);
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    } catch (err) {
+        alert("System error. Please try again later.");
+        console.error(err);
+    }
+};
 
 function showApp() {
     views.login.classList.add('hidden');
@@ -248,8 +327,11 @@ async function loadApprovals() {
             <td>${new Date(item.created_at || item.entry_time).toLocaleString()}</td>
             <td>
                 ${isPending ? `
-                    <button class="btn success small" onclick="approve('${item.id}', '${item.type}')">Accept</button>
-                    <button class="btn danger small" onclick="decline('${item.id}', '${item.type}')">Decline</button>
+                    <div style="display:flex; gap:5px;">
+                        <button class="btn success small" onclick="approve('${item.id}', '${item.type}')">Accept</button>
+                        <button class="btn danger small" onclick="decline('${item.id}', '${item.type}')">Decline</button>
+                        <button class="btn whatsapp small" style="background:#25D366; color:white;" onclick="sendWhatsAppApproval('${item.id}', '${item.type}', '${item.volunteer_name || item.unique_code}')">WA</button>
+                    </div>
                 ` : `<span class="badge status-${item.status.toLowerCase()}">${item.status}</span>`}
             </td>
         `;
@@ -296,6 +378,40 @@ window.decline = async (id, type) => {
     if (note === null) return;
     await callEdge('approve', { id, type, status: 'declined', note, approved_by: user.email, org: 'ITECPEC' });
     loadApprovals();
+};
+
+window.sendWhatsAppApproval = async (target_id, type, name) => {
+    try {
+        const org = ADMIN_ORG;
+        const target_table = type === 'attendance' ? `attendance_${SUFFIX}` : `tasks_${SUFFIX}`;
+        
+        // Call the edge function to generate localized token and message
+        const response = await fetch(`${SUPABASE_URL}/functions/v1/create-action-link`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.access_token}` // Using admin's access token
+            },
+            body: JSON.stringify({
+                target_table,
+                target_id,
+                action_type: 'approve_attendance',
+                volunteer_name: name,
+                org: org,
+                require_pin: false
+            })
+        });
+        
+        const data = await response.json();
+        if (data.waLink) {
+            window.open(data.waLink, '_blank');
+        } else {
+            alert("Failed to generate WhatsApp link: " + (data.error || 'Unknown error'));
+        }
+    } catch (err) {
+        console.error("WA Error:", err);
+        alert("Error generating action link. Check Edge Function logs.");
+    }
 };
 
 async function loadVolunteers() {

@@ -41,6 +41,35 @@ Deno.serve(async (req: any) => {
 
     await logAudit(supabase, org, 'system', 'check-out', `attendance_${suffix}`, session.id, { duration: durationParam });
 
+    // TRIGGER: Create Action Link for WhatsApp/SendZen Notification
+    try {
+      // Get volunteer name and phone for the notification
+      const { data: volData } = await supabase
+        .from(`volunteers_${suffix}`)
+        .select('name, phone')
+        .eq('id', vol.id)
+        .single();
+
+      fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/create-action-link`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')}`
+        },
+        body: JSON.stringify({
+          target_table: `attendance_${suffix}`,
+          target_id: session.id,
+          action_type: 'approve_attendance_checkout',
+          volunteer_name: volData?.name || 'Volunteer',
+          volunteer_phone: volData?.phone,
+          org: org,
+          require_pin: false
+        })
+      });
+    } catch (triggerErr) {
+      console.error("Action Link Trigger Error:", triggerErr);
+    }
+
     return new Response(JSON.stringify({ success: true, data: updated }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });

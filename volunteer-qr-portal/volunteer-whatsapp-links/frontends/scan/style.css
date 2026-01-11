@@ -1,0 +1,87 @@
+:root {
+    --bg-dark: #0f172a;
+    --card-bg: #1e293b;
+    --accent: #3b82f6;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    overflow: hidden;
+}
+
+.scan-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+}
+
+.manual-input {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.input-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+input {
+    flex: 1;
+    padding: 0.8rem;
+    border-radius: 0.5rem;
+    background: var(--card-bg);
+    border: 1px solid #334155;
+    color: white;
+}
+
+.btn {
+    padding: 0.8rem 1.2rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-primary { background: var(--accent); color: white; }
+.btn-secondary { background: #334155; color: white; width: 100%; }
+
+.status-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.status-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    width: 80%;
+}
+
+.hidden { display: none; }

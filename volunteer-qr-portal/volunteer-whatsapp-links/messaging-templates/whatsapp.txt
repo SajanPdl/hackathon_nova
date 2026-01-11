@@ -1,0 +1,9 @@
+🔔 *Volunteer Alert*
+
+*Name:* {{name}}
+*Org:* {{org}}
+*Time:* {{time_kathmandu}}
+*Action:* {{action_label}}
+
+*Approve / Decline here:*
+{{action_link}}
