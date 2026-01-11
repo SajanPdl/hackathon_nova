@@ -132,29 +132,36 @@ function onScanSuccess(decodedText) {
 
 async function processCheckIn(code, org) {
     elements.loadingOverlay.classList.remove('hidden');
+    console.log(`[DEBUG] Initiating Check-in for Code: ${code} | Org: ${org}`);
     
     try {
+        const payload = {
+            code: code,
+            device_id: 'web-landing',
+            client_ts: new Date().toISOString(),
+            org: org
+        };
+        console.log("[DEBUG] Payload:", payload);
+
         const res = await fetch(`${SUPABASE_FUNC_URL}/checkin`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                code: code,
-                device_id: 'web-landing',
-                client_ts: new Date().toISOString(),
-                org: org
-            })
+            body: JSON.stringify(payload)
         });
         
         const data = await res.json();
+        console.log("[DEBUG] Response Received:", data);
         elements.loadingOverlay.classList.add('hidden');
 
         if (data.success || data.error === 'Already checked in') {
             const isRestored = data.error === 'Already checked in';
             handleSuccess(code, org, isRestored, data.participant);
         } else {
+            console.error("[DEBUG] Check-in Logical Error:", data.error);
             handleError(data.error || 'Check-in failed');
         }
     } catch (e) {
+        console.error("[DEBUG] Network or Parsing Error:", e);
         elements.loadingOverlay.classList.add('hidden');
         handleError('Network Error');
     }
