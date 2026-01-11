@@ -8,6 +8,7 @@ let isScanning = false;
 let feedbackTimeout = null;
 
 const SUPABASE_FUNC_URL = 'https://lhbipoprzdfzxkkrdpnw.supabase.co/functions/v1';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxoYmlwb3ByemRmenhra3JkcG53Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc2NDg1MzgsImV4cCI6MjA4MzIyNDUzOH0.fiKd-WlOPtEdY6TKVDy329_DngEL3UJg_6b36Vu5ZlQ';
 
 // DOM Elements
 const elements = {
@@ -132,7 +133,6 @@ function onScanSuccess(decodedText) {
 
 async function processCheckIn(code, org) {
     elements.loadingOverlay.classList.remove('hidden');
-    console.log(`[DEBUG] Initiating Check-in for Code: ${code} | Org: ${org}`);
     
     try {
         const payload = {
@@ -141,27 +141,27 @@ async function processCheckIn(code, org) {
             client_ts: new Date().toISOString(),
             org: org
         };
-        console.log("[DEBUG] Payload:", payload);
 
         const res = await fetch(`${SUPABASE_FUNC_URL}/checkin`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_KEY,
+                'Authorization': `Bearer ${SUPABASE_KEY}`
+            },
             body: JSON.stringify(payload)
         });
         
         const data = await res.json();
-        console.log("[DEBUG] Response Received:", data);
         elements.loadingOverlay.classList.add('hidden');
 
         if (data.success || data.error === 'Already checked in') {
             const isRestored = data.error === 'Already checked in';
             handleSuccess(code, org, isRestored, data.participant);
         } else {
-            console.error("[DEBUG] Check-in Logical Error:", data.error);
             handleError(data.error || 'Check-in failed');
         }
     } catch (e) {
-        console.error("[DEBUG] Network or Parsing Error:", e);
         elements.loadingOverlay.classList.add('hidden');
         handleError('Network Error');
     }

@@ -10,8 +10,6 @@ Deno.serve(async (req: any) => {
     if (!rawCode) throw new Error("Missing code");
     const code = rawCode.trim();
 
-    console.log(`[CHECKIN] Request for code: ${code}, Org: ${org}, Suffix: ${suffix}`);
-
     const supabase = createAdminClient();
 
     const [volResult, sessionResult] = await Promise.all([
@@ -29,11 +27,7 @@ Deno.serve(async (req: any) => {
     ]);
 
     const { data: vol, error: volError } = volResult;
-    const { data: openSession, error: sessionError } = sessionResult;
-
-    console.log(`[CHECKIN] Query results: Vol found: ${!!vol}, Open session found: ${!!openSession}`);
-    if (volError) console.error(`[CHECKIN] Volunteer query error:`, volError);
-    if (sessionError) console.error(`[CHECKIN] Session query error:`, sessionError);
+    const { data: openSession } = sessionResult;
 
     if (volError || !vol) {
       console.log(`Checkin Failed: Code '${code}' not found.`);
