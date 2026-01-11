@@ -101,7 +101,11 @@ async function handleCheckIn(rawCode) {
     try {
         const res = await fetch(`${SUPABASE_FUNC_URL}/checkin`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+            },
             body: JSON.stringify({
                 code: code,
                 device_id: 'mobile-web',
@@ -140,7 +144,12 @@ async function handleCheckIn(rawCode) {
 
 async function loadVolunteerData(code) {
     try {
-        const res = await fetch(`${SUPABASE_FUNC_URL}/volunteer?code=${code}&org=${ORG}`);
+        const res = await fetch(`${SUPABASE_FUNC_URL}/volunteer?code=${code}&org=${ORG}`, {
+            headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+            }
+        });
         const data = await res.json();
         if (data.success) {
             currentUser = data.data.volunteer;
@@ -206,7 +215,11 @@ taskForm.addEventListener('submit', async (e) => {
     try {
         const res = await fetch(`${SUPABASE_FUNC_URL}/task`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+            },
             body: JSON.stringify(payload)
         });
         const data = await res.json();
@@ -231,7 +244,11 @@ document.getElementById('btn-checkout').addEventListener('click', async () => {
     try {
         const res = await fetch(`${SUPABASE_FUNC_URL}/checkout`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+            },
             body: JSON.stringify({
                 code: currentUser.unique_code,
                 device_id: 'mobile-web',
