@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (session) {
         initApp(session.user);
     } else {
-        document.getElementById('auth-overlay').style.display = 'flex';
+        document.getElementById('auth-overlay').classList.remove('hidden');
     }
 
     // Login Handler
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function initApp(user) {
-    document.getElementById('auth-overlay').style.display = 'none';
+    document.getElementById('auth-overlay').classList.add('hidden');
     document.getElementById('user-email').textContent = user.email;
     document.getElementById('user-initials').textContent = user.email[0].toUpperCase();
     

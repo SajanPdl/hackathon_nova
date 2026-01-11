@@ -32,6 +32,10 @@ A production-ready system for managing volunteer attendance and activities for C
 4.  **QR Generation**:
     - Run `node qr-generator/generate-qr.js` to create badges from `mock-data/`.
 
+## Documentation
+- **[Interactive Portal](./documentation/index.html) (Recommended)**: A premium, interactive guide for volunteers and technical staff.
+- **[Markdown Source](./documentation/README.md)**: Raw documentation files.
+
 ## Tech Stack
 - Frontend: HTML5, CSS3, Vanilla JS
 - Backend: Supabase (Postgres, RLS, Edge Functions)

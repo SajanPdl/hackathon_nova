@@ -80,9 +80,10 @@ async function initScanner() {
     html5QrCode = new Html5Qrcode("qr-reader");
     
     const config = { 
-        fps: 20, // High performance
-        qrbox: { width: 250, height: 250 },
-        aspectRatio: 1.0 
+        fps: 30, // Higher FPS for faster detection
+        qrbox: { width: 280, height: 280 }, // Slightly larger box for easier alignment
+        aspectRatio: 1.0,
+        rememberLastUsedCamera: true
     };
 
     try {
@@ -182,12 +183,12 @@ function handleSuccess(code, org, isRestored, participant = {}) {
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     });
     
-    // Redirect to appropriate portal on subdomains after 2.5 seconds
+    // Redirect to appropriate portal on subdomains after 1 second (Faster transition)
     if (feedbackTimeout) clearTimeout(feedbackTimeout);
     feedbackTimeout = setTimeout(() => {
         const subdomain = org.toLowerCase() === 'capec' ? 'capec' : 'itecpec';
-        window.location.href = `https://${subdomain}.hackathon-nova.com/?code=${code}`;
-    }, 2500);
+        window.location.replace(`https://${subdomain}.hackathon-nova.com/?code=${code}`);
+    }, 1000);
 }
 
 function handleError(message) {
