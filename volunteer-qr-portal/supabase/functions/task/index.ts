@@ -15,7 +15,7 @@ Deno.serve(async (req: any) => {
 
     const lookupVolunteer = async (s: string) => {
       console.log(`Searching volunteers_${s}...`);
-      const { data: vol } = await supabase.from(`volunteers_${s}`).select('id').ilike('unique_code', code).single();
+      const { data: vol } = await supabase.from(`volunteers_${s}`).select('id, name, telegram_id').ilike('unique_code', code).single();
       return vol;
     };
 
@@ -52,7 +52,41 @@ Deno.serve(async (req: any) => {
 
     if (error) throw error;
 
-    await logAudit(supabase, resolvedOrg, 'volunteer', 'create_task', `tasks_${suffix}`, task.id, { title });
+    await logAudit(supabase, resolvedOrg, 'volunteer', 'create_task', `tasks_${suffix}`, task.id, { title, volunteer: vol.name });
+
+    // --- TELEGRAM NOTIFICATIONS ---
+    const now = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Kathmandu' });
+    const botUrl = `${Deno.env.get('SUPABASE_URL')}/functions/v1/telegram-bot`;
+    // @ts-ignore
+    const anonKey = Deno.env.get('SUPABASE_ANON_KEY');
+
+    // 1. Admin Alert (Admin #4)
+    const adminMsg = `📝 *New Activity Logged*\n\n👤 Volunteer: ${vol.name}\n📌 Task: ${title}\n⏳ Duration: ${time_spent_minutes} mins\n🕒 Logged at: ${now}\n\nPending approval.`;
+
+    try {
+      await fetch(botUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
+        body: JSON.stringify({ message: adminMsg })
+      });
+    } catch (err) {
+      console.error("Admin Task Notify Error:", err);
+    }
+
+    // 2. Volunteer Confirmation (Volunteer #3)
+    if (vol.telegram_id) {
+      const volMsg = `✅ *Activity Logged Successfully*\n\n📌 Task: ${title}\n⏳ Duration: ${time_spent_minutes} mins\n🕒 Logged at: ${now}\n\nYour activity has been sent for organizer approval.`;
+
+      try {
+        await fetch(botUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
+          body: JSON.stringify({ message: volMsg, chat_id: vol.telegram_id })
+        });
+      } catch (err) {
+        console.error("Volunteer Task Notify Error:", err);
+      }
+    }
 
     return new Response(JSON.stringify({ success: true, data: task, resolved_org: resolvedOrg }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }

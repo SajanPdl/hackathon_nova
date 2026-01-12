@@ -11,18 +11,61 @@ Deno.serve(async (req: any) => {
 
     const supabase = createAdminClient();
 
-    const { data, error } = await supabase
+    // 1. Update the record
+    const { data: item, error: updateErr } = await supabase
       .from(table)
       .update({ status })
       .eq('id', id)
-      .select()
+      .select('*, volunteers_' + suffix + '(name, telegram_id, unique_code)')
       .single();
 
-    if (error) throw error;
+    if (updateErr) throw updateErr;
 
-    await logAudit(supabase, org, approved_by, 'approve', table, id, { status, note });
+    // 2. Fetch volunteer info (select above already includes it)
+    const vol = item[`volunteers_${suffix}`];
 
-    return new Response(JSON.stringify({ success: true, data }), {
+    // 3. Log Audit
+    await logAudit(supabase, org, approved_by, 'approve', table, id, { status, note, volunteer: vol?.name });
+
+    // 4. Send Telegram Notification
+    if (vol?.telegram_id) {
+      const botUrl = `${Deno.env.get('SUPABASE_URL')}/functions/v1/telegram-bot`;
+      // @ts-ignore
+      const anonKey = Deno.env.get('SUPABASE_ANON_KEY');
+
+      const isTask = type === 'task';
+      const statusText = status === 'approved' ? '✅ *Approved*' : '❌ *Declined*';
+      const emoji = status === 'approved' ? '🎉' : '⚠️';
+
+      let message = `${emoji} *Item ${status === 'approved' ? 'Approved' : 'Declined'}*\n\n`;
+      message += `Type: ${isTask ? '🛠 Task' : '🕒 Attendance'}\n`;
+
+      if (isTask) {
+        message += `Title: ${item.title || 'Untitled Task'}\n`;
+      } else {
+        const date = new Date(item.entry_time).toLocaleDateString();
+        message += `Date: ${date}\n`;
+      }
+
+      message += `Status: ${statusText}\n`;
+      if (note) message += `Note: ${note}\n`;
+
+      if (status === 'approved') {
+        message += `\nGreat job! Keep up the good work. 🚀`;
+      }
+
+      try {
+        await fetch(botUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
+          body: JSON.stringify({ message, chat_id: vol.telegram_id })
+        });
+      } catch (err) {
+        console.error("Telegram Approval Notify Error:", err);
+      }
+    }
+
+    return new Response(JSON.stringify({ success: true, data: item }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
   } catch (error: any) {
