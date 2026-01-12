@@ -1063,6 +1063,12 @@ async function deleteAllLogs() {
     const confirmation2 = confirm("FINAL WARNING: This action is irreversible. All volunteer activity history will be lost. Proceed with deletion?");
     if (!confirmation2) return;
 
+    const securityCode = prompt("Please enter the security code to confirm deletion:");
+    if (securityCode !== "1701") {
+        alert("Invalid security code. Deletion cancelled.");
+        return;
+    }
+
     try {
         if (typeof showToast === 'function') showToast("Deleting all logs...");
         
