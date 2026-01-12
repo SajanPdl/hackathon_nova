@@ -6,19 +6,22 @@ Deno.serve(async (req: any) => {
 
   try {
     const { code: rawCode, device_id, org: requestedOrg } = await req.json();
+    console.log(`Checkin Request: [${rawCode}] for Org: [${requestedOrg}]`);
 
     if (!rawCode) throw new Error("Missing code");
     const code = rawCode.trim();
 
     const supabase = createAdminClient();
-    let resolvedOrg = requestedOrg;
-    let suffix = requestedOrg === 'ITECPEC' ? 'itecpec' : (requestedOrg === 'CAPEC' ? 'capec' : null);
+    let resolvedOrg = null;
+    let suffix = requestedOrg?.toUpperCase() === 'ITECPEC' ? 'itecpec' : (requestedOrg?.toUpperCase() === 'CAPEC' ? 'capec' : null);
 
     let vol = null;
     let openSession = null;
+    let isWrongOrg = false;
 
     // Help function for lookup
     const lookupVolunteer = async (s: string) => {
+      console.log(`Looking up '${code}' in volunteers_${s}...`);
       const [volRes, sessRes] = await Promise.all([
         supabase.from(`volunteers_${s}`).select('id, name, role').ilike('unique_code', code).single(),
         supabase.from(`attendance_${s}`).select('id').ilike('unique_code', code).is('exit_time', null)
@@ -27,18 +30,19 @@ Deno.serve(async (req: any) => {
       return { vol: volRes.data, openSession: sessRes.data, error: volRes.error };
     };
 
-    if (requestedOrg === 'BOTH' || !suffix) {
-      // Try ITECPEC first
+    if (requestedOrg?.toUpperCase() === 'BOTH' || !suffix) {
+      console.log("Universal lookup triggered...");
       const itec = await lookupVolunteer('itecpec');
       if (itec.vol) {
+        console.log("Found in ITECPEC");
         vol = itec.vol;
         openSession = itec.openSession;
         resolvedOrg = 'ITECPEC';
         suffix = 'itecpec';
       } else {
-        // Try CAPEC
         const capec = await lookupVolunteer('capec');
         if (capec.vol) {
+          console.log("Found in CAPEC");
           vol = capec.vol;
           openSession = capec.openSession;
           resolvedOrg = 'CAPEC';
@@ -46,17 +50,39 @@ Deno.serve(async (req: any) => {
         }
       }
     } else {
+      resolvedOrg = requestedOrg.toUpperCase();
       const result = await lookupVolunteer(suffix);
       vol = result.vol;
       openSession = result.openSession;
+
+      // If not found in requested org, try the other one to be helpful
+      if (!vol) {
+        console.log(`Not found in ${resolvedOrg}, checking the other org...`);
+        const otherSuffix = suffix === 'itecpec' ? 'capec' : 'itecpec';
+        const otherOrg = resolvedOrg === 'ITECPEC' ? 'CAPEC' : 'ITECPEC';
+        const otherResult = await lookupVolunteer(otherSuffix);
+        if (otherResult.vol) {
+          console.log(`Found in ${otherOrg} instead!`);
+          return new Response(JSON.stringify({
+            success: false,
+            error: 'Wrong organization portal',
+            message: `This code belongs to ${otherOrg}. Redirecting...`,
+            resolved_org: otherOrg
+          }), {
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            status: 400
+          });
+        }
+      }
     }
 
     if (!vol) {
-      console.log(`Checkin Failed: Code '${code}' not found in ${requestedOrg}.`);
+      console.log(`Checkin Failed: Code '${code}' not found in any org.`);
       throw new Error(`Invalid Code: '${code}'`);
     }
 
     if (openSession) {
+      console.log(`Volunteer ${vol.name} already checked in. Returning existing session.`);
       return new Response(JSON.stringify({
         success: false,
         error: 'Already checked in',
