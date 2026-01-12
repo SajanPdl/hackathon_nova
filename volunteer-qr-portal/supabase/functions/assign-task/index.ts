@@ -40,23 +40,29 @@ Deno.serve(async (req: any) => {
         // 1. Admin Alert (Admin #6)
         const adminMsg = `🛠 *Task Assigned*\n\n👤 Volunteer: ${vol.name}\n📌 Task: ${title}\n⏱ Priority: High\n\nAssignment sent successfully.`;
 
-        // @ts-ignore
-        fetch(botUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
-            body: JSON.stringify({ message: adminMsg })
-        }).catch(err => console.error("Admin Notify Error:", err));
+        try {
+            await fetch(botUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
+                body: JSON.stringify({ message: adminMsg })
+            });
+        } catch (err) {
+            console.error("Admin Notify Error:", err);
+        }
 
         // 2. Volunteer Confirmation (Volunteer #4)
         if (vol.telegram_id) {
             const volMsg = `🆕 *New Task Assigned*\n\n📌 Task: ${title}\n🧭 Category: ${category || 'General'}\n⏱ Priority: High\n\n📝 Details:\n${description || 'No additional details.'}\n\nPlease complete and update once done.`;
 
-            // @ts-ignore
-            fetch(botUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
-                body: JSON.stringify({ message: volMsg, chat_id: vol.telegram_id })
-            }).catch(err => console.error("Volunteer Notify Error:", err));
+            try {
+                await fetch(botUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
+                    body: JSON.stringify({ message: volMsg, chat_id: vol.telegram_id })
+                });
+            } catch (err) {
+                console.error("Volunteer Notify Error:", err);
+            }
         }
 
         // 4. Log Audit

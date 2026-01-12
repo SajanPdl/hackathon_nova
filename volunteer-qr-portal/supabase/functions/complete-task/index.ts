@@ -62,23 +62,29 @@ Deno.serve(async (req: any) => {
             // 1. Admin Alert (Admin #3)
             const adminMsg = `📤 *Task Submitted for Review*\n\n👤 Volunteer: ${volName}\n📌 Task: ${task.title}\n🕒 Submitted at: ${now}\n\nAction required.`;
 
-            // @ts-ignore
-            fetch(botUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
-                body: JSON.stringify({ message: adminMsg })
-            }).catch(err => console.error("Admin Notify Error:", err));
+            try {
+                await fetch(botUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
+                    body: JSON.stringify({ message: adminMsg })
+                });
+            } catch (err) {
+                console.error("Admin Notify Error:", err);
+            }
 
             // 2. Volunteer Confirmation (Volunteer #5)
             if (volTelegramId) {
                 const volMsg = `📤 *Task Update Submitted*\n\n📌 Task: ${task.title}\n🕒 Submitted at: ${now}\n\nYour update is pending organizer approval.\nYou’ll be notified shortly.`;
 
-                // @ts-ignore
-                fetch(botUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
-                    body: JSON.stringify({ message: volMsg, chat_id: volTelegramId })
-                }).catch(err => console.error("Volunteer Notify Error:", err));
+                try {
+                    await fetch(botUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
+                        body: JSON.stringify({ message: volMsg, chat_id: volTelegramId })
+                    });
+                } catch (err) {
+                    console.error("Volunteer Notify Error:", err);
+                }
             }
         }
 
