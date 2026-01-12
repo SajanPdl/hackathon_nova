@@ -1064,7 +1064,7 @@ async function deleteAllLogs() {
     if (!confirmation2) return;
 
     try {
-        showToast("Deleting all logs...");
+        if (typeof showToast === 'function') showToast("Deleting all logs...");
         
         // Delete all attendance for this org
         const { error: attErr } = await sb.from(`attendance_${SUFFIX}`).delete().neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all rows
