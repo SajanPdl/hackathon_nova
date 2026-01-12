@@ -310,7 +310,8 @@ async function loadVolunteers() {
             <td>
                 <div style="display:flex; gap:5px;">
                     <button class="btn secondary small" onclick="viewVolunteerDetail('${v.id}')">Details</button>
-                    <button class="btn secondary small" onclick="viewQR('${v.name}', 'ITECPEC', '${v.unique_code}')">QR</button>
+                    <button class="btn secondary small" onclick="openAssignModal('${v.name}', '${v.unique_code}')">Assign</button>
+                    <button class="btn secondary small" onclick="viewQR('${v.name}', '${ADMIN_ORG}', '${v.unique_code}')">QR</button>
                     <button class="btn primary small" onclick="openEditModal('${v.id}')">Edit</button>
                     <button class="btn danger small" onclick="deleteVolunteer('${v.id}', '${v.name}')">Delete</button>
                 </div>
@@ -422,6 +423,46 @@ document.getElementById('form-add-vol').addEventListener('submit', async (e) => 
         e.target.reset();
     }
 });
+
+// --- ASSIGN TASK ---
+window.openAssignModal = (name, code) => {
+    document.getElementById('assign-vol-name-display').textContent = name;
+    document.getElementById('assign-vol-code').value = code;
+    document.getElementById('modal-assign-task').classList.remove('hidden');
+};
+
+const assignForm = document.getElementById('form-assign-task');
+if (assignForm) {
+    assignForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const code = document.getElementById('assign-vol-code').value;
+        const title = document.getElementById('assign-task-title').value;
+        const description = document.getElementById('assign-task-desc').value;
+        const category = document.getElementById('assign-task-category').value;
+        const btn = document.getElementById('btn-assign-submit');
+
+        btn.disabled = true;
+        btn.textContent = "Assigning...";
+
+        try {
+            const res = await callEdge('assign-task', { code, title, description, category, org: ADMIN_ORG });
+            if (res.success) {
+                alert("Task assigned successfully!");
+                closeModal('modal-assign-task');
+                e.target.reset();
+                if(activeTab === 'dashboard') loadDashboard();
+            } else {
+                alert("Error: " + res.error);
+            }
+        } catch (err) {
+            console.error("Assign Task Error:", err);
+            alert("Failed to assign task.");
+        } finally {
+            btn.disabled = false;
+            btn.textContent = "Assign Task";
+        }
+    });
+}
 
 async function uploadVolunteerImage(file) {
     const fileExt = file.name.split('.').pop();

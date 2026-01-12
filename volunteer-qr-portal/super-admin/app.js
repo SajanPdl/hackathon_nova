@@ -144,11 +144,70 @@ async function loadUsers() {
                 <td>${u.unique_code}</td>
                 <td>
                     <button class="btn secondary small" onclick="viewVolunteerDetail('${u.id}', '${u.org}')">Details</button>
+                    <button class="btn secondary small" onclick="openAssignModal('${u.name}', '${u.org}', '${u.unique_code}')">Assign</button>
                     <button class="btn primary small" onclick="viewQR('${u.name}', '${u.org}', '${u.unique_code}')">QR</button>
                 </td>
             </tr>
         `;
     }).join('');
+}
+
+// --- ASSIGN TASK ---
+window.openAssignModal = (name, org, code) => {
+    document.getElementById('assign-vol-name-display').textContent = name;
+    document.getElementById('assign-vol-org').value = org;
+    document.getElementById('assign-vol-code').value = code;
+    document.getElementById('modal-assign-task').classList.remove('hidden');
+};
+
+const assignForm = document.getElementById('form-assign-task');
+if (assignForm) {
+    assignForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const org = document.getElementById('assign-vol-org').value;
+        const code = document.getElementById('assign-vol-code').value;
+        const title = document.getElementById('assign-task-title').value;
+        const description = document.getElementById('assign-task-desc').value;
+        const category = document.getElementById('assign-task-category').value;
+        const btn = document.getElementById('btn-assign-submit');
+
+        btn.disabled = true;
+        btn.textContent = "Assigning...";
+
+        try {
+            const res = await callEdge('assign-task', { code, title, description, category, org });
+            if (res.success) {
+                alert("Task assigned successfully!");
+                document.getElementById('modal-assign-task').classList.add('hidden');
+                e.target.reset();
+            } else {
+                alert("Error: " + res.error);
+            }
+        } catch (err) {
+            console.error("Assign Task Error:", err);
+            alert("Failed to assign task.");
+        } finally {
+            btn.disabled = false;
+            btn.textContent = "Assign Task";
+        }
+    });
+}
+
+async function callEdge(func, body) {
+    const session = await sb.auth.getSession();
+    const token = session.data.session?.access_token;
+    
+    const funcUrl = `${SUPABASE_URL}/functions/v1/${func}`;
+    
+    const res = await fetch(funcUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(body)
+    });
+    return await res.json();
 }
 
 window.viewQR = (name, org, code) => {

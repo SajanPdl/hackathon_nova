@@ -5,33 +5,54 @@ Deno.serve(async (req: any) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
 
   try {
-    const { code: rawCode, device_id, org } = await req.json();
-    const suffix = org === 'ITECPEC' ? 'itecpec' : 'capec';
+    const { code: rawCode, device_id, org: requestedOrg } = await req.json();
 
     if (!rawCode) throw new Error("Missing code");
     const code = rawCode.trim();
 
     const supabase = createAdminClient();
+    let resolvedOrg = requestedOrg;
+    let suffix = requestedOrg === 'ITECPEC' ? 'itecpec' : (requestedOrg === 'CAPEC' ? 'capec' : null);
 
-    const [volResult, sessionResult] = await Promise.all([
-      supabase
-        .from(`volunteers_${suffix}`)
-        .select('id, name, role')
-        .ilike('unique_code', code)
-        .single(),
-      supabase
-        .from(`attendance_${suffix}`)
-        .select('id')
-        .ilike('unique_code', code)
-        .is('exit_time', null)
-        .maybeSingle()
-    ]);
+    let vol = null;
+    let openSession = null;
 
-    const { data: vol, error: volError } = volResult;
-    const { data: openSession } = sessionResult;
+    // Help function for lookup
+    const lookupVolunteer = async (s: string) => {
+      const [volRes, sessRes] = await Promise.all([
+        supabase.from(`volunteers_${s}`).select('id, name, role').ilike('unique_code', code).single(),
+        supabase.from(`attendance_${s}`).select('id').ilike('unique_code', code).is('exit_time', null)
+          .maybeSingle()
+      ]);
+      return { vol: volRes.data, openSession: sessRes.data, error: volRes.error };
+    };
 
-    if (volError || !vol) {
-      console.log(`Checkin Failed: Code '${code}' not found.`);
+    if (requestedOrg === 'BOTH' || !suffix) {
+      // Try ITECPEC first
+      const itec = await lookupVolunteer('itecpec');
+      if (itec.vol) {
+        vol = itec.vol;
+        openSession = itec.openSession;
+        resolvedOrg = 'ITECPEC';
+        suffix = 'itecpec';
+      } else {
+        // Try CAPEC
+        const capec = await lookupVolunteer('capec');
+        if (capec.vol) {
+          vol = capec.vol;
+          openSession = capec.openSession;
+          resolvedOrg = 'CAPEC';
+          suffix = 'capec';
+        }
+      }
+    } else {
+      const result = await lookupVolunteer(suffix);
+      vol = result.vol;
+      openSession = result.openSession;
+    }
+
+    if (!vol) {
+      console.log(`Checkin Failed: Code '${code}' not found in ${requestedOrg}.`);
       throw new Error(`Invalid Code: '${code}'`);
     }
 
@@ -39,7 +60,8 @@ Deno.serve(async (req: any) => {
       return new Response(JSON.stringify({
         success: false,
         error: 'Already checked in',
-        participant: vol
+        participant: vol,
+        resolved_org: resolvedOrg
       }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
@@ -60,7 +82,7 @@ Deno.serve(async (req: any) => {
     if (checkinError) throw checkinError;
 
     // Send Telegram Notification (Async)
-    const message = `✅ *Check-in Alert*\nVolunteer: *${vol.name}* (${vol.role})\nOrg: ${org}\nTime: ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Kathmandu' })}`;
+    const message = `✅ *Check-in Alert*\nVolunteer: *${vol.name}* (${vol.role})\nOrg: ${resolvedOrg}\nTime: ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Kathmandu' })}`;
 
     // @ts-ignore
     fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/telegram-bot`, {
@@ -73,12 +95,13 @@ Deno.serve(async (req: any) => {
       body: JSON.stringify({ message })
     }).catch(err => console.error("Telegram Error:", err));
 
-    await logAudit(supabase, org, 'system', 'check-in', `attendance_${suffix}`, newSession.id, { code });
+    await logAudit(supabase, resolvedOrg, 'system', 'check-in', `attendance_${suffix}`, newSession.id, { code });
 
     return new Response(JSON.stringify({
       success: true,
       data: newSession,
-      participant: vol
+      participant: vol,
+      resolved_org: resolvedOrg
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });

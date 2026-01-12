@@ -173,6 +173,8 @@ ul { list-style: none; }
 .status-approved { color: var(--accent-success); }
 .status-pending { color: var(--accent-primary); }
 .status-declined { color: var(--accent-danger); }
+.status-assigned { color: #2196f3; }
+.status-in_progress { color: #9c27b0; }
 
 /* QR Reader */
 #qr-reader {

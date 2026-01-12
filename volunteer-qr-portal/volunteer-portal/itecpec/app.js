@@ -309,6 +309,13 @@ function renderHistory(attendance, tasks) {
                 </div>
                 <div class="status status-${(item.data.status || 'pending').toLowerCase()}">${item.data.status || 'pending'}</div>
             `;
+
+            // Action Buttons for Assigned/In-Progress Tasks
+            if (item.data.status === 'assigned') {
+                content += `<button class="btn primary small" style="margin-top:10px; padding:5px; font-size:0.8rem;" onclick="handleTaskAction('${item.data.id}', 'accept')">Accept Task</button>`;
+            } else if (item.data.status === 'in_progress') {
+                content += `<button class="btn success small" style="margin-top:10px; padding:5px; font-size:0.8rem; background:#4caf50;" onclick="handleTaskAction('${item.data.id}', 'complete')">Submit Work</button>`;
+            }
         }
         
         li.innerHTML = content;
@@ -432,4 +439,38 @@ function showMyQR() {
 
 window.closeQRModal = () => {
     document.getElementById('modal-qr').classList.add('hidden');
+};
+
+// --- TASK ACTIONS ---
+window.handleTaskAction = async (taskId, action) => {
+    let minutes = 0;
+    if (action === 'complete') {
+        const input = prompt("How many minutes did you spend on this task?");
+        if (input === null) return;
+        minutes = parseInt(input);
+        if (isNaN(minutes) || minutes <= 0) return alert("Please enter a valid number of minutes.");
+    }
+
+    showToast(action === 'accept' ? "Accepting..." : "Submitting...");
+
+    try {
+        const res = await fetch(`${SUPABASE_FUNC_URL}/complete-task`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify({ taskId, action, minutes, org: ORG })
+        });
+        const data = await res.json();
+        if (data.success) {
+            showToast(action === 'accept' ? "Task Accepted!" : "Task Submitted!");
+            loadVolunteerData(currentUser.unique_code);
+        } else {
+            showToast(data.error || "Action failed");
+        }
+    } catch (e) {
+        showToast("Error updating task");
+    }
 };

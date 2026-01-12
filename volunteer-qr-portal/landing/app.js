@@ -61,7 +61,7 @@ function setupListeners() {
         const code = elements.manualCodeInput.value.trim().toUpperCase();
         if (code) {
             elements.manualModal.classList.add('hidden');
-            processCheckIn(code, detectedOrg === 'BOTH' ? 'ITECPEC' : detectedOrg);
+            processCheckIn(code, detectedOrg);
         }
     };
 }
@@ -157,7 +157,8 @@ async function processCheckIn(code, org) {
 
         if (data.success || data.error === 'Already checked in') {
             const isRestored = data.error === 'Already checked in';
-            handleSuccess(code, org, isRestored, data.participant);
+            const finalOrg = data.resolved_org || org;
+            handleSuccess(code, finalOrg, isRestored, data.participant);
         } else {
             handleError(data.error || 'Check-in failed');
         }

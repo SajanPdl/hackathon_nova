@@ -165,6 +165,34 @@
             </div>
         </div>
 
+        <!-- Assign Task Modal -->
+        <div id="modal-assign-task" class="overlay hidden">
+            <div class="login-box" style="text-align:left;">
+                <h2>Assign Task</h2>
+                <form id="form-assign-task">
+                    <input type="hidden" id="assign-vol-org">
+                    <input type="hidden" id="assign-vol-code">
+                    <label>Volunteer: <span id="assign-vol-name-display" style="font-weight:bold;"></span></label>
+                    <label style="margin-top:15px;">Task Title</label>
+                    <input type="text" id="assign-task-title" required placeholder="e.g. Help at Reception">
+                    <label>Description</label>
+                    <textarea id="assign-task-desc"
+                        style="width:100%; min-height:80px; padding:10px; border-radius:8px; border:1px solid #ddd; margin-bottom:15px;"
+                        placeholder="Optional details..."></textarea>
+                    <label>Category</label>
+                    <select id="assign-task-category" class="form-select" style="margin-bottom:15px;">
+                        <option value="general">General</option>
+                        <option value="logistics">Logistics</option>
+                        <option value="technical">Technical</option>
+                        <option value="hospitality">Hospitality</option>
+                    </select>
+                    <button type="submit" class="btn primary" id="btn-assign-submit">Assign Task</button>
+                    <button type="button" class="btn secondary"
+                        onclick="document.getElementById('modal-assign-task').classList.add('hidden')">Cancel</button>
+                </form>
+            </div>
+        </div>
+
         <!-- Volunteer Detail Modal -->
         <div id="modal-vol-detail" class="overlay hidden">
             <div class="login-box" style="max-width: 800px; width: 95%;">
