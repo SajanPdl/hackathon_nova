@@ -293,32 +293,40 @@ function renderHistory(attendance, tasks) {
         li.className = 'history-item';
         
         let content = '';
+        const status = (item.data.status || 'pending').toLowerCase();
+
         if (item.type === 'attendance') {
             const duration = item.data.duration_minutes ? `${item.data.duration_minutes}m` : 'Active';
             content = `
-                <div>
-                    <strong>Shift</strong> <small>${new Date(item.date).toLocaleTimeString()}</small>
-                    <div class="meta">${duration}</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                    <div>
+                        <strong>Shift</strong> <small>${new Date(item.date).toLocaleTimeString()}</small>
+                        <div class="meta">${duration}</div>
+                    </div>
+                    <div class="status status-${status}">${item.data.status || 'pending'}</div>
                 </div>
-                <div class="status status-${(item.data.status || 'pending').toLowerCase()}">${item.data.status || 'pending'}</div>
             `;
         } else {
             content = `
-                <div>
-                    <strong>${item.data.title}</strong>
-                    <div class="meta">${item.data.time_spent_minutes}m • ${item.data.category}</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                    <div>
+                        <strong>${item.data.title}</strong>
+                        <div class="meta">${item.data.duration_minutes || 0}m • ${item.data.category}</div>
+                    </div>
+                    <div class="status status-${status}">${item.data.status || 'pending'}</div>
                 </div>
-                <div class="status status-${(item.data.status || 'pending').toLowerCase()}">${item.data.status || 'pending'}</div>
             `;
 
             // Action Buttons for Assigned/In-Progress Tasks
-            if (item.data.status === 'assigned') {
-                content += `<button class="btn primary small" style="margin-top:10px; padding:5px; font-size:0.8rem;" onclick="handleTaskAction('${item.data.id}', 'accept')">Accept Task</button>`;
-            } else if (item.data.status === 'in_progress') {
-                content += `<button class="btn success small" style="margin-top:10px; padding:5px; font-size:0.8rem; background:#4caf50;" onclick="handleTaskAction('${item.data.id}', 'complete')">Submit Work</button>`;
+            if (status === 'assigned') {
+                content += `<button class="btn primary small" style="margin-top:10px; width:100%; padding:8px;" onclick="handleTaskAction('${item.data.id}', 'accept')">Accept Task</button>`;
+            } else if (status === 'in_progress') {
+                content += `<button class="btn success small" style="margin-top:10px; width:100%; padding:8px; background:#4caf50;" onclick="handleTaskAction('${item.data.id}', 'complete')">Submit Work</button>`;
             }
         }
         
+        li.style.flexDirection = 'column';
+        li.style.alignItems = 'flex-start';
         li.innerHTML = content;
         historyList.appendChild(li);
     });
