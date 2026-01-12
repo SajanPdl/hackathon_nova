@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function showView(viewName) {
     Object.values(views).forEach(el => el.classList.add('hidden'));
     views[viewName].classList.remove('hidden');
+    window.scrollTo(0, 0);
 }
 
 function startScanner() {
@@ -220,6 +221,12 @@ taskForm.addEventListener('submit', async (e) => {
         client_ts: new Date().toISOString()
     };
 
+    const submitBtn = taskForm.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.textContent;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting...";
+
     try {
         const res = await fetch(`${SUPABASE_FUNC_URL}/task`, {
             method: 'POST',
@@ -242,6 +249,9 @@ taskForm.addEventListener('submit', async (e) => {
         }
     } catch (e) {
         showToast("Error logging task");
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
     }
 });
 
@@ -327,9 +337,9 @@ function renderHistory(attendance, tasks) {
 
             // Action Buttons for Assigned/In-Progress Tasks
             if (status === 'assigned') {
-                content += `<button class="btn primary small" style="margin-top:10px; width:100%; padding:8px;" onclick="handleTaskAction('${item.data.id}', 'accept')">Accept Task</button>`;
+                content += `<button class="btn primary small" style="margin-top:10px; width:100%; padding:8px;" onclick="handleTaskAction('${item.data.id}', 'accept', event)">Accept Task</button>`;
             } else if (status === 'in_progress') {
-                content += `<button class="btn success small" style="margin-top:10px; width:100%; padding:8px; background:#4caf50;" onclick="handleTaskAction('${item.data.id}', 'complete')">Submit Work</button>`;
+                content += `<button class="btn success small" style="margin-top:10px; width:100%; padding:8px; background:#4caf50;" onclick="handleTaskAction('${item.data.id}', 'complete', event)">Submit Work</button>`;
             }
         }
         
@@ -459,13 +469,23 @@ window.closeQRModal = () => {
 };
 
 // --- TASK ACTIONS ---
-window.handleTaskAction = async (taskId, action) => {
+window.handleTaskAction = async (taskId, action, event) => {
     let minutes = 0;
     if (action === 'complete') {
         const input = prompt("How many minutes did you spend on this task?");
         if (input === null) return;
         minutes = parseInt(input);
         if (isNaN(minutes) || minutes <= 0) return alert("Please enter a valid number of minutes.");
+    }
+
+    // [UX] Button Visual Feedback
+    let btn = null;
+    let originalHtml = "";
+    if (event && event.target) {
+        btn = event.target;
+        originalHtml = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = `<span class="pulse"></span> ${action === 'accept' ? 'Accepting...' : 'Submitting...'}`;
     }
 
     showToast(action === 'accept' ? "Accepting..." : "Submitting...");
@@ -483,11 +503,22 @@ window.handleTaskAction = async (taskId, action) => {
         const data = await res.json();
         if (data.success) {
             showToast(action === 'accept' ? "Task Accepted!" : "Task Submitted!");
+            // [UX] Close history modal and return to dashboard
+            if (typeof closeHistoryModal === 'function') closeHistoryModal();
+            showView('dashboard');
             loadVolunteerData(currentUser.unique_code);
         } else {
             showToast(data.error || "Action failed");
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+            }
         }
     } catch (e) {
         showToast("Error updating task");
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = originalHtml;
+        }
     }
 };

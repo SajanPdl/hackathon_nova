@@ -13,7 +13,7 @@ Deno.serve(async (req: any) => {
         const supabase = createAdminClient();
 
         // 1. Lookup volunteer
-        const { data: vol } = await supabase.from(`volunteers_${suffix}`).select('id, name').eq('unique_code', code).single();
+        const { data: vol } = await supabase.from(`volunteers_${suffix}`).select('id, name, telegram_id').eq('unique_code', code).single();
         if (!vol) throw new Error("Invalid Volunteer Code");
 
         // 2. Insert assigned task

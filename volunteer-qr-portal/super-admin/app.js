@@ -207,6 +207,12 @@ async function callEdge(func, body) {
         },
         body: JSON.stringify(body)
     });
+    
+    if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        return { success: false, error: errData.error || `Server Error: ${res.statusText}` };
+    }
+
     return await res.json();
 }
 

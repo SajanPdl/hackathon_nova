@@ -38,6 +38,7 @@
             <li><a href="#" class="nav-item" data-view="approvals">✅ Approvals <span id="badge-approvals" class="badge"
                         style="background:var(--danger-color); margin-left:auto; display:none;">0</span></a></li>
             <li><a href="#" class="nav-item" data-view="volunteers">👥 Volunteers</a></li>
+            <li><a href="#" class="nav-item" data-view="assign-task">📋 Assign Task</a></li>
             <li><a href="#" class="nav-item" data-view="leaderboard">🏆 Leaderboard</a></li>
             <li><a href="#" class="nav-item" data-view="daily-activity">📅 Daily Activity</a></li>
             <li><a href="#" class="nav-item" data-view="scan">📷 Scan Badge</a></li>
@@ -151,6 +152,47 @@
             </div>
         </div>
 
+        <!-- Assign Task View -->
+        <div id="view-assign-task" class="view hidden">
+            <h1>Assign New Task</h1>
+            <div class="card" style="max-width: 600px; margin: 20px 0;">
+                <form id="direct-assign-form" class="admin-form">
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label>Select Volunteer</label>
+                        <select id="assign-vol-select" name="code" required class="form-select"
+                            style="width: 100%; padding: 10px;">
+                            <option value="">-- Choose Volunteer --</option>
+                        </select>
+                        <p style="font-size: 0.8rem; color: #666; margin-top: 5px;">Type to search in the dropdown</p>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label>Task Title</label>
+                        <input type="text" name="title" placeholder="e.g., Manage Entrance Gate" required
+                            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label>Description</label>
+                        <textarea name="description" rows="3" placeholder="Additional details..."
+                            style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label>Category</label>
+                        <select name="category" class="form-select" style="width: 100%; padding: 10px;">
+                            <option value="General">General</option>
+                            <option value="Technical">Technical</option>
+                            <option value="Logistics">Logistics</option>
+                            <option value="Security">Security</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn primary" style="width: 100%; padding: 12px;">Assign Task</button>
+                </form>
+            </div>
+        </div>
+
         <!-- Leaderboard View -->
         <div id="view-leaderboard" class="view hidden">
             <h1>Contribution Leaderboard</h1>
@@ -206,6 +248,15 @@
                     <button class="btn secondary" onclick="exportBadges()">Export Badges CSV</button>
                     <button class="btn primary" style="margin-top:10px;" onclick="printAllBadges()">Print All
                         Badges</button>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top:20px; border: 1px solid var(--danger-color);">
+                <h3 style="color: var(--danger-color);">🚨 Danger Zone</h3>
+                <p>This action will permanently delete <strong>ALL</strong> attendance and task records for this
+                    organization. This cannot be undone.</p>
+                <div style="margin-top: 15px;">
+                    <button class="btn danger" onclick="deleteAllLogs()">Delete All Task & Attendance Logs</button>
                 </div>
             </div>
 
