@@ -26,6 +26,7 @@ const views = {
     approvals: document.getElementById('view-approvals'),
     volunteers: document.getElementById('view-volunteers'),
     leaderboard: document.getElementById('view-leaderboard'),
+    'assign-task': document.getElementById('view-assign-task'),
     'daily-activity': document.getElementById('view-daily-activity'),
     devices: document.getElementById('view-devices'),
     reports: document.getElementById('view-reports'),
@@ -54,6 +55,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Login
     document.getElementById('btn-login-email').addEventListener('click', handleLogin);
     document.getElementById('btn-logout').addEventListener('click', handleLogout);
+
+    // Direct Assign Form
+    const directForm = document.getElementById('direct-assign-form');
+    if (directForm) directForm.addEventListener('submit', handleDirectAssign);
 
     // Mobile Menu Toggle
     document.getElementById('menu-toggle').addEventListener('click', () => {
@@ -134,6 +139,7 @@ function switchTab(tab) {
     if (tab === 'dashboard') loadDashboard();
     if (tab === 'approvals') loadApprovals();
     if (tab === 'volunteers') loadVolunteers();
+    if (tab === 'assign-task') initAssignTask();
     if (tab === 'leaderboard') loadLeaderboard();
     if (tab === 'daily-activity') loadDailyActivity();
     if (tab === 'reports') loadDailyLogs();
@@ -1000,4 +1006,83 @@ async function onAdminScan(decodedText) {
         if (resEl) resEl.textContent = '';
         if (html5QrcodeScanner) html5QrcodeScanner.resume();
     }, 3000);
+}
+
+async function initAssignTask() {
+    const select = document.getElementById('assign-vol-select');
+    if (!select) return;
+
+    select.innerHTML = '<option value="">Loading volunteers...</option>';
+    const { data, error } = await sb.from(`volunteers_${SUFFIX}`).select('name, unique_code').order('name');
+    
+    if (error) {
+        select.innerHTML = '<option value="">Error loading volunteers</option>';
+        return;
+    }
+
+    select.innerHTML = '<option value="">-- Choose Volunteer --</option>' + 
+        (data || []).map(v => `<option value="${v.unique_code}">${v.name} (${v.unique_code})</option>`).join('');
+}
+
+async function handleDirectAssign(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    const originalText = btn.textContent;
+    
+    const formData = new FormData(e.target);
+    const payload = {
+        code: formData.get('code'),
+        title: formData.get('title'),
+        description: formData.get('description'),
+        category: formData.get('category'),
+        org: ADMIN_ORG
+    };
+
+    if (!payload.code) return alert("Please select a volunteer");
+
+    btn.disabled = true;
+    btn.textContent = "Assigning...";
+
+    const res = await callEdge('assign-task', payload);
+    btn.disabled = false;
+    btn.textContent = originalText;
+
+    if (res.success) {
+        alert("Task Assigned Successfully!");
+        e.target.reset();
+        switchTab('dashboard');
+    } else {
+        alert("Assignment Failed: " + (res.error || "Unknown error"));
+    }
+}
+
+async function deleteAllLogs() {
+    const confirmation1 = confirm("⚠️ WARNING: This will permanently delete ALL attendance and task logs for this entire organization. Are you absolutely sure?");
+    if (!confirmation1) return;
+
+    const confirmation2 = confirm("FINAL WARNING: This action is irreversible. All volunteer activity history will be lost. Proceed with deletion?");
+    if (!confirmation2) return;
+
+    try {
+        showToast("Deleting all logs...");
+        
+        // Delete all attendance for this org
+        const { error: attErr } = await sb.from(`attendance_${SUFFIX}`).delete().neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all rows
+        if (attErr) throw attErr;
+
+        // Delete all tasks for this org
+        const { error: tskErr } = await sb.from(`tasks_${SUFFIX}`).delete().neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all rows
+        if (tskErr) throw tskErr;
+
+        alert("All logs have been successfully deleted.");
+        
+        // Refresh views
+        if (activeTab === 'dashboard') loadDashboard();
+        if (activeTab === 'reports') loadDailyLogs();
+        if (activeTab === 'leaderboard') loadLeaderboard();
+
+    } catch (err) {
+        console.error("Delete All Logs Error:", err);
+        alert("Deletion failed: " + err.message);
+    }
 }
