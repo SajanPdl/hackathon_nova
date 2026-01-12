@@ -63,6 +63,7 @@ Status: Pending Approval`;
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    // @ts-ignore
                     'Authorization': `Bearer ${Deno.env.get('SUPABASE_ANON_KEY')}`
                 },
                 body: JSON.stringify({ message })
