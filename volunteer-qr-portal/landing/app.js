@@ -47,6 +47,12 @@ function detectOrganization() {
     elements.orgBadge.className = `badge ${detectedOrg.toLowerCase()}`;
 }
 
+// UTILS
+function normalizeCode(code) {
+    if (!code) return "";
+    return code.trim().toUpperCase().replace(/\s+/g, '-');
+}
+
 function setupListeners() {
     // Manual Scan Toggle
     document.getElementById('btn-manual-scan').onclick = () => elements.manualModal.classList.remove('hidden');
@@ -58,7 +64,7 @@ function setupListeners() {
     // Manual Form Submit
     elements.manualForm.onsubmit = (e) => {
         e.preventDefault();
-        const code = elements.manualCodeInput.value.trim().toUpperCase();
+        const code = normalizeCode(elements.manualCodeInput.value);
         if (code) {
             elements.manualModal.classList.add('hidden');
             processCheckIn(code, detectedOrg);

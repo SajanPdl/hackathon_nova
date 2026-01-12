@@ -5,34 +5,53 @@ Deno.serve(async (req: any) => {
 
   try {
     const url = new URL(req.url);
-    const code = url.searchParams.get('code');
+    const code = url.searchParams.get('code')?.trim();
     const org = url.searchParams.get('org');
 
     if (!code || !org) throw new Error("Missing code or org param");
+    console.log(`Volunteer Lookup: [${code}] for Org: [${org}]`);
 
-    const suffix = org === 'ITECPEC' ? 'itecpec' : 'capec';
     const supabase = createAdminClient();
+    let resolvedOrg = org;
+    let suffix = org.toUpperCase() === 'ITECPEC' ? 'itecpec' : (org.toUpperCase() === 'CAPEC' ? 'capec' : null);
 
-    const { data: vol, error } = await supabase
-      .from(`volunteers_${suffix}`)
-      .select('*')
-      .ilike('unique_code', code)
-      .single();
+    const lookupVolunteerData = async (s: string) => {
+      console.log(`Searching volunteers_${s}...`);
+      const { data: vol } = await supabase.from(`volunteers_${s}`).select('*').ilike('unique_code', code).single();
+      if (!vol) return null;
 
-    if (error || !vol) throw new Error("Volunteer not found");
+      const [attRes, tasksRes] = await Promise.all([
+        supabase.from(`attendance_${s}`).select('*').eq('volunteer_id', vol.id).order('entry_time', { ascending: false }).limit(10),
+        supabase.from(`tasks_${s}`).select('*').eq('volunteer_id', vol.id).order('created_at', { ascending: false }).limit(10)
+      ]);
 
-    const [attRes, tasksRes] = await Promise.all([
-      supabase.from(`attendance_${suffix}`).select('*').eq('volunteer_id', vol.id).order('entry_time', { ascending: false }).limit(10),
-      supabase.from(`tasks_${suffix}`).select('*').eq('volunteer_id', vol.id).order('created_at', { ascending: false }).limit(10)
-    ]);
-
-    return new Response(JSON.stringify({
-      success: true,
-      data: {
+      return {
         volunteer: vol,
         attendance: attRes.data || [],
         tasks: tasksRes.data || []
-      }
+      };
+    };
+
+    let result = await lookupVolunteerData(suffix || 'itecpec');
+    if (!result && (!suffix || org.toUpperCase() === 'ITECPEC')) {
+      // Try CAPEC if not already tried or if ITECPEC failed
+      result = await lookupVolunteerData('capec');
+      if (result) resolvedOrg = 'CAPEC';
+    } else if (!result && org.toUpperCase() === 'CAPEC') {
+      // Try ITECPEC if CAPEC failed
+      result = await lookupVolunteerData('itecpec');
+      if (result) resolvedOrg = 'ITECPEC';
+    }
+
+    if (!result) {
+      console.log(`Volunteer not found: '${code}'`);
+      throw new Error("Volunteer not found");
+    }
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result,
+      resolved_org: resolvedOrg
     }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
 
   } catch (error: any) {
