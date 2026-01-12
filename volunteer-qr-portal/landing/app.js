@@ -153,11 +153,13 @@ async function processCheckIn(code, org) {
         });
         
         const data = await res.json();
+        console.log("Check-in Response:", data);
         elements.loadingOverlay.classList.add('hidden');
 
         if (data.success || data.error === 'Already checked in') {
             const isRestored = data.error === 'Already checked in';
             const finalOrg = data.resolved_org || org;
+            console.log("Resolved Organization:", finalOrg);
             handleSuccess(code, finalOrg, isRestored, data.participant);
         } else {
             handleError(data.error || 'Check-in failed');

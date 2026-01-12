@@ -131,6 +131,12 @@ async function handleCheckIn(rawCode) {
                 await loadVolunteerData(code);
                 showView('dashboard');
                 showToast("Restored active session");
+            } else if (data.error === 'Wrong organization portal') {
+                showToast(data.message || "Redirecting to correct portal...");
+                const subdomain = data.resolved_org.toLowerCase();
+                setTimeout(() => {
+                    window.location.href = `https://${subdomain}.hackathon-nova.com/?code=${code}`;
+                }, 2000);
             } else {
                 showToast(data.error || "Check-in failed");
             }
