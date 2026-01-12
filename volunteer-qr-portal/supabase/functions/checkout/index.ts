@@ -1,5 +1,6 @@
 import { createAdminClient, corsHeaders, logAudit } from "../_shared/utils.js";
 
+// @ts-ignore
 Deno.serve(async (req: any) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
 
@@ -9,7 +10,7 @@ Deno.serve(async (req: any) => {
 
     const supabase = createAdminClient();
 
-    const { data: vol } = await supabase.from(`volunteers_${suffix}`).select('id').eq('unique_code', code).single();
+    const { data: vol } = await supabase.from(`volunteers_${suffix}`).select('id, name').eq('unique_code', code).single();
     if (!vol) throw new Error("Volunteer not found");
 
     const { data: session, error: findError } = await supabase
@@ -40,6 +41,20 @@ Deno.serve(async (req: any) => {
     if (updateError) throw updateError;
 
     await logAudit(supabase, org, 'system', 'check-out', `attendance_${suffix}`, session.id, { duration: durationParam });
+
+    // Send Telegram Notification (Async)
+    const message = `👋 *Checkout Alert*\nVolunteer: *${vol.name}*\nOrg: ${org}\nDuration: ${durationParam} mins\nTime: ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Kathmandu' })}`;
+
+    // @ts-ignore
+    fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/telegram-bot`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // @ts-ignore
+        'Authorization': `Bearer ${Deno.env.get('SUPABASE_ANON_KEY')}`
+      },
+      body: JSON.stringify({ message })
+    }).catch(err => console.error("Telegram Error:", err));
 
     return new Response(JSON.stringify({ success: true, data: updated }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }

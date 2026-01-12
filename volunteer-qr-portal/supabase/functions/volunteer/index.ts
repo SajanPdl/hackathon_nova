@@ -16,7 +16,7 @@ Deno.serve(async (req: any) => {
     const { data: vol, error } = await supabase
       .from(`volunteers_${suffix}`)
       .select('*')
-      .eq('unique_code', code)
+      .ilike('unique_code', code)
       .single();
 
     if (error || !vol) throw new Error("Volunteer not found");

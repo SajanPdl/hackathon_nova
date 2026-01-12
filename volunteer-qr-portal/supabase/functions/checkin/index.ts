@@ -1,5 +1,6 @@
 import { createAdminClient, corsHeaders, logAudit } from "../_shared/utils.js";
 
+// @ts-ignore
 Deno.serve(async (req: any) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
 
@@ -16,12 +17,12 @@ Deno.serve(async (req: any) => {
       supabase
         .from(`volunteers_${suffix}`)
         .select('id, name, role')
-        .eq('unique_code', code)
+        .ilike('unique_code', code)
         .single(),
       supabase
         .from(`attendance_${suffix}`)
         .select('id')
-        .eq('unique_code', code)
+        .ilike('unique_code', code)
         .is('exit_time', null)
         .maybeSingle()
     ]);
@@ -57,6 +58,20 @@ Deno.serve(async (req: any) => {
       .single();
 
     if (checkinError) throw checkinError;
+
+    // Send Telegram Notification (Async)
+    const message = `✅ *Check-in Alert*\nVolunteer: *${vol.name}* (${vol.role})\nOrg: ${org}\nTime: ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Kathmandu' })}`;
+
+    // @ts-ignore
+    fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/telegram-bot`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // @ts-ignore
+        'Authorization': `Bearer ${Deno.env.get('SUPABASE_ANON_KEY')}`
+      },
+      body: JSON.stringify({ message })
+    }).catch(err => console.error("Telegram Error:", err));
 
     await logAudit(supabase, org, 'system', 'check-in', `attendance_${suffix}`, newSession.id, { code });
 
