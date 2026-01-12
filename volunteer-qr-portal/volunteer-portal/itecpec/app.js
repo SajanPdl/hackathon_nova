@@ -161,6 +161,9 @@ async function loadVolunteerData(code) {
             console.log("LOGGED IN AS:", currentUser.name, "CODE:", currentUser.unique_code);
             document.getElementById('user-name').textContent = currentUser.name;
             
+            const botLnk = document.getElementById('lnk-start-bot');
+            if (botLnk) botLnk.href = `https://t.me/Hackathonnovabot?start=${currentUser.unique_code}`;
+            
             const img = document.getElementById('user-profile-img');
             const avatar = document.getElementById('user-avatar');
             if (currentUser.profile_image_url) {

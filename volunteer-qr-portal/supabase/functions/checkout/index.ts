@@ -5,13 +5,38 @@ Deno.serve(async (req: any) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
 
   try {
-    const { code, org } = await req.json();
-    const suffix = org === 'ITECPEC' ? 'itecpec' : 'capec';
+    const { code: rawCode, org: requestedOrg } = await req.json();
+    if (!rawCode) throw new Error("Missing code");
+    const code = rawCode.trim();
+    console.log(`Checkout Request: [${code}] for Org: [${requestedOrg}]`);
 
     const supabase = createAdminClient();
+    let resolvedOrg = requestedOrg;
+    let suffix = requestedOrg?.toUpperCase() === 'ITECPEC' ? 'itecpec' : (requestedOrg?.toUpperCase() === 'CAPEC' ? 'capec' : null);
 
-    const { data: vol } = await supabase.from(`volunteers_${suffix}`).select('id, name').eq('unique_code', code).single();
+    const lookupVolunteer = async (s: string) => {
+      console.log(`Searching volunteers_${s}...`);
+      const { data: vol } = await supabase.from(`volunteers_${s}`).select('id, name, telegram_id').ilike('unique_code', code).single();
+      return vol;
+    };
+
+    let vol = await lookupVolunteer(suffix || 'itecpec');
+    if (!vol && (!suffix || requestedOrg?.toUpperCase() === 'ITECPEC')) {
+      vol = await lookupVolunteer('capec');
+      if (vol) {
+        resolvedOrg = 'CAPEC';
+        suffix = 'capec';
+      }
+    } else if (!vol && requestedOrg?.toUpperCase() === 'CAPEC') {
+      vol = await lookupVolunteer('itecpec');
+      if (vol) {
+        resolvedOrg = 'ITECPEC';
+        suffix = 'itecpec';
+      }
+    }
+
     if (!vol) throw new Error("Volunteer not found");
+    console.log(`Checking out ${vol.name} from ${resolvedOrg}`);
 
     const { data: session, error: findError } = await supabase
       .from(`attendance_${suffix}`)
@@ -40,23 +65,36 @@ Deno.serve(async (req: any) => {
 
     if (updateError) throw updateError;
 
-    await logAudit(supabase, org, 'system', 'check-out', `attendance_${suffix}`, session.id, { duration: durationParam });
+    await logAudit(supabase, resolvedOrg, 'system', 'check-out', `attendance_${suffix}`, session.id, { duration: durationParam });
 
-    // Send Telegram Notification (Async)
-    const message = `👋 *Checkout Alert*\nVolunteer: *${vol.name}*\nOrg: ${org}\nDuration: ${durationParam} mins\nTime: ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Kathmandu' })}`;
+    // --- TELEGRAM NOTIFICATIONS ---
+    const now = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Kathmandu' });
+    const botUrl = `${Deno.env.get('SUPABASE_URL')}/functions/v1/telegram-bot`;
+    const anonKey = Deno.env.get('SUPABASE_ANON_KEY');
+
+    // 1. Admin Alert
+    const adminMsg = `🔵 *Volunteer Check-Out*\n\n👤 Name: ${vol.name}\n🪪 Code: ${code}\n🕒 Time: ${now}\n\nExit approval required.`;
 
     // @ts-ignore
-    fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/telegram-bot`, {
+    fetch(botUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        // @ts-ignore
-        'Authorization': `Bearer ${Deno.env.get('SUPABASE_ANON_KEY')}`
-      },
-      body: JSON.stringify({ message })
-    }).catch(err => console.error("Telegram Error:", err));
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
+      body: JSON.stringify({ message: adminMsg })
+    }).catch(err => console.error("Admin Notify Error:", err));
 
-    return new Response(JSON.stringify({ success: true, data: updated }), {
+    // 2. Volunteer Confirmation
+    if (vol.telegram_id) {
+      const volMsg = `👋 *Check-Out Recorded*\n\n🕒 Time: ${now}\n\nThank you for your contribution today.\nPlease ensure all assigned tasks are updated.`;
+
+      // @ts-ignore
+      fetch(botUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
+        body: JSON.stringify({ message: volMsg, chat_id: vol.telegram_id })
+      }).catch(err => console.error("Volunteer Notify Error:", err));
+    }
+
+    return new Response(JSON.stringify({ success: true, data: updated, resolved_org: resolvedOrg }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
 

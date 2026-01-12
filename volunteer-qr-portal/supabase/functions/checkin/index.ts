@@ -23,7 +23,7 @@ Deno.serve(async (req: any) => {
     const lookupVolunteer = async (s: string) => {
       console.log(`Looking up '${code}' in volunteers_${s}...`);
       const [volRes, sessRes] = await Promise.all([
-        supabase.from(`volunteers_${s}`).select('id, name, role').ilike('unique_code', code).single(),
+        supabase.from(`volunteers_${s}`).select('id, name, role, telegram_id').ilike('unique_code', code).single(),
         supabase.from(`attendance_${s}`).select('id').ilike('unique_code', code).is('exit_time', null)
           .maybeSingle()
       ]);
@@ -107,19 +107,32 @@ Deno.serve(async (req: any) => {
 
     if (checkinError) throw checkinError;
 
-    // Send Telegram Notification (Async)
-    const message = `✅ *Check-in Alert*\nVolunteer: *${vol.name}* (${vol.role})\nOrg: ${resolvedOrg}\nTime: ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Kathmandu' })}`;
+    // --- TELEGRAM NOTIFICATIONS ---
+    const now = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Kathmandu' });
+    const botUrl = `${Deno.env.get('SUPABASE_URL')}/functions/v1/telegram-bot`;
+    const anonKey = Deno.env.get('SUPABASE_ANON_KEY');
+
+    // 1. Admin Alert (Admin #1)
+    const adminMsg = `🟢 *Volunteer Check-In*\n\n👤 Name: ${vol.name}\n🪪 Code: ${code}\n🕒 Time: ${now}\n📍 Entry: Hackathon Portal\n\nStatus: Pending approval`;
 
     // @ts-ignore
-    fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/telegram-bot`, {
+    fetch(botUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        // @ts-ignore
-        'Authorization': `Bearer ${Deno.env.get('SUPABASE_ANON_KEY')}`
-      },
-      body: JSON.stringify({ message })
-    }).catch(err => console.error("Telegram Error:", err));
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
+      body: JSON.stringify({ message: adminMsg })
+    }).catch(err => console.error("Admin Notify Error:", err));
+
+    // 2. Volunteer Confirmation (Volunteer #2)
+    if (vol.telegram_id) {
+      const volMsg = `✅ *Check-In Successful*\n\n🕒 Time: ${now}\n📍 Venue: Hackathon Nova\n🪪 Volunteer ID: ${code}\n\nYour entry has been recorded.\nHave a productive session 🚀`;
+
+      // @ts-ignore
+      fetch(botUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
+        body: JSON.stringify({ message: volMsg, chat_id: vol.telegram_id })
+      }).catch(err => console.error("Volunteer Notify Error:", err));
+    }
 
     await logAudit(supabase, resolvedOrg, 'system', 'check-in', `attendance_${suffix}`, newSession.id, { code });
 

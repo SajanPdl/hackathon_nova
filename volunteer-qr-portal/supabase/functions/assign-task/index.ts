@@ -33,19 +33,31 @@ Deno.serve(async (req: any) => {
 
         if (error) throw error;
 
-        // 3. Send Telegram Notification (Async)
-        const message = `📋 *New Task Assigned*\nVolunteer: *${vol.name}*\nTask: ${title}\nOrg: ${org}\nTime: ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Kathmandu' })}`;
+        // 3. --- TELEGRAM NOTIFICATIONS ---
+        const botUrl = `${Deno.env.get('SUPABASE_URL')}/functions/v1/telegram-bot`;
+        const anonKey = Deno.env.get('SUPABASE_ANON_KEY');
+
+        // 1. Admin Alert (Admin #6)
+        const adminMsg = `🛠 *Task Assigned*\n\n👤 Volunteer: ${vol.name}\n📌 Task: ${title}\n⏱ Priority: High\n\nAssignment sent successfully.`;
 
         // @ts-ignore
-        fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/telegram-bot`, {
+        fetch(botUrl, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                // @ts-ignore
-                'Authorization': `Bearer ${Deno.env.get('SUPABASE_ANON_KEY')}`
-            },
-            body: JSON.stringify({ message })
-        }).catch(err => console.error("Telegram Error:", err));
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
+            body: JSON.stringify({ message: adminMsg })
+        }).catch(err => console.error("Admin Notify Error:", err));
+
+        // 2. Volunteer Confirmation (Volunteer #4)
+        if (vol.telegram_id) {
+            const volMsg = `🆕 *New Task Assigned*\n\n📌 Task: ${title}\n🧭 Category: ${category || 'General'}\n⏱ Priority: High\n\n📝 Details:\n${description || 'No additional details.'}\n\nPlease complete and update once done.`;
+
+            // @ts-ignore
+            fetch(botUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
+                body: JSON.stringify({ message: volMsg, chat_id: vol.telegram_id })
+            }).catch(err => console.error("Volunteer Notify Error:", err));
+        }
 
         // 4. Log Audit
         await logAudit(supabase, org, 'admin', 'assign_task', `tasks_${suffix}`, task.id, { title, volunteer: vol.name });
