@@ -1087,8 +1087,10 @@ async function deleteAllLogs() {
     const confirmation2 = confirm("FINAL WARNING: This action is irreversible. All volunteer activity history will be lost. Proceed with deletion?");
     if (!confirmation2) return;
 
-    const securityCode = prompt("Please enter the security code to confirm deletion:");
-    if (securityCode !== "1701") {
+    const isAuthorized = await confirmSecurityCode();
+    if (isAuthorized === null) return; // Silent cancel
+
+    if (!isAuthorized) {
         alert("Invalid security code. Deletion cancelled.");
         return;
     }
@@ -1115,4 +1117,50 @@ async function deleteAllLogs() {
         console.error("Delete All Logs Error:", err);
         alert("Deletion failed: " + err.message);
     }
+}
+
+function confirmSecurityCode() {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('modal-security-lock');
+        const input = document.getElementById('security-lock-input');
+        const verifyBtn = document.getElementById('btn-security-verify');
+        const cancelBtn = modal.querySelector('.secondary');
+
+        if (!modal || !input || !verifyBtn || !cancelBtn) {
+            console.error("Security modal elements missing");
+            resolve(false);
+            return;
+        }
+
+        input.value = '';
+        modal.classList.remove('hidden');
+        input.focus();
+
+        const cleanup = () => {
+            modal.classList.add('hidden');
+            verifyBtn.removeEventListener('click', onVerify);
+            cancelBtn.removeEventListener('click', onCancel);
+            input.removeEventListener('keydown', onKey);
+        };
+
+        const onVerify = () => {
+            const code = input.value;
+            cleanup();
+            resolve(code === "1701");
+        };
+
+        const onCancel = () => {
+            cleanup();
+            resolve(null);
+        };
+
+        const onKey = (e) => {
+            if (e.key === 'Enter') onVerify();
+            if (e.key === 'Escape') onCancel();
+        };
+
+        verifyBtn.addEventListener('click', onVerify, { once: true });
+        cancelBtn.addEventListener('click', onCancel, { once: true });
+        input.addEventListener('keydown', onKey);
+    });
 }

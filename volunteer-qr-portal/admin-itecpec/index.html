@@ -390,6 +390,26 @@
             </div>
         </div>
 
+        <!-- Security Lock Modal -->
+        <div id="modal-security-lock" class="overlay hidden">
+            <div class="login-box" style="text-align:center; max-width: 400px;">
+                <div style="font-size: 3rem; margin-bottom: 15px;">🛡️</div>
+                <h2>Security Verification</h2>
+                <p style="margin-bottom: 20px; opacity: 0.8; font-size: 0.9rem;">Please enter the security code to
+                    authorize this action.</p>
+
+                <input type="password" id="security-lock-input" placeholder="••••"
+                    style="width: 100%; padding: 15px; text-align: center; font-size: 1.5rem; letter-spacing: 10px; border: 2px solid #ddd; border-radius: 12px; margin-bottom: 20px; background: #f9f9f9;">
+
+                <div style="display:flex; gap:10px;">
+                    <button type="button" class="btn secondary" style="flex:1;"
+                        onclick="closeModal('modal-security-lock')">Cancel</button>
+                    <button type="button" class="btn danger" style="flex:1;" id="btn-security-verify">Verify
+                        Action</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Volunteer Detail Modal -->
         <div id="modal-vol-detail" class="overlay hidden">
             <div class="login-box" style="max-width: 800px; width: 95%;">
