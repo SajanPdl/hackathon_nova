@@ -15,11 +15,15 @@ const CONFIG = {
     BRAND_RED: "#C8102E",
     PREFERS_REDUCED_MOTION: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
 
-    // Target Date (Restored)
-    // TARGET_DATE: new Date("2026-01-14T09:00:00+05:45"), 
-    TARGET_DATE: new Date(Date.now() + 120000), // TESTING: 2 min from load
+    // Target Date
+    // PRODUCTION DATE: January 26, 2026 at 9:00 AM Nepal Time
+    // TARGET_DATE: new Date("2026-01-26T09:00:00+05:45"), 
     
-    // Internal State
+    // Testing Config (Commented out for production)
+    TEST_DURATION_MS: 15000, // 15 seconds
+    TARGET_DATE: new Date(), // Set in init
+    
+    AUTO_TRIGGER_AT_ZERO: true, // Manual trigger only for safety
     state: 'PREP', // PREP | IMPACT | CELEBRATE | SETTLE
     mottos: [
         "Innovate. Create. Elevate.",
@@ -80,6 +84,11 @@ function init() {
 
     // Loop
     requestAnimationFrame(loop);
+
+    // Init Target Date
+    // For Production: CONFIG.TARGET_DATE = new Date("2026-01-14T...")
+    // For Testing:
+    CONFIG.TARGET_DATE = new Date(Date.now() + CONFIG.TEST_DURATION_MS);
 
     // Wake Lock
     requestWakeLock();
