@@ -119,8 +119,9 @@ function updateCountdown() {
     
     if (diff <= 0) {
         UI.cd.innerText = "00:00:00";
-        // Optional: Auto-trigger? No, manual authoritative trigger requested.
-        // We just stay at 00:00:00 until G is pressed.
+        if (CONFIG.AUTO_TRIGGER_AT_ZERO) {
+            triggerSequence();
+        }
         return;
     }
 
