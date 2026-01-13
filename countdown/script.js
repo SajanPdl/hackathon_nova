@@ -245,6 +245,8 @@ function handleKeyEntry(e) {
         case 'R':
             if (confirm("Reset to PREP?")) {
                 setConfigState('PREP');
+                // Reset timer for testing
+                CONFIG.TARGET_DATE = new Date(Date.now() + CONFIG.TEST_DURATION_MS);
                 renderState();
             }
             break;
