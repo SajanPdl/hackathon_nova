@@ -1,0 +1,244 @@
+:root {
+    --brand-red: #C8102E;
+    --brand-navy: #0a0e17;
+    --brand-white: #ffffff;
+    --brand-cyan: #00f0ff; /* Subtle cyber accent */
+    
+    --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    
+    --title-size-prep: 8vw;
+    --title-size-go: 10vw;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    background-color: var(--brand-navy);
+    color: var(--brand-white);
+    font-family: var(--font-main);
+    overflow: hidden;
+    user-select: none;
+    cursor: none; /* Hide cursor for ceremony */
+}
+
+/* UTILS */
+.hidden { display: none !important; opacity: 0; }
+
+/* STAGE LAYOUT */
+#stage {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    padding: 3vh 3vw;
+    position: relative;
+    z-index: 10;
+}
+
+/* HEADER */
+.brand-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.logo { height: 90px; width: auto; opacity: 0.9; }
+
+.live-badge {
+    background: var(--brand-red);
+    color: white;
+    padding: 0.5rem 1rem;
+    font-weight: 800;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    animation: pulseRed 2s infinite;
+}
+
+/* IMPACT LAYER (The "NOW." Flash) */
+.impact-layer {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: black;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#impact-word {
+    font-size: 25vw;
+    font-weight: 900;
+    color: var(--brand-red);
+    text-transform: uppercase;
+}
+
+/* CENTER VISUALS */
+.center-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+/* TITLES */
+#main-title {
+    font-weight: 800;
+    text-shadow: 0 0 30px rgba(0,0,0,0.5);
+    line-height: 1;
+    will-change: transform, opacity;
+}
+
+/* State: PREP */
+.title-prep {
+    font-size: var(--title-size-prep);
+    color: var(--brand-white);
+    letter-spacing: 0.05em;
+}
+.subtitle-prep {
+    font-size: 2vw;
+    font-weight: 300;
+    color: #889;
+    letter-spacing: 0.3em;
+    margin-top: 2vh;
+}
+
+/* State: GO Animation Classes */
+.animate-impact {
+    animation: scaleOvershoot 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    color: var(--brand-white);
+    text-shadow: 0 0 50px var(--brand-red), 0 0 20px var(--brand-cyan);
+}
+
+.subtitle-go {
+    font-size: 3vw;
+    color: var(--brand-cyan);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    margin-top: 1vh;
+    animation: fadeInUp 1s ease 0.5s both;
+}
+
+/* SETTLE INFO */
+#settle-info {
+    margin-top: 5vh;
+    animation: fadeIn 2s ease forwards;
+}
+
+.info-chips {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-bottom: 3vh;
+}
+
+.chip {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+}
+
+.motto-container {
+    height: 3rem; 
+    font-size: 2rem;
+    font-style: italic;
+    color: #bbb;
+}
+
+/* FOOTER */
+.footer {
+    width: 100%;
+    text-align: center;
+    opacity: 0.6;
+    font-size: 1.1rem;
+    padding-bottom: 1vh;
+    letter-spacing: 0.05em;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 1rem;
+}
+
+/* ANIMATIONS */
+@keyframes scaleOvershoot {
+    0% { transform: scale(0.5); opacity: 0; filter: blur(20px); }
+    60% { transform: scale(1.1); opacity: 1; filter: blur(0px); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes pulseRed {
+    0% { box-shadow: 0 0 0 0 rgba(200, 16, 46, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(200, 16, 46, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(200, 16, 46, 0); }
+}
+
+/* ADMIN OVERLAY */
+#admin-overlay {
+    position: fixed; top: 10px; right: 10px;
+    background: rgba(0,0,0,0.85); padding: 15px;
+    border-radius: 8px; z-index: 9999;
+    font-family: monospace; border-left: 3px solid var(--brand-red);
+    cursor: auto;
+}
+.admin-panel li { list-style: none; margin-bottom: 5px; }
+kbd { background: #333; padding: 2px 5px; border-radius: 3px; }
+
+/* CONFETTI CANVAS */
+#confetti-canvas {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 5;
+}
+
+/* FS FALLBACK */
+#fs-fallback {
+    position: fixed; bottom: 20px; right: 20px; 
+    z-index: 200;
+}
+.btn-fs {
+    padding: 10px 20px; font-size: 14px;
+    background: rgba(200, 16, 46, 0.8); color: white; border: none;
+    cursor: pointer; border-radius: 4px;
+    backdrop-filter: blur(5px);
+    transition: background 0.2s;
+}
+.btn-fs:hover { background: var(--brand-red); }
+
+/* COUNTDOWN PREP */
+.countdown-prep {
+    font-size: 6vw;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    margin-top: 4vh;
+    color: var(--brand-cyan);
+    text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+    letter-spacing: 0.05em;
+    opacity: 0.9;
+}
+
+/* REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+    *, .animate-impact, .subtitle-go {
+        animation: none !important;
+        transition: none !important;
+        filter: none !important;
+    }
+}
