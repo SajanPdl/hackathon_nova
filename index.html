@@ -4,11 +4,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
+
   <!-- Primary SEO -->
   <title>Hackathon Nova 2026 | CAPEC × ITEC-PEC | Pokhara Engineering College</title>
-  <meta name="description" content="Hackathon Nova is a 60-hour student hackathon at Pokhara Engineering College organized by CAPEC & ITEC-PEC. Build real-world projects, meet mentors, win prizes. Register now." />
-  <meta name="keywords" content="Hackathon Nova, hackathon Pokhara, student hackathon Nepal, CAPEC hackathon, ITEC PEC, Pokhara Engineering College hackathon, college hackathon Nepal, tech event Pokhara, 60 hour hackathon, coding competition Nepal" />
+  <meta name="description"
+    content="Hackathon Nova is a 60-hour student hackathon at Pokhara Engineering College organized by CAPEC & ITEC-PEC. Build real-world projects, meet mentors, win prizes. Register now." />
+  <meta name="keywords"
+    content="Hackathon Nova, hackathon Pokhara, student hackathon Nepal, CAPEC hackathon, ITEC PEC, Pokhara Engineering College hackathon, college hackathon Nepal, tech event Pokhara, 60 hour hackathon, coding competition Nepal" />
   <meta name="author" content="CAPEC × ITEC-PEC" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="googlebot" content="index, follow" />
@@ -24,7 +26,8 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Hackathon Nova 2026 | 60-Hour Student Hackathon in Pokhara" />
-  <meta property="og:description" content="Join Hackathon Nova at Pokhara Engineering College. A 60-hour innovation challenge organized by CAPEC & ITEC-PEC. Build, innovate, and compete for exciting prizes." />
+  <meta property="og:description"
+    content="Join Hackathon Nova at Pokhara Engineering College. A 60-hour innovation challenge organized by CAPEC & ITEC-PEC. Build, innovate, and compete for exciting prizes." />
   <meta property="og:url" content="https://novaspark.tech/" />
   <meta property="og:image" content="https://novaspark.tech/assets/logo.png" />
   <meta property="og:image:width" content="1200" />
@@ -36,7 +39,8 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Hackathon Nova 2026 | Pokhara Engineering College" />
-  <meta name="twitter:description" content="60-hour student hackathon by CAPEC × ITEC-PEC. Build, innovate, win prizes." />
+  <meta name="twitter:description"
+    content="60-hour student hackathon by CAPEC × ITEC-PEC. Build, innovate, win prizes." />
   <meta name="twitter:image" content="https://novaspark.tech/assets/logo.png" />
   <meta name="twitter:image:alt" content="Hackathon Nova 2026" />
 
@@ -2534,14 +2538,14 @@
 
   <script src="/assets/gallery-loader.js"></script>
   <script src="assets/back-to-top.js"></script>
-  
+
   <!-- Load Sponsors from Database -->
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       // Wait for Supabase to be initialized
       let retries = 0;
       const maxRetries = 10;
-      
+
       while (typeof supabase === 'undefined' && retries < maxRetries) {
         await new Promise(resolve => setTimeout(resolve, 200));
         retries++;
@@ -2600,14 +2604,14 @@
                 const logo = sponsor.logo_url || '';
                 const showName = sponsor.show_name === true;
                 const shouldShowName = showName && sponsor.name;
-                
+
                 return `
                   <div class="${cardClass}">
                     ${href ? `<a ${href} class="flex flex-col items-center justify-center h-full w-full text-decoration-none">` : `<div class="flex flex-col items-center justify-center h-full w-full">`}
-                      ${logo ? 
-                        `<img src="${logo}" alt="${sponsor.name || ''}" class="${shouldShowName ? 'w-full h-auto object-contain mb-3 max-h-[70%]' : 'w-full h-full object-contain'}" onerror="this.style.display='none'; if(!this.parentElement.querySelector('.sponsor-name')) { this.parentElement.parentElement.classList.add('hidden'); }" />` :
-                        `<div class="text-gray-500 text-sm text-center ${shouldShowName ? 'mb-3' : ''}">${sponsor.name || 'No Logo'}</div>`
-                      }
+                      ${logo ?
+                    `<img src="${logo}" alt="${sponsor.name || ''}" class="${shouldShowName ? 'w-full h-auto object-contain mb-3 max-h-[70%]' : 'w-full h-full object-contain'}" onerror="this.style.display='none'; if(!this.parentElement.querySelector('.sponsor-name')) { this.parentElement.parentElement.classList.add('hidden'); }" />` :
+                    `<div class="text-gray-500 text-sm text-center ${shouldShowName ? 'mb-3' : ''}">${sponsor.name || 'No Logo'}</div>`
+                  }
                       ${shouldShowName ? `<div class="sponsor-name text-white text-xs md:text-sm font-semibold text-center px-2 break-words">${sponsor.name}</div>` : ''}
                     ${href ? '</a>' : '</div>'}
                   </div>
