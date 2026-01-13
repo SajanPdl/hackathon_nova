@@ -49,9 +49,19 @@
         }
 
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            75% {
+                transform: translateX(10px);
+            }
         }
 
         #code-modal {
@@ -62,6 +72,7 @@
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
@@ -90,13 +101,15 @@
         <div class="fixed inset-0 bg-black/90 backdrop-blur-md transition-opacity" onclick="closeCodeModal()"></div>
 
         <!-- Modal Content -->
-        <div class="relative bg-[#0f172a] border border-gray-700 rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 transform transition-all">
+        <div
+            class="relative bg-[#0f172a] border border-gray-700 rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 transform transition-all">
             <button onclick="closeCodeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition">
                 <i class="fas fa-times text-xl"></i>
             </button>
 
             <div class="text-center mb-8">
-                <div class="bg-orange-500/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 border border-orange-500/30">
+                <div
+                    class="bg-orange-500/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 border border-orange-500/30">
                     <i class="fas fa-lock text-orange-500 text-2xl"></i>
                 </div>
                 <h2 class="text-2xl font-bold text-white mb-2">Security Access</h2>
@@ -105,10 +118,14 @@
 
             <div class="mb-6">
                 <div class="flex justify-center gap-3" id="code-inputs">
-                    <input type="text" maxlength="1" class="code-digit" data-index="0" inputmode="numeric" pattern="[0-9]">
-                    <input type="text" maxlength="1" class="code-digit" data-index="1" inputmode="numeric" pattern="[0-9]">
-                    <input type="text" maxlength="1" class="code-digit" data-index="2" inputmode="numeric" pattern="[0-9]">
-                    <input type="text" maxlength="1" class="code-digit" data-index="3" inputmode="numeric" pattern="[0-9]">
+                    <input type="text" maxlength="1" class="code-digit" data-index="0" inputmode="numeric"
+                        pattern="[0-9]">
+                    <input type="text" maxlength="1" class="code-digit" data-index="1" inputmode="numeric"
+                        pattern="[0-9]">
+                    <input type="text" maxlength="1" class="code-digit" data-index="2" inputmode="numeric"
+                        pattern="[0-9]">
+                    <input type="text" maxlength="1" class="code-digit" data-index="3" inputmode="numeric"
+                        pattern="[0-9]">
                 </div>
                 <div id="code-error" class="text-red-500 text-sm text-center mt-4 hidden">
                     <i class="fas fa-exclamation-circle mr-2"></i>Incorrect code. Please try again.
@@ -116,10 +133,12 @@
             </div>
 
             <div class="flex gap-3">
-                <button onclick="closeCodeModal()" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition">
+                <button onclick="closeCodeModal()"
+                    class="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition">
                     Cancel
                 </button>
-                <button onclick="verifyCode()" id="verify-btn" class="flex-1 bg-gradient-to-r from-orange-500 to-red-600 text-white px-6 py-3 rounded-lg font-bold hover:shadow-lg hover:shadow-orange-500/30 transition">
+                <button onclick="verifyCode()" id="verify-btn"
+                    class="flex-1 bg-gradient-to-r from-orange-500 to-red-600 text-white px-6 py-3 rounded-lg font-bold hover:shadow-lg hover:shadow-orange-500/30 transition">
                     <i class="fas fa-check mr-2"></i>Verify
                 </button>
             </div>
@@ -130,16 +149,20 @@
         <!-- Tab Navigation -->
         <div class="mb-8 border-b border-gray-700">
             <div class="flex space-x-8">
-                <button id="tab-announcements" class="tab-button active py-4 px-2 border-b-2 border-orange-500 text-orange-500 font-semibold transition">
+                <button id="tab-announcements"
+                    class="tab-button active py-4 px-2 border-b-2 border-orange-500 text-orange-500 font-semibold transition">
                     <i class="fas fa-bullhorn mr-2"></i>Announcements
                 </button>
-                <button id="tab-activity" class="tab-button py-4 px-2 border-b-2 border-transparent text-gray-400 hover:text-white transition">
+                <button id="tab-activity"
+                    class="tab-button py-4 px-2 border-b-2 border-transparent text-gray-400 hover:text-white transition">
                     <i class="fas fa-history mr-2"></i>Recent Activity
                 </button>
-                <button id="tab-sponsors" class="tab-button py-4 px-2 border-b-2 border-transparent text-gray-400 hover:text-white transition">
+                <button id="tab-sponsors"
+                    class="tab-button py-4 px-2 border-b-2 border-transparent text-gray-400 hover:text-white transition">
                     <i class="fas fa-handshake mr-2"></i>Sponsors
                 </button>
-                <button id="tab-settings" class="tab-button py-4 px-2 border-b-2 border-transparent text-gray-400 hover:text-white transition">
+                <button id="tab-settings"
+                    class="tab-button py-4 px-2 border-b-2 border-transparent text-gray-400 hover:text-white transition">
                     <i class="fas fa-cog mr-2"></i>Settings
                 </button>
             </div>
@@ -180,7 +203,8 @@
         <div id="activity-tab" class="tab-content hidden">
             <div class="flex justify-between items-center mb-8">
                 <h1 class="text-3xl font-bold">Recent Activity</h1>
-                <button id="refresh-activity" class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-bold transition">
+                <button id="refresh-activity"
+                    class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-bold transition">
                     <i class="fas fa-sync-alt mr-2"></i> Refresh
                 </button>
             </div>
@@ -215,25 +239,40 @@
 
             <!-- Filter by Category -->
             <div class="mb-6 flex gap-3 flex-wrap">
-                <button onclick="filterSponsors('all')" class="filter-btn active px-4 py-2 rounded-lg bg-orange-500/20 text-orange-400 border border-orange-500/30 transition">
+                <button onclick="filterSponsors('all')"
+                    class="filter-btn active px-4 py-2 rounded-lg bg-orange-500/20 text-orange-400 border border-orange-500/30 transition">
                     All
                 </button>
-                <button onclick="filterSponsors('title')" class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
+                <button onclick="filterSponsors('title')"
+                    class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
                     Title
                 </button>
-                <button onclick="filterSponsors('gold')" class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
+                <button onclick="filterSponsors('gold')"
+                    class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
                     Gold
                 </button>
-                <button onclick="filterSponsors('silver')" class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
+                <button onclick="filterSponsors('silver')"
+                    class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
                     Silver
                 </button>
-                <button onclick="filterSponsors('community')" class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
+                <button onclick="filterSponsors('community')"
+                    class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
                     Community
                 </button>
-                <button onclick="filterSponsors('tech')" class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
+                <button onclick="filterSponsors('tech')"
+                    class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
                     Tech
                 </button>
-                <button onclick="filterSponsors('media')" class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
+                <button onclick="filterSponsors('internet')"
+                    class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
+                    Internet
+                </button>
+                <button onclick="filterSponsors('printing')"
+                    class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
+                    Printing
+                </button>
+                <button onclick="filterSponsors('media')"
+                    class="filter-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 transition">
                     Media
                 </button>
             </div>
@@ -271,15 +310,17 @@
                 <h2 class="text-xl font-bold mb-6 flex items-center">
                     <i class="fas fa-key mr-3 text-orange-500"></i>Change Password
                 </h2>
-                
+
                 <form id="change-password-form" class="space-y-6">
                     <div>
-                        <label for="current-password" class="block text-sm font-medium text-gray-300 mb-2">Current Password</label>
+                        <label for="current-password" class="block text-sm font-medium text-gray-300 mb-2">Current
+                            Password</label>
                         <div class="relative">
                             <input type="password" id="current-password" required
                                 class="w-full bg-white/10 border border-white/10 rounded-lg px-4 py-3 pr-12 text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
                                 placeholder="Enter your current password">
-                            <button type="button" onclick="togglePasswordVisibility('current-password', 'toggle-current-password')"
+                            <button type="button"
+                                onclick="togglePasswordVisibility('current-password', 'toggle-current-password')"
                                 class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition"
                                 id="toggle-current-password">
                                 <i class="fas fa-eye"></i>
@@ -288,12 +329,14 @@
                     </div>
 
                     <div>
-                        <label for="new-password" class="block text-sm font-medium text-gray-300 mb-2">New Password</label>
+                        <label for="new-password" class="block text-sm font-medium text-gray-300 mb-2">New
+                            Password</label>
                         <div class="relative">
                             <input type="password" id="new-password" required minlength="6"
                                 class="w-full bg-white/10 border border-white/10 rounded-lg px-4 py-3 pr-12 text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
                                 placeholder="Enter your new password (min. 6 characters)">
-                            <button type="button" onclick="togglePasswordVisibility('new-password', 'toggle-new-password')"
+                            <button type="button"
+                                onclick="togglePasswordVisibility('new-password', 'toggle-new-password')"
                                 class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition"
                                 id="toggle-new-password">
                                 <i class="fas fa-eye"></i>
@@ -303,12 +346,14 @@
                     </div>
 
                     <div>
-                        <label for="confirm-password" class="block text-sm font-medium text-gray-300 mb-2">Confirm New Password</label>
+                        <label for="confirm-password" class="block text-sm font-medium text-gray-300 mb-2">Confirm New
+                            Password</label>
                         <div class="relative">
                             <input type="password" id="confirm-password" required minlength="6"
                                 class="w-full bg-white/10 border border-white/10 rounded-lg px-4 py-3 pr-12 text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
                                 placeholder="Confirm your new password">
-                            <button type="button" onclick="togglePasswordVisibility('confirm-password', 'toggle-confirm-password')"
+                            <button type="button"
+                                onclick="togglePasswordVisibility('confirm-password', 'toggle-confirm-password')"
                                 class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition"
                                 id="toggle-confirm-password">
                                 <i class="fas fa-eye"></i>
@@ -373,21 +418,21 @@
             const modal = document.getElementById('code-modal');
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
-            
+
             // Reset inputs
             const inputs = document.querySelectorAll('.code-digit');
             inputs.forEach(input => {
                 input.value = '';
                 input.classList.remove('filled', 'error');
             });
-            
+
             // Focus first input
             if (inputs[0]) inputs[0].focus();
-            
+
             // Clear error
             const errorDiv = document.getElementById('code-error');
             if (errorDiv) errorDiv.classList.add('hidden');
-            
+
             // Reset verify button
             const verifyBtn = document.getElementById('verify-btn');
             if (verifyBtn) {
@@ -400,7 +445,7 @@
             const modal = document.getElementById('code-modal');
             modal.classList.add('hidden');
             document.body.style.overflow = 'auto';
-            
+
             // Reset inputs
             const inputs = document.querySelectorAll('.code-digit');
             inputs.forEach(input => {
@@ -421,16 +466,16 @@
                     input.classList.remove('error');
                     input.classList.add('filled');
                 });
-                
+
                 if (errorDiv) errorDiv.classList.add('hidden');
                 if (verifyBtn) {
                     verifyBtn.innerHTML = '<i class="fas fa-check mr-2"></i>Verified!';
                     verifyBtn.classList.add('bg-green-600');
                 }
-                
+
                 // Unlock settings
                 settingsUnlocked = true;
-                
+
                 // Close modal and open settings after short delay
                 setTimeout(() => {
                     closeCodeModal();
@@ -442,9 +487,9 @@
                     input.classList.remove('filled');
                     input.classList.add('error');
                 });
-                
+
                 if (errorDiv) errorDiv.classList.remove('hidden');
-                
+
                 // Clear inputs after error
                 setTimeout(() => {
                     inputs.forEach(input => {
@@ -459,16 +504,16 @@
         // Code input handling - Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             const inputs = document.querySelectorAll('.code-digit');
-            
+
             inputs.forEach((input, index) => {
                 // Only allow numbers
                 input.addEventListener('input', (e) => {
                     e.target.value = e.target.value.replace(/[^0-9]/g, '');
-                    
+
                     if (e.target.value) {
                         e.target.classList.add('filled');
                         e.target.classList.remove('error');
-                        
+
                         // Move to next input
                         if (index < inputs.length - 1) {
                             inputs[index + 1].focus();
@@ -493,7 +538,7 @@
                     e.preventDefault();
                     const pastedData = e.clipboardData.getData('text').replace(/[^0-9]/g, '');
                     const digits = pastedData.split('').slice(0, 4);
-                    
+
                     digits.forEach((digit, i) => {
                         if (inputs[i]) {
                             inputs[i].value = digit;
@@ -501,7 +546,7 @@
                             inputs[i].classList.remove('error');
                         }
                     });
-                    
+
                     if (digits.length === 4) {
                         setTimeout(() => verifyCode(), 300);
                     } else if (inputs[digits.length]) {
@@ -713,7 +758,7 @@
                 if (user) {
                     document.getElementById('user-email').textContent = user.email;
                     document.getElementById('user-id').textContent = user.id.substring(0, 8) + '...';
-                    
+
                     // Try to get last login from activity log
                     const { data: activities } = await supabase
                         .from('activity_log')
@@ -722,7 +767,7 @@
                         .eq('action_type', 'login')
                         .order('created_at', { ascending: false })
                         .limit(1);
-                    
+
                     if (activities && activities.length > 0) {
                         const lastLogin = new Date(activities[0].created_at);
                         document.getElementById('last-login').textContent = lastLogin.toLocaleString();
@@ -738,7 +783,7 @@
             const input = document.getElementById(inputId);
             const button = document.getElementById(buttonId);
             const icon = button.querySelector('i');
-            
+
             if (input.type === 'password') {
                 input.type = 'text';
                 icon.classList.remove('fa-eye');
@@ -758,7 +803,7 @@
 
         changePasswordForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const currentPassword = document.getElementById('current-password').value;
             const newPassword = document.getElementById('new-password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
@@ -824,7 +869,7 @@
                 // Success
                 passwordSuccess.textContent = 'Password changed successfully!';
                 passwordSuccess.classList.remove('hidden');
-                
+
                 // Clear form
                 changePasswordForm.reset();
 
@@ -1001,6 +1046,8 @@
                     'gold': 'Gold Sponsor',
                     'silver': 'Silver Sponsor',
                     'tech': 'Tech Partner',
+                    'internet': 'Internet Partner',
+                    'printing': 'Printing Partner',
                     'community': 'Community Partner',
                     'media': 'Media Partner'
                 };
@@ -1010,6 +1057,8 @@
                     'gold': 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400',
                     'silver': 'bg-gray-500/10 border-gray-500/30 text-gray-400',
                     'tech': 'bg-purple-500/10 border-purple-500/30 text-purple-400',
+                    'internet': 'bg-blue-500/10 border-blue-500/30 text-blue-400',
+                    'printing': 'bg-orange-500/10 border-orange-500/30 text-orange-400',
                     'community': 'bg-green-500/10 border-green-500/30 text-green-400',
                     'media': 'bg-blue-500/10 border-blue-500/30 text-blue-400'
                 };
@@ -1020,10 +1069,10 @@
                     card.innerHTML = `
                         <div class="flex flex-col md:flex-row items-start md:items-center gap-4">
                             <div class="flex-1">
-                                ${sponsor.logo_url ? 
-                                    `<img src="${sponsor.logo_url}" alt="${sponsor.name}" class="h-16 w-auto object-contain mb-4 md:mb-0">` :
-                                    `<div class="h-16 w-32 bg-white/10 rounded flex items-center justify-center text-gray-400 text-sm mb-4 md:mb-0">No Logo</div>`
-                                }
+                                ${sponsor.logo_url ?
+                            `<img src="${sponsor.logo_url}" alt="${sponsor.name}" class="h-16 w-auto object-contain mb-4 md:mb-0">` :
+                            `<div class="h-16 w-32 bg-white/10 rounded flex items-center justify-center text-gray-400 text-sm mb-4 md:mb-0">No Logo</div>`
+                        }
                             </div>
                             <div class="flex-1">
                                 <div class="flex items-center gap-3 mb-2 flex-wrap">
@@ -1033,12 +1082,12 @@
                                     ${!sponsor.is_active ? '<span class="bg-red-500/10 text-red-500 px-2 py-0.5 rounded text-xs border border-red-500/20">Inactive</span>' : ''}
                                 </div>
                                 <h3 class="text-xl font-bold text-white mb-1">${sponsor.name}</h3>
-                                ${sponsor.website_url ? 
-                                    `<a href="${sponsor.website_url}" target="_blank" class="text-blue-400 hover:text-blue-300 text-sm">
+                                ${sponsor.website_url ?
+                            `<a href="${sponsor.website_url}" target="_blank" class="text-blue-400 hover:text-blue-300 text-sm">
                                         <i class="fas fa-external-link-alt mr-1"></i>${sponsor.website_url}
-                                    </a>` : 
-                                    '<p class="text-gray-500 text-sm">No website</p>'
-                                }
+                                    </a>` :
+                            '<p class="text-gray-500 text-sm">No website</p>'
+                        }
                                 <p class="text-gray-500 text-xs mt-2">Order: ${sponsor.display_order}</p>
                             </div>
                             <div class="flex items-center gap-3">
@@ -1118,7 +1167,7 @@
                     'sponsor',
                     newSponsor.id,
                     `Duplicated sponsor: "${sponsorData.name}" to "${duplicatedData.name}"`,
-                    { 
+                    {
                         original_sponsor_id: id,
                         new_sponsor_id: newSponsor.id,
                         name: duplicatedData.name,
