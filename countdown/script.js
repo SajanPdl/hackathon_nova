@@ -49,7 +49,7 @@ let audioUnlocked = false;
    3. INITIALIZATION
    ========================================= */
 function init() {
-    console.log("Ceremony Controller Initializing...");
+    console.log("Ceremony Controller v2.1 (FIXED STARTUP) Initializing...");
     
     // Initialize UI Elements
     UI = {
