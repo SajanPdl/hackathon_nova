@@ -36,27 +36,10 @@ const CONFIG = {
 /* =========================================
    2. DOM ELEMENTS
    ========================================= */
-const UI = {
-    stage: document.getElementById('stage'),
-    mainTitle: document.getElementById('main-title'),
-    subtitle: document.getElementById('subtitle'),
-    impactFlash: document.getElementById('impact-flash'),
-    impactWord: document.getElementById('impact-word'),
-    settleInfo: document.getElementById('settle-info'),
-    mottoBox: document.getElementById('motto-box'),
-    liveBadge: document.getElementById('live-badge'),
-    
-    // Countdown
-    cd: document.getElementById('countdown'),
-    cdH: document.getElementById('cd-h'),
-    cdM: document.getElementById('cd-m'),
-    cdS: document.getElementById('cd-s'),
-
-    adminOverlay: document.getElementById('admin-overlay'),
-    adminStatus: document.getElementById('admin-status'),
-    fsFallback: document.getElementById('fs-fallback'),
-    btnEnterFs: document.getElementById('btn-enter-fs')
-};
+/* =========================================
+   2. DOM ELEMENTS (Initialized in init)
+   ========================================= */
+let UI = {};
 
 // Audio Context
 let audioCtx = null;
@@ -66,7 +49,38 @@ let audioUnlocked = false;
    3. INITIALIZATION
    ========================================= */
 function init() {
-    console.log("Ceremony Controller Initialized");
+    console.log("Ceremony Controller Initializing...");
+    
+    // Initialize UI Elements
+    UI = {
+        stage: document.getElementById('stage'),
+        mainTitle: document.getElementById('main-title'),
+        subtitle: document.getElementById('subtitle'),
+        impactFlash: document.getElementById('impact-flash'),
+        impactWord: document.getElementById('impact-word'),
+        settleInfo: document.getElementById('settle-info'),
+        mottoBox: document.getElementById('motto-box'),
+        liveBadge: document.getElementById('live-badge'),
+        
+        // Countdown
+        cd: document.getElementById('countdown'),
+        cdH: document.getElementById('cd-h'),
+        cdM: document.getElementById('cd-m'),
+        cdS: document.getElementById('cd-s'),
+    
+        adminOverlay: document.getElementById('admin-overlay'),
+        adminStatus: document.getElementById('admin-status'),
+        fsFallback: document.getElementById('fs-fallback'),
+        btnEnterFs: document.getElementById('btn-enter-fs')
+    };
+
+    // Sanity Check
+    if (!UI.cd) {
+        console.error("CRITICAL: Countdown element not found. Please ensure index.html matches the script expectations.");
+        // Try to recover or warn
+    }
+
+    console.log("UI Initialized");
     
     // Interaction Listeners (Unlock Audio / Fullscreen)
     ['click', 'keydown', 'touchstart'].forEach(e => 
@@ -77,7 +91,7 @@ function init() {
     window.addEventListener('keydown', handleKeyEntry);
     
     // Fullscreen Button
-    UI.btnEnterFs.addEventListener('click', enterFullscreen);
+    if (UI.btnEnterFs) UI.btnEnterFs.addEventListener('click', enterFullscreen);
 
     // Initial Render
     renderState();
@@ -417,4 +431,8 @@ async function requestWakeLock() {
 }
 
 // Start
-init();
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
