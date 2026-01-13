@@ -45,11 +45,14 @@ let UI = {};
 let audioCtx = null;
 let audioUnlocked = false;
 
+// Helpers
+let lastSecond = -1; // Track for ticking sound
+
 /* =========================================
    3. INITIALIZATION
    ========================================= */
 function init() {
-    console.log("Ceremony Controller v2.1 (FIXED STARTUP) Initializing...");
+    console.log("Ceremony Controller v2.2 (Button+Sound) Initializing...");
     
     // Initialize UI Elements
     UI = {
@@ -71,13 +74,14 @@ function init() {
         adminOverlay: document.getElementById('admin-overlay'),
         adminStatus: document.getElementById('admin-status'),
         fsFallback: document.getElementById('fs-fallback'),
-        btnEnterFs: document.getElementById('btn-enter-fs')
+        btnEnterFs: document.getElementById('btn-enter-fs'),
+        btnStartTimer: document.getElementById('btn-start-timer'),
+        rocket: document.getElementById('rocket')
     };
 
     // Sanity Check
     if (!UI.cd) {
-        console.error("CRITICAL: Countdown element not found. Please ensure index.html matches the script expectations.");
-        // Try to recover or warn
+        console.error("CRITICAL: Countdown element not found.");
     }
 
     console.log("UI Initialized");
@@ -92,6 +96,26 @@ function init() {
     
     // Fullscreen Button
     if (UI.btnEnterFs) UI.btnEnterFs.addEventListener('click', enterFullscreen);
+    
+    // START Timer Button
+    if (UI.btnStartTimer) {
+        UI.btnStartTimer.addEventListener('click', () => {
+             console.log("Start Button Clicked");
+             // Unlock audio explicitly if needed
+             handleInteraction();
+             
+             // Start timer
+             const duration = CONFIG.TEST_DURATION_MS || 15000;
+             CONFIG.TARGET_DATE = new Date(Date.now() + duration);
+             console.log("Target Date Set:", CONFIG.TARGET_DATE);
+             
+             UI.btnStartTimer.classList.add('hidden');
+             renderState(); 
+        });
+    }
+
+    // Init Target Date logic
+    CONFIG.TARGET_DATE = null; 
 
     // Initial Render
     renderState();
@@ -99,13 +123,12 @@ function init() {
     // Loop
     requestAnimationFrame(loop);
 
-    // Init Target Date
-    // For Production: CONFIG.TARGET_DATE = new Date("2026-01-14T...")
-    // For Testing:
-    CONFIG.TARGET_DATE = new Date(Date.now() + CONFIG.TEST_DURATION_MS);
-
     // Wake Lock
     requestWakeLock();
+    
+    // Init Visuals
+    resize();
+    startMottoRotation();
 }
 
 function handleInteraction() {
@@ -118,23 +141,43 @@ function handleInteraction() {
 }
 
 function loop() {
-    // Only needed for confetti or time-based motto rotation if manual
-    // Using CSS for main anims
-    
-    if (CONFIG.state === 'PREP') {
-        updateCountdown();
+    if (CONFIG.state === 'PREP' || CONFIG.state === 'LIFTOFF') {
+        if (CONFIG.state === 'PREP') updateCountdown();
+        
+        if (CONFIG.state === 'LIFTOFF') {
+            createSmokeParticles();
+        }
+        
+        renderStarfield();
+        renderSmoke();
+    } else {
+        animateConfetti();
     }
-
     requestAnimationFrame(loop);
 }
 
 function updateCountdown() {
+    if (!CONFIG.TARGET_DATE) {
+        const ms = CONFIG.TEST_DURATION_MS || 15000;
+        const s = Math.floor(ms / 1000);
+        const m = Math.floor(s / 60);
+        const h = Math.floor(m / 60);
+        
+        UI.cdH.innerText = String(h).padStart(2,'0');
+        UI.cdM.innerText = String(m % 60).padStart(2,'0');
+        UI.cdS.innerText = String(s % 60).padStart(2,'0');
+        
+        if (UI.btnStartTimer) UI.btnStartTimer.classList.remove('hidden');
+        return;
+    }
+
     const diff = CONFIG.TARGET_DATE - new Date();
     
     if (diff <= 0) {
         UI.cd.innerText = "00:00:00";
         if (CONFIG.AUTO_TRIGGER_AT_ZERO) {
             triggerSequence();
+            if (UI.btnStartTimer) UI.btnStartTimer.classList.add('hidden');
         }
         return;
     }
@@ -143,9 +186,18 @@ function updateCountdown() {
     const m = Math.floor((diff % 3600000) / 60000);
     const s = Math.floor((diff % 60000) / 1000);
 
+    // Sound Logic
+    if (s !== lastSecond) {
+        lastSecond = s;
+        playCountdownTick();
+    }
+
     UI.cdH.innerText = String(h).padStart(2,'0');
     UI.cdM.innerText = String(m).padStart(2,'0');
     UI.cdS.innerText = String(s).padStart(2,'0');
+    
+    // Ensure button hidden while running
+    if (UI.btnStartTimer) UI.btnStartTimer.classList.add('hidden');
 }
 
 /* =========================================
@@ -156,9 +208,32 @@ async function triggerSequence() {
     if (CONFIG.state !== 'PREP') return;
     
     console.log("TRIGGERING IMPACT SEQUENCE...");
+    
+    // --- 1. LIFTOFF PHASE ---
+    setConfigState('LIFTOFF');
+    UI.cd.classList.add('hidden'); // Hide timer
+    if (UI.liveBadge) UI.liveBadge.classList.add('hidden');
+
+    // Show and Animate Rocket
+    UI.rocket.classList.remove('hidden');
+    UI.rocket.classList.add('animate-fly-up');
+    
+    // Impactful screen shake
+    triggerScreenShake(2500);
+    
+    playRocketRumble(); 
+    
+    // Wait for fly up (2.5s)
+    await wait(2500);
+
+    // --- 2. IMPACT PHASE ---
+    stopScreenShake();
     setConfigState('IMPACT');
     
-    // 1. BLACKOUT (Pre-Impact)
+    // Cleanup Rocket
+    UI.rocket.classList.add('hidden'); 
+    
+    // BLACKOUT (Pre-Impact)
     UI.impactFlash.style.background = 'black';
     UI.impactFlash.classList.remove('hidden');
     UI.impactWord.classList.add('hidden'); // Hide word initially
@@ -168,7 +243,7 @@ async function triggerSequence() {
     // Wait 400ms Black
     await wait(400);
 
-    // 2. FLASH "NOW."
+    // FLASH "NOW."
     UI.impactWord.classList.remove('hidden');
     UI.impactWord.innerText = "NOW.";
     // Play Click/Tick sound here? Maybe a sharp inhale.
@@ -177,7 +252,7 @@ async function triggerSequence() {
     // Wait 350ms on "NOW."
     await wait(350);
 
-    // 3. RELEASE (GO)
+    // --- 3. RELEASE (GO) ---
     UI.impactFlash.classList.add('hidden'); // Clear overlay
     
     // Animate Title
@@ -189,34 +264,26 @@ async function triggerSequence() {
     UI.subtitle.className = 'subtitle-go';
 
     // Badge
-    UI.liveBadge.classList.remove('hidden');
+    if (UI.liveBadge) UI.liveBadge.classList.remove('hidden');
 
     // Confetti & Audio
     startConfetti(); 
     playGoSound();
     announceARIA("Hackathon Nova has officially begun!");
 
-    setConfigState('CELEBRATE');
-
-    // 4. HOLD -> SETTLE
-    setTimeout(() => {
-        transitionToSettle();
-    }, CONFIG.HOLD_SECONDS_AFTER_GO * 1000);
+    // --- 4. FINISH -> SETTLE ---
+    // Transition immediately so chips/mottos are part of the final view
+    transitionToSettle();
 }
 
 function transitionToSettle() {
     console.log("Settling...");
     setConfigState('SETTLE');
     
-    // Show Info
+    // Show Info (Already visible from PREP, but we ensure it)
     UI.settleInfo.classList.remove('hidden');
     
-    // Start Motto Rotation
-    startMottoRotation();
-
-    // Stop Confetti gracefully
-    // Confetti logic handles its own stop after duration, but we ensure it here
-    // Our confetti automatically stops after ~8s in render loop, so it matches.
+    // Stop Confetti gracefully...
 }
 
 function setConfigState(newState) {
@@ -234,7 +301,7 @@ function renderState() {
         UI.cd.classList.remove('hidden'); // Show timer
         UI.liveBadge.classList.add('hidden');
         UI.impactFlash.classList.add('hidden');
-        UI.settleInfo.classList.add('hidden');
+        UI.settleInfo.classList.remove('hidden'); // SHOW IMMEDIATELY
         document.body.style.backgroundColor = ''; // Reset
         stopConfetti();
     } else {
@@ -259,8 +326,8 @@ function handleKeyEntry(e) {
         case 'R':
             if (confirm("Reset to PREP?")) {
                 setConfigState('PREP');
-                // Reset timer for testing
-                CONFIG.TARGET_DATE = new Date(Date.now() + CONFIG.TEST_DURATION_MS);
+                // Reset timer for testing (back to Button Wait)
+                CONFIG.TARGET_DATE = null; 
                 renderState();
             }
             break;
@@ -281,6 +348,25 @@ function handleKeyEntry(e) {
 /* =========================================
    6. AUDIO SYNTHESIS (Cinematic)
    ========================================= */
+function playCountdownTick() {
+    // Soft tick for the countdown timer
+    if (!audioUnlocked || CONFIG.PREFERS_REDUCED_MOTION) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.05);
+    
+    gain.gain.setValueAtTime(0.1, audioCtx.currentTime); // low volume
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+    
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.06);
+}
+
 function playTickSound() {
     // Sharp "Woodblock" tick for NOW.
     if (!audioUnlocked || CONFIG.PREFERS_REDUCED_MOTION) return;
@@ -337,8 +423,33 @@ function playGoSound() {
     });
 }
 
+function playRocketRumble() {
+    if (!audioUnlocked || CONFIG.PREFERS_REDUCED_MOTION) return;
+    const now = audioCtx.currentTime;
+    
+    // Rumble (Brownian/Pink noise approx with low freq AM osc)
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(50, now);
+    osc.frequency.linearRampToValueAtTime(100, now + 2.5); // Rising pitch
+    
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.5, now + 0.5);
+    gain.gain.linearRampToValueAtTime(0, now + 3);
+    
+    // LPF to make it rumble
+    const lpf = audioCtx.createBiquadFilter();
+    lpf.type = 'lowpass';
+    lpf.frequency.value = 120;
+
+    osc.connect(lpf); lpf.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(); osc.stop(now + 3);
+}
+
 /* =========================================
-   7. VISUALS (Confetti & Motto)
+   7. VISUALS (Confetti & Motto & Starfield)
    ========================================= */
 // Motto Rotation
 let mottoIdx = 0;
@@ -347,26 +458,143 @@ function startMottoRotation() {
     setInterval(() => {
         mottoIdx = (mottoIdx + 1) % CONFIG.mottos.length;
         UI.mottoBox.innerText = CONFIG.mottos[mottoIdx];
-        // Could add fade transition logic here
+        UI.mottoBox.classList.remove('fade-in');
+        void UI.mottoBox.offsetWidth; // trigger reflow
+        UI.mottoBox.classList.add('fade-in');
     }, 6000);
 }
 
-// Confetti (Optimized, Directional)
+// Canvas Manager
 const cvs = document.getElementById('confetti-canvas');
 const ctx = cvs.getContext('2d');
 let particles = [];
+let stars = []; // Background stars
 
-function resize() { cvs.width = window.innerWidth; cvs.height = window.innerHeight; }
-window.addEventListener('resize', resize); resize();
+function resize() { 
+    cvs.width = window.innerWidth; 
+    cvs.height = window.innerHeight; 
+    initStarfield(); // Re-init stars on resize
+}
+window.addEventListener('resize', resize); 
 
-function startConfetti() {
+// --- SMOKE & FIRE (LIFTOFF) ---
+let smokeParticles = [];
+function createSmokeParticles() {
     if (CONFIG.PREFERS_REDUCED_MOTION) return;
     
-    // Top Left & Top Right Bursts
+    // Get rocket current position for emitter
+    const rect = UI.rocket.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.bottom - 40; // Base of rocket
+
+    for(let i=0; i<3; i++) {
+        smokeParticles.push({
+            x: x + (Math.random() * 20 - 10),
+            y: y,
+            vx: (Math.random() * 2 - 1),
+            vy: (Math.random() * 2 + 1), // Drift down
+            size: Math.random() * 15 + 10,
+            life: 1.0,
+            decay: Math.random() * 0.02 + 0.01,
+            // Fire colors transitioning to smoke
+            color: Math.random() > 0.5 ? '#ff4d00' : '#555' 
+        });
+    }
+}
+
+function renderSmoke() {
+    if (smokeParticles.length === 0) return;
+
+    smokeParticles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life -= p.decay;
+        p.size += 0.5; // Expand
+
+        ctx.globalAlpha = p.life;
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+    });
+
+    smokeParticles = smokeParticles.filter(p => p.life > 0);
+    ctx.globalAlpha = 1;
+}
+
+// --- STARFIELD (PREP STATE) ---
+function initStarfield() {
+    stars = [];
+    const count = 150;
+    for(let i=0; i<count; i++) {
+        stars.push({
+            x: Math.random() * cvs.width,
+            y: Math.random() * cvs.height,
+            size: Math.random() * 2,
+            opacity: Math.random(),
+            speed: Math.random() * 0.05 + 0.01 // Very slow drift
+        });
+    }
+}
+
+function renderStarfield() {
+    if (CONFIG.state !== 'PREP' && CONFIG.state !== 'LIFTOFF') return; 
+
+    // Don't clear rect if we want trails? 
+    // For warp speed, maybe leave a bit of trail or just stretching
+    ctx.clearRect(0, 0, cvs.width, cvs.height);
+    
+    const isWarp = (CONFIG.state === 'LIFTOFF');
+
+    ctx.fillStyle = "white";
+    stars.forEach(s => {
+        ctx.globalAlpha = s.opacity;
+        ctx.beginPath();
+        
+        if (isWarp) {
+            // WARP SPEED LINE
+            ctx.strokeStyle = `rgba(255, 255, 255, ${s.opacity})`;
+            ctx.lineWidth = s.size;
+            ctx.moveTo(s.x, s.y);
+            // Trail goes UP if we are moving DOWN? 
+            // Rocket goes UP. Camera goes UP. Stars go DOWN.
+            ctx.lineTo(s.x, s.y - (s.speed * 20)); // Trail behind
+            ctx.stroke();
+            
+            // Accelerate
+            s.speed *= 1.1; 
+            if (s.speed > 50) s.speed = 50; // Cap speed
+        } else {
+            // DOT
+            ctx.arc(s.x, s.y, s.size, 0, Math.PI*2);
+            ctx.fill();
+            
+            // Twinkle
+            s.opacity += (Math.random() - 0.5) * 0.02;
+            if (s.opacity < 0.1) s.opacity = 0.1;
+            if (s.opacity > 0.8) s.opacity = 0.8;
+        }
+
+        // Move
+        s.y += isWarp ? s.speed : s.speed * 0.5; // Stars fall down
+        // Wrap around
+        if (s.y > cvs.height) {
+            s.y = 0;
+            s.x = Math.random() * cvs.width;
+            if (isWarp) s.speed = Math.random() * 2 + 1; // Reset speed on loop
+        }
+    });
+    ctx.globalAlpha = 1;
+}
+
+// --- CONFETTI (CELEBRATION) ---
+function startConfetti() {
+    if (CONFIG.PREFERS_REDUCED_MOTION) return;
+    particles = []; // Clear any old
+    
+    // Bursts
     for(let i=0; i<75; i++) createParticle(0, 0, 2, 5); // TL
     for(let i=0; i<75; i++) createParticle(cvs.width, 0, -2, 5); // TR
-
-    animateConfetti();
 }
 
 function createParticle(x, y, vxBase, vyBase) {
@@ -374,7 +602,7 @@ function createParticle(x, y, vxBase, vyBase) {
         x: x, y: y,
         vx: vxBase + (Math.random() * 10 - 5),
         vy: vyBase + (Math.random() * 10),
-        color: `hsl(${Math.random()*360}, 100%, 50%)`,
+        color: `hsl(${Math.random()*360}, 100%, 70%)`, // Brighter for dark bg
         size: Math.random() * 8 + 4,
         life: 1.0,
         decay: Math.random() * 0.01 + 0.005
@@ -382,32 +610,29 @@ function createParticle(x, y, vxBase, vyBase) {
 }
 
 function animateConfetti() {
-    if (particles.length === 0) return;
+    if (CONFIG.state === 'PREP') return; // Handled by starfield
     
     ctx.clearRect(0,0,cvs.width, cvs.height);
     
+    // Draw Particles
     for(let i=0; i<particles.length; i++) {
         let p = particles[i];
         p.x += p.vx;
         p.y += p.vy;
         p.life -= p.decay;
-        p.vx *= 0.99; // Air resistance
+        p.vx *= 0.99; 
         
         ctx.fillStyle = p.color;
         ctx.globalAlpha = p.life;
         ctx.fillRect(p.x, p.y, p.size, p.size);
     }
     
-    // Remove dead
     particles = particles.filter(p => p.life > 0);
     ctx.globalAlpha = 1;
-
-    requestAnimationFrame(animateConfetti);
 }
 
 function stopConfetti() {
     particles = [];
-    ctx.clearRect(0,0,cvs.width, cvs.height);
 }
 
 /* =========================================
@@ -428,6 +653,30 @@ function enterFullscreen() {
 async function requestWakeLock() {
     try { if('wakeLock' in navigator) await navigator.wakeLock.request('screen'); }
     catch(e) {}
+}
+
+// --- SCREEN SHAKE ---
+let shakeTimer = 0;
+function triggerScreenShake(durationMs) {
+    const intensity = 5;
+    const start = Date.now();
+    
+    function shake() {
+        const elapsed = Date.now() - start;
+        if (elapsed < durationMs) {
+            const x = (Math.random() - 0.5) * intensity;
+            const y = (Math.random() - 0.5) * intensity;
+            UI.stage.style.transform = `translate(${x}px, ${y}px)`;
+            requestAnimationFrame(shake);
+        } else {
+            stopScreenShake();
+        }
+    }
+    shake();
+}
+
+function stopScreenShake() {
+    UI.stage.style.transform = '';
 }
 
 // Start

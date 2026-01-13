@@ -35,7 +35,7 @@
     <!-- MAIN STAGE -->
     <main id="stage">
 
-    
+
 
         <!-- CENTER DISPLAY -->
         <div class="center-content">
@@ -50,10 +50,39 @@
                 <h1 id="main-title" class="title-prep">HACKATHON NOVA</h1>
                 <div id="subtitle" class="subtitle-prep">OPENING CEREMONY</div>
 
-                <!-- PREP STATE: COUNTDOWN (Added back) -->
-                <div id="countdown" class="countdown-prep">
-                    <span id="cd-h">00</span>:<span id="cd-m">00</span>:<span id="cd-s">00</span>
+                <!-- LIVE INDICATOR -->
+                <div id="live-badge" class="live-badge hidden">🔴 LIVE</div>
+
+                <!-- PREP STATE: COUNTDOWN (Glass Cards) -->
+                <div id="countdown" class="countdown-container">
+                    <div class="time-unit">
+                        <div class="time-card glass">
+                            <span id="cd-h">00</span>
+                        </div>
+                        <span class="time-label">HOURS</span>
+                    </div>
+
+                    <div class="time-separator">:</div>
+
+                    <div class="time-unit">
+                        <div class="time-card glass">
+                            <span id="cd-m">00</span>
+                        </div>
+                        <span class="time-label">MINS</span>
+                    </div>
+
+                    <div class="time-separator">:</div>
+
+                    <div class="time-unit">
+                        <div class="time-card glass">
+                            <span id="cd-s">00</span>
+                        </div>
+                        <span class="time-label">SECS</span>
+                    </div>
                 </div>
+
+                <!-- Manual Start Button (Visible in Demo/Prep) -->
+                <button id="btn-start-timer" class="btn-primary">START COUNTDOWN</button>
             </div>
 
             <!-- STATE: SETTLE INFO (Hidden initially) -->
@@ -77,6 +106,11 @@
             </div>
         </footer>
     </main>
+
+    <!-- ROCKET ANIMATION -->
+    <div id="rocket" class="rocket hidden">
+        <img src="assets/rocket.png" alt="Rocket" class="rocket-img">
+    </div>
 
     <!-- Canvas for Confetti -->
     <canvas id="confetti-canvas"></canvas>
