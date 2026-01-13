@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hackathon Nova Ceremony</title>
+    <meta name="description" content="Official opening ceremony display for Hackathon Nova.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+</head>
+
+<body>
+
+    <!-- Admin Overlay (Hidden by default) -->
+    <div id="admin-overlay" class="hidden" aria-hidden="true">
+        <div class="admin-panel">
+            <h2>Ceremony Controls</h2>
+            <ul>
+                <li><kbd>Space</kbd> Pause/Resume Animation</li>
+                <li><kbd>G</kbd> TRIGGER GO SEQUENCE</li>
+                <li><kbd>R</kbd> Reset to PREP</li>
+                <li><kbd>F</kbd> Fullscreen</li>
+                <li><kbd>H</kbd> Toggle Help</li>
+            </ul>
+            <div class="status-indicator">State: <span id="admin-status">PREP</span></div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Fallback -->
+    <div id="fs-fallback" class="hidden">
+        <button id="btn-enter-fs">Press F to Enter Fullscreen</button>
+    </div>
+
+    <!-- MAIN STAGE -->
+    <main id="stage">
+
+        <!-- TOP BRANDING -->
+        <header class="brand-header">
+            <img src="assets/logo.svg" alt="NepQube Logo" class="logo">
+            <div id="live-badge" class="live-badge hidden">LIVE</div>
+        </header>
+
+        <!-- CENTER DISPLAY -->
+        <div class="center-content">
+
+            <!-- STATE: IMPACT FLASH (Abs Center overlay) -->
+            <div id="impact-flash" class="impact-layer hidden">
+                <div id="impact-word">NOW.</div>
+            </div>
+
+            <!-- STATE: MAIN TITLES -->
+            <div id="title-container">
+                <h1 id="main-title" class="title-prep">HACKATHON NOVA</h1>
+                <div id="subtitle" class="subtitle-prep">OPENING CEREMONY</div>
+
+                <!-- PREP STATE: COUNTDOWN (Added back) -->
+                <div id="countdown" class="countdown-prep">
+                    <span id="cd-h">00</span>:<span id="cd-m">00</span>:<span id="cd-s">00</span>
+                </div>
+            </div>
+
+            <!-- STATE: SETTLE INFO (Hidden initially) -->
+            <div id="settle-info" class="hidden" aria-live="polite">
+                <div class="info-chips">
+                    <span class="chip">⏱ 48 Hours</span>
+                    <span class="chip">👥 Team Size: 3</span>
+                    <span class="chip">📍 Pokhara Engineering College</span>
+                </div>
+                <div id="motto-box" class="motto-container">
+                    <!-- Mottos injected by JS -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- BOTTOM AUTHORITY BAR -->
+        <footer class="footer">
+            <div class="authority-text">
+                Organized by CAPEC × ITECPEC • Powered by Sajan Poudel
+            </div>
+        </footer>
+    </main>
+
+    <!-- Canvas for Confetti -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <script src="script.js"></script>
+
+    <!-- FS Fallback (Moved to bottom right to avoid blocking title) -->
+    <div id="fs-fallback" class="hidden">
+        <button id="btn-enter-fs" class="btn-fs">⛶ Enter Fullscreen</button>
+    </div>
+</body>
+
+</html>
