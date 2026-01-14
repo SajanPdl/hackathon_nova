@@ -16,8 +16,8 @@ const CONFIG = {
     PREFERS_REDUCED_MOTION: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
 
     // Target Date
-    // PRODUCTION DATE: January 26, 2026 at 9:00 AM Nepal Time
-    // TARGET_DATE: new Date("2026-01-26T09:00:00+05:45"), 
+    // PRODUCTION DATE: January 27, 2026 at 9:00 AM Nepal Time
+    // TARGET_DATE: new Date("2026-01-27T09:00:00+05:45"), 
     
     // Testing Config (Commented out for production)
     TEST_DURATION_MS: 15000, // 15 seconds
@@ -28,7 +28,7 @@ const CONFIG = {
     mottos: [
         "Innovate. Create. Elevate.",
         "Code the Future.",
-        "48 Hours of Brilliance.",
+        "60 Hours of Brilliance.",
         "Welcome to the Arena."
     ]
 };
