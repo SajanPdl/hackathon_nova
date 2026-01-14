@@ -96,8 +96,10 @@
                 <!-- Website URL -->
                 <div>
                     <label for="website-url" class="block text-sm font-medium text-gray-300 mb-2">Website URL</label>
-                    <input type="url" id="website-url" class="input-dark w-full rounded-lg px-4 py-3 transition"
-                        placeholder="https://example.com">
+                    <input type="text" id="website-url" class="input-dark w-full rounded-lg px-4 py-3 transition"
+                        placeholder="example.com">
+                    <p class="text-xs text-gray-500 mt-1">Sponsor's website (e.g., example.com or sub.example.info.np)
+                    </p>
                 </div>
 
                 <!-- Active Status & Show Name -->
@@ -302,7 +304,12 @@
             const name = document.getElementById('name').value;
             const category = document.getElementById('category').value;
             const displayOrder = parseInt(document.getElementById('display-order').value) || 0;
-            const websiteUrl = document.getElementById('website-url').value.trim();
+            let websiteUrl = document.getElementById('website-url').value.trim();
+
+            // Normalize URL: Prepend https:// if protocol is missing and it looks like a domain
+            if (websiteUrl && !/^https?:\/\//i.test(websiteUrl) && !websiteUrl.includes(' ')) {
+                websiteUrl = 'https://' + websiteUrl;
+            }
             const isActive = document.getElementById('is-active').checked;
             const showName = document.getElementById('show-name').checked;
             const logoFile = logoUploadInput.files[0];
